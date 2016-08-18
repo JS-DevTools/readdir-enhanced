@@ -1,0 +1,46 @@
+{
+  "name": "readdir-enhanced",
+  "version": "1.0.0",
+  "description": "fs.readdir with sync, async, and streaming APIs + filtering, recursion, full paths, etc.",
+  "keywords": [
+    "fs",
+    "readdir",
+    "stream",
+    "event",
+    "recursive",
+    "deep",
+    "filter",
+    "absolute"
+  ],
+  "author": {
+    "name": "James Messinger",
+    "url": "http://jamesmessinger.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bigstickcarpet/readdir-enhanced",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint lib test --fix",
+    "test": "mocha && npm run lint",
+    "upgrade": "npm-check -u",
+    "bump": "bump --prompt --tag --push --all",
+    "release": "npm run upgrade && npm test && npm run bump && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigstickcarpet/readdir-enhanced.git"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "del": "^2.2.2",
+    "eslint": "^3.3.0",
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.0.2",
+    "npm-check": "^5.2.3",
+    "version-bump-prompt": "^1.5.2"
+  },
+  "dependencies": {
+    "call-me-maybe": "^1.0.1",
+    "es6-promise": "^3.2.1"
+  }
+}
