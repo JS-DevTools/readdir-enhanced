@@ -1,8 +1,8 @@
-describe.only('default behavior', function() {
+describe('default behavior', function() {
   'use strict';
 
   var forEachApi = require('../fixtures/for-each-api');
-  var expected = require('../fixtures/expected');
+  var dir = require('../fixtures/dir');
   var expect = require('chai').expect;
   var fs = require('fs');
 
@@ -36,7 +36,14 @@ describe.only('default behavior', function() {
       dir: 'test/dir',
       assert: function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(expected.shallow);
+        expect(data).to.have.same.members(dir.shallow.all);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.shallow.all);
+        expect(files).to.have.same.members(dir.shallow.files);
+        expect(dirs).to.have.same.members(dir.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.shallow.symlinks);
       },
     },
     {
@@ -44,7 +51,14 @@ describe.only('default behavior', function() {
       dir: 'test/dir/subdir-symlink',
       assert: function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(['.dotdir', 'file.txt', 'subsubdir']);
+        expect(data).to.have.same.members(dir.subdir.shallow.all);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.subdir.shallow.all);
+        expect(files).to.have.same.members(dir.subdir.shallow.files);
+        expect(dirs).to.have.same.members(dir.subdir.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.subdir.shallow.symlinks);
       },
     },
     {
@@ -57,32 +71,12 @@ describe.only('default behavior', function() {
           expect(item).not.to.contain('\\');
         });
       },
-    },
-    {
-      it: 'should throw an error if the directory does not exist',
-      dir: 'test/dir/does-not-exist',
-      assert: function(error, data) {
-        expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOENT');
-        expect(data).to.be.undefined;
-      },
-    },
-    {
-      it: 'should throw an error if the path is not a directory',
-      dir: 'test/dir/file.txt',
-      assert: function(error, data) {
-        expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOTDIR');
-        expect(data).to.be.undefined;
-      },
-    },
-    {
-      it: 'should throw an error if the path is a broken symlink',
-      dir: 'test/dir/broken-dir-symlink',
-      assert: function(error, data) {
-        expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOENT');
-        expect(data).to.be.undefined;
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.shallow.all);
+        expect(files).to.have.same.members(dir.shallow.files);
+        expect(dirs).to.have.same.members(dir.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.shallow.symlinks);
       },
     },
   ]);
