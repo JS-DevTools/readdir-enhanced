@@ -17,8 +17,9 @@ before(function() {
   symlink('test/dir/subdir/subsubdir', 'test/dir/subsubdir-symlink', 'dir');
 
   // create broken symlinks (checking broken symlinks into git is problematic)
-  brokenSymlink('test/dir/broken-symlink.txt');
-  brokenSymlink('test/dir/subdir/subsubdir/broken-symlink.txt');
+  brokenSymlink('test/dir/broken-symlink.txt', 'file');
+  brokenSymlink('test/dir/subdir/subsubdir/broken-symlink.txt', 'file');
+  brokenSymlink('test/dir/broken-dir-symlink', 'dir');
 
   // delete files that get created automatically by the OS
   del.sync('test/dir/**/.DS_Store', {dot: true});
@@ -52,9 +53,17 @@ function symlink(targetPath, linkPath, type) {
 /**
  * Creates (or re-creates) a broken symbolic link.
  */
-function brokenSymlink(linkPath) {
-  var tmpFile = path.join(path.dirname(linkPath), Date.now() + '.txt');
-  fs.writeFileSync(tmpFile, '');
-  symlink(tmpFile, linkPath, 'file');
-  fs.unlinkSync(tmpFile);
+function brokenSymlink(linkPath, type) {
+  var tmp = path.join(path.dirname(linkPath), Date.now() + type);
+
+  if (type === 'file') {
+    fs.writeFileSync(tmp, '');
+    symlink(tmp, linkPath, type);
+    fs.unlinkSync(tmp);
+  }
+  else {
+    fs.mkdirSync(tmp);
+    symlink(tmp, linkPath, type);
+    fs.rmdirSync(tmp);
+  }
 }

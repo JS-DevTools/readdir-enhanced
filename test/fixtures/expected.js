@@ -6,6 +6,7 @@ exports.shallow = [
   'subdir',
   'subdir-symlink',
   'subsubdir-symlink',
+  'broken-dir-symlink',
   '.dotfile',
   'empty.txt',
   'file.txt',
