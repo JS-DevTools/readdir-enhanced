@@ -9,7 +9,7 @@ describe('default behavior', function() {
   forEachApi([
     {
       it: 'should return the same results as `fs.readdir`',
-      dir: 'test/dir',
+      args: ['test/dir'],
       assert: function(error, data) {
         var fsResults = fs.readdirSync('test/dir');
         expect(error).to.be.null;
@@ -18,7 +18,7 @@ describe('default behavior', function() {
     },
     {
       it: 'should return an empty array for an empty dir',
-      dir: 'test/dir/empty',
+      args: ['test/dir/empty'],
       assert: function(error, data) {
         expect(error).to.be.null;
         expect(data).to.be.an('array').with.lengthOf(0);
@@ -33,14 +33,14 @@ describe('default behavior', function() {
     },
     {
       it: 'should return all top-level contents',
-      dir: 'test/dir',
+      args: ['test/dir'],
       assert: function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(dir.shallow.all);
+        expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
         expect(errors.length).to.equal(0);
-        expect(data).to.have.same.members(dir.shallow.all);
+        expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
         expect(symlinks).to.have.same.members(dir.shallow.symlinks);
@@ -48,14 +48,14 @@ describe('default behavior', function() {
     },
     {
       it: 'should return all top-level contents of a directory symlink',
-      dir: 'test/dir/subdir-symlink',
+      args: ['test/dir/subdir-symlink'],
       assert: function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(dir.subdir.shallow.all);
+        expect(data).to.have.same.members(dir.subdir.shallow.data);
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
         expect(errors.length).to.equal(0);
-        expect(data).to.have.same.members(dir.subdir.shallow.all);
+        expect(data).to.have.same.members(dir.subdir.shallow.data);
         expect(files).to.have.same.members(dir.subdir.shallow.files);
         expect(dirs).to.have.same.members(dir.subdir.shallow.dirs);
         expect(symlinks).to.have.same.members(dir.subdir.shallow.symlinks);
@@ -63,7 +63,7 @@ describe('default behavior', function() {
     },
     {
       it: 'should return relative paths',
-      dir: 'test/dir',
+      args: ['test/dir'],
       assert: function(error, data) {
         expect(error).to.be.null;
         data.forEach(function(item) {
@@ -73,7 +73,7 @@ describe('default behavior', function() {
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
         expect(errors.length).to.equal(0);
-        expect(data).to.have.same.members(dir.shallow.all);
+        expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
         expect(symlinks).to.have.same.members(dir.shallow.symlinks);

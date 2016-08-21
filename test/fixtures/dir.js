@@ -2,7 +2,7 @@
 
 module.exports = {
   shallow: {
-    all: [
+    data: [
       '.dotdir',
       'empty',
       'subdir',
@@ -41,7 +41,7 @@ module.exports = {
 
   subdir: {
     shallow: {
-      all: [
+      data: [
         '.dotdir',
         'subsubdir',
         'file.txt',

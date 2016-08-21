@@ -12,14 +12,8 @@ function forEachApi(tests) {
     tests.forEach(function(test) {
       testApi(test, function(done) {
         try {
-          if (test.options) {
-            var data = readdir.sync(test.dir, test.options);
-            done(null, data);
-          }
-          else {
-            data = readdir.sync(test.dir);
-            done(null, data);
-          }
+          var data = readdir.sync.apply(null, test.args);
+          done(null, data);
         }
         catch (error) {
           done(error);
@@ -31,12 +25,15 @@ function forEachApi(tests) {
   describe('Asynchronous API (callback/Promise)', function() {
     tests.forEach(function(test) {
       testApi(test, function(done) {
-        if (test.options) {
-          readdir.async(test.dir, test.options, done);
-        }
-        else {
-          readdir.async(test.dir, done);
-        }
+        readdir.async.apply(null, test.args)
+          .then(
+            function(data) {
+              done(null, data);
+            },
+            function(error) {
+              done(error);
+            }
+          );
       });
     });
   });
@@ -44,12 +41,11 @@ function forEachApi(tests) {
   describe('Asynchronous API (Stream/EventEmitter)', function() {
     tests.forEach(function(test) {
       testApi(test, function(done) {
-        var stream;
-        if (test.options) {
-          stream = readdir.stream(test.dir, test.options);
+        try {
+          var stream = readdir.stream.apply(null, test.args);
         }
-        else {
-          stream = readdir.stream(test.dir);
+        catch (error) {
+          return done(error);
         }
 
         var errors = [], data = [], files = [], dirs = [], symlinks = [];
@@ -100,9 +96,10 @@ function testApi(test, api) {
     // Call the readdir-enhanced API and get the results
     api(function(errors, data, files, dirs, symlinks) {
       try {
-        if (Array.isArray(errors)) {
+        var isStreamingApi = files || dirs || symlinks;
+        if (isStreamingApi) {
+          // Perform assertions that are specific to the streaming API
           if (test.streamAssert) {
-            // Perform assertions that are specific to the streaming API
             test.streamAssert(errors, data, files, dirs, symlinks);
           }
 
