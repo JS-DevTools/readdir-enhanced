@@ -10,7 +10,7 @@ module.exports = forEachApi;
 function forEachApi(tests) {
   describe('Synchronous API', function() {
     tests.forEach(function(test) {
-      testApi(test, function(done) {
+      testApi(test, 'sync', function(done) {
         try {
           var data = readdir.sync.apply(null, test.args);
           done(null, data);
@@ -24,7 +24,7 @@ function forEachApi(tests) {
 
   describe('Asynchronous API (callback/Promise)', function() {
     tests.forEach(function(test) {
-      testApi(test, function(done) {
+      testApi(test, 'async', function(done) {
         readdir.async.apply(null, test.args)
           .then(
             function(data) {
@@ -40,15 +40,16 @@ function forEachApi(tests) {
 
   describe('Asynchronous API (Stream/EventEmitter)', function() {
     tests.forEach(function(test) {
-      testApi(test, function(done) {
+      testApi(test, 'stream', function(done) {
+        var errors = [], data = [], files = [], dirs = [], symlinks = [];
+
         try {
           var stream = readdir.stream.apply(null, test.args);
         }
         catch (error) {
-          return done(error);
+          return done([error], data, files, dirs, symlinks);
         }
 
-        var errors = [], data = [], files = [], dirs = [], symlinks = [];
         stream.on('error', function(error) {
           errors.push(error);
         });
@@ -76,10 +77,11 @@ function forEachApi(tests) {
  * Runs a single test against a single readdir-enhanced API.
  *
  * @param {object} test - An object containing test info, parameters, and assertions
+ * @param {string} apiName - The name of the API being tested ("sync", "async", or "stream")
  * @param {function} api - A function that calls the readdir-enhanced API and returns its results
  */
-function testApi(test, api) {
-  if (test.only) {
+function testApi(test, apiName, api) {
+  if (test.only === true || test.only === apiName) {
     // Only run this one test (useful for debugging)
     it.only(test.it, runTest);
   }
@@ -96,8 +98,7 @@ function testApi(test, api) {
     // Call the readdir-enhanced API and get the results
     api(function(errors, data, files, dirs, symlinks) {
       try {
-        var isStreamingApi = files || dirs || symlinks;
-        if (isStreamingApi) {
+        if (apiName === 'stream') {
           // Perform assertions that are specific to the streaming API
           if (test.streamAssert) {
             test.streamAssert(errors, data, files, dirs, symlinks);
@@ -121,6 +122,14 @@ function testApi(test, api) {
       catch (e) {
         // An assertion failed, so fail the test
         done(e);
+
+        console.error('==================== ACTUAL RESULTS ====================');
+        console.error('errors:', errors);
+        console.error('data:', data);
+        console.error('files:', files);
+        console.error('dirs:', dirs);
+        console.error('symlinks:', symlinks);
+        console.error('========================================================');
       }
     });
   }

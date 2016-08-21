@@ -6,6 +6,8 @@ var path = require('path');
 var fs = require('fs');
 
 before(function() {
+  console.log('Initializing test directory');
+
   // create some empty dirs (cannot check-in empty dirs to git)
   mkdirp.sync('test/dir/empty');
   mkdirp.sync('test/dir/subdir/.dotdir/empty');
