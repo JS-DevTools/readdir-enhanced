@@ -26,7 +26,6 @@ describe('options.filter', function() {
       },
     },
     {
-      only: true,
       it: 'should return filtered deep contents',
       args: ['test/dir', {
         deep: true,
@@ -36,14 +35,14 @@ describe('options.filter', function() {
       }],
       assert: function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(['empty', 'empty.txt', 'subdir/subsubdir/empty.txt']);
+        expect(data).to.have.same.members(dir.empties.deep.data);
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
         expect(errors.length).to.equal(0);
-        expect(data).to.have.same.members(['empty', 'empty.txt', 'subdir/subsubdir/empty.txt']);
-        expect(files).to.have.same.members(['empty.txt', 'subdir/subsubdir/empty.txt']);
-        expect(dirs).to.have.same.members(['empty']);
-        expect(symlinks).to.have.lengthOf(0);
+        expect(data).to.have.same.members(dir.empties.deep.data);
+        expect(files).to.have.same.members(dir.empties.deep.files);
+        expect(dirs).to.have.same.members(dir.empties.deep.dirs);
+        expect(symlinks).to.have.same.members(dir.empties.deep.symlinks);
       },
     },
     {
