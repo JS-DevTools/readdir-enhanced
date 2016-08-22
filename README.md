@@ -1,19 +1,28 @@
 Enhanced `fs.readdir()`
 =======================
 
-`readdir-enhanced` enhances Node.js' built-in `fs.readdir()` and `fs.readdirSync()` methods to support additional syntaxes (Promises, Streams, EventEmitter) and features ([filtering](#filter), [recursion](#deep), [absolute paths](#basepath), [stats](#stats), and more).
+[![Build Status](https://api.travis-ci.org/BigstickCarpet/readdir-enhanced.svg)](https://travis-ci.org/BigstickCarpet/readdir-enhanced)
+[![Dependencies](https://david-dm.org/BigstickCarpet/readdir-enhanced.svg)](https://david-dm.org/BigstickCarpet/readdir-enhanced)
+[![Coverage Status](https://coveralls.io/repos/BigstickCarpet/readdir-enhanced/badge.svg?branch=master&service=github)](https://coveralls.io/r/BigstickCarpet/readdir-enhanced)
+[![Codacy Score](https://api.codacy.com/project/badge/Grade/178a817b6c864de7813fef457c0ed5ae)](https://www.codacy.com/public/jamesmessinger/readdir-enhanced)
+[![Inline docs](http://inch-ci.org/github/BigstickCarpet/readdir-enhanced.svg?branch=master&style=shields)](http://inch-ci.org/github/BigstickCarpet/readdir-enhanced)
+
+[![npm](https://img.shields.io/npm/v/readdir-enhanced.svg?maxAge=43200)](https://www.npmjs.com/package/readdir-enhanced)
+[![License](https://img.shields.io/npm/l/readdir-enhanced.svg?maxAge=2592000)](LICENSE)
+
+`readdir-enhanced` enhances Node.js' built-in [`fs.readdir()`](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [`fs.readdirSync()`](https://nodejs.org/api/fs.html#fs_fs_readdirsync_path_options) methods to support additional syntaxes (Promises, Streams, EventEmitter) and features ([filtering](#filter), [recursion](#deep), [absolute paths](#basepath), [stats](#stats), and more).
 
 
 Pick Your API
 -----------------
 `readdir-enhanced` has multiple APIs, so you can pick whichever one you prefer.  There are three main APIs:
 
-- **Synchronous API**<br> 
-aliases: `readdir.sync`, `readdir.readdirSync`<br> 
+- **Synchronous API**<br>
+aliases: `readdir.sync`, `readdir.readdirSync`<br>
 Blocks the thread until all directory contents are read, and then returns all the results.
 
 - **Async API**<br>
-aliases: `readdir`, `readdir.async`, `readdir.readdirAsync`<br> 
+aliases: `readdir`, `readdir.async`, `readdir.readdirAsync`<br>
 Reads the directory contents asynchronously and buffers all the results until all contents have been read. Supports callback or Promise syntax (see example below).
 
 - **Streaming API**<br>
@@ -155,7 +164,7 @@ All of the `readdir-enhanced` functions listed above return an array of strings 
 
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
 
-To get `fs.Stats` objects instead of strings, just call add the word "Stat" to the function name.  As with the normal functions, each one is aliased, so you can use whichever naming style you prefer. 
+To get `fs.Stats` objects instead of strings, just call add the word "Stat" to the function name.  As with the normal functions, each one is aliased, so you can use whichever naming style you prefer.
 
 ```javascript
 var readdir = require('readdir-enhanced');
