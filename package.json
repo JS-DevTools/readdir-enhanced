@@ -33,7 +33,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "del": "^2.2.2",
-    "eslint": "^3.3.0",
+    "eslint": "^3.3.1",
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",
     "npm-check": "^5.2.3",
