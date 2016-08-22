@@ -21,7 +21,7 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint lib test --fix",
-    "test": "mocha && npm run lint",
+    "test": "istanbul cover _mocha && npm run lint",
     "upgrade": "npm-check -u",
     "bump": "bump --prompt --tag --push --all",
     "release": "npm run upgrade && npm test && npm run bump && npm publish"
@@ -32,8 +32,10 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "codacy-coverage": "^2.0.0",
     "del": "^2.2.2",
     "eslint": "^3.3.1",
+    "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",
     "npm-check": "^5.2.3",
