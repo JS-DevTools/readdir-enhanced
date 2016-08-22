@@ -41,10 +41,10 @@ function forEachApi(tests) {
   describe('Asynchronous API (Stream/EventEmitter)', function() {
     tests.forEach(function(test) {
       testApi(test, 'stream', function(done) {
-        var errors = [], data = [], files = [], dirs = [], symlinks = [];
+        var stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
 
         try {
-          var stream = readdir.stream.apply(null, test.args);
+          stream = readdir.stream.apply(null, test.args);
         }
         catch (error) {
           return done([error], data, files, dirs, symlinks);
