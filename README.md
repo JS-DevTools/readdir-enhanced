@@ -3,7 +3,7 @@ Enhanced `fs.readdir()`
 
 [![Build Status](https://api.travis-ci.org/BigstickCarpet/readdir-enhanced.svg)](https://travis-ci.org/BigstickCarpet/readdir-enhanced)
 [![Dependencies](https://david-dm.org/BigstickCarpet/readdir-enhanced.svg)](https://david-dm.org/BigstickCarpet/readdir-enhanced)
-[![Coverage Status](https://coveralls.io/repos/BigstickCarpet/readdir-enhanced/badge.svg?branch=master&service=github)](https://coveralls.io/r/BigstickCarpet/readdir-enhanced)
+[![Coverage Status](https://coveralls.io/repos/github/BigstickCarpet/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/BigstickCarpet/readdir-enhanced?branch=master)
 [![Codacy Score](https://api.codacy.com/project/badge/Grade/178a817b6c864de7813fef457c0ed5ae)](https://www.codacy.com/public/jamesmessinger/readdir-enhanced)
 [![Inline docs](http://inch-ci.org/github/BigstickCarpet/readdir-enhanced.svg?branch=master&style=shields)](http://inch-ci.org/github/BigstickCarpet/readdir-enhanced)
 
