@@ -12,7 +12,7 @@ describe('error handling', function() {
       args: [],
       assert: function(error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('path must be a string or Buffer');
+        expect(error.message).to.contain('path must be a string');
         expect(data).to.be.undefined;
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
@@ -28,7 +28,7 @@ describe('error handling', function() {
       args: [55555],
       assert: function(error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('path must be a string or Buffer');
+        expect(error.message).to.contain('path must be a string');
         expect(data).to.be.undefined;
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
