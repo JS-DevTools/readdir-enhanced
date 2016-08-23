@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = {
+var path = require('path');
+
+var dir = module.exports = {
   shallow: {
     data: [
       '.dotdir',
@@ -188,3 +190,22 @@ module.exports = {
     },
   }
 };
+
+// Change all the path separators to "\" on Windows
+if (path.sep !== '/') {
+  changePathSeparators(dir);
+}
+
+function changePathSeparators(obj) {
+  Object.keys(obj).forEach(function(key) {
+    var value = obj[key];
+    if (Array.isArray(value)) {
+      obj[key] = value.map(function(p) {
+        return p.replace(/\//g, path.sep);
+      });
+    }
+    else if (typeof value === 'object') {
+      changePathSeparators(value);
+    }
+  });
+}

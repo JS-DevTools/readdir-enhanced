@@ -67,7 +67,6 @@ describe('fs.Stats', function() {
         expect(stat.uid).to.be.a('number');
         expect(stat.gid).to.be.a('number');
         expect(stat.size).to.be.a('number');
-        expect(stat.blocks).to.be.a('number');
         expect(stat.atime).to.be.an.instanceOf(Date);
         expect(stat.mtime).to.be.an.instanceOf(Date);
         expect(stat.ctime).to.be.an.instanceOf(Date);

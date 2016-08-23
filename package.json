@@ -21,7 +21,8 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint lib test --fix",
-    "test": "istanbul cover _mocha && npm run lint",
+    "test": "mocha",
+    "cover": "istanbul cover _mocha",
     "upgrade": "npm-check -u",
     "bump": "bump --prompt --tag --push --all",
     "release": "npm run upgrade && npm test && npm run bump && npm publish"

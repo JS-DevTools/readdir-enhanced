@@ -23,6 +23,10 @@ before_script:
   # Install the version of ESLint that is compatible with this version of Node
   - 'if [ "$ESLINT_VER" != "" ]; then npm install eslint@$ESLINT_VER; fi'
 
+script:
+  - npm run cover
+  - npm run lint
+
 after_success:
   # send code-coverage data to Codacy
   - cat ./coverage/lcov.info | node_modules/.bin/codacy-coverage -p .
