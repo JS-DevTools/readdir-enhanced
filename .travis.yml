@@ -11,12 +11,17 @@ matrix:
     - node_js: 5
     - node_js: 4
     - node_js: 0.12
+      env: ESLINT_VER=2
 
 branches:
   only:
     # only run CI on the master branch & pull requests
     - master
     - /^PR /
+
+before_script:
+  # Install the version of ESLint that is compatible with this version of Node
+  - 'if [ "$ESLINT_VER" != "" ]; then npm install eslint@$ESLINT_VER; fi'
 
 after_success:
   # send code-coverage data to Codacy
