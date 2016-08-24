@@ -47,5 +47,8 @@
   "dependencies": {
     "call-me-maybe": "^1.0.1",
     "es6-promise": "^3.2.1"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }
