@@ -46,6 +46,66 @@ describe('options.filter', function() {
       },
     },
     {
+      it: 'should filter by files',
+      args: ['test/dir', {
+        deep: true,
+        filter: function(stats) {
+          return stats.isFile();
+        }
+      }],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.deep.files);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.deep.files);
+        expect(files).to.have.same.members(dir.deep.files);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.same.members(dir.symlinks.deep.files);
+      },
+    },
+    {
+      it: 'should filter by directories',
+      args: ['test/dir', {
+        deep: true,
+        filter: function(stats) {
+          return stats.isDirectory();
+        }
+      }],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.deep.dirs);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.deep.dirs);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.same.members(dir.deep.dirs);
+        expect(symlinks).to.have.same.members(dir.symlinks.deep.dirs);
+      },
+    },
+    {
+      it: 'should filter by symlinks',
+      args: ['test/dir', {
+        deep: true,
+        filter: function(stats) {
+          return stats.isSymbolicLink();
+        }
+      }],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.deep.symlinks);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.deep.symlinks);
+        expect(files).to.have.same.members(dir.symlinks.deep.files);
+        expect(dirs).to.have.same.members(dir.symlinks.deep.dirs);
+        expect(symlinks).to.have.same.members(dir.deep.symlinks);
+      },
+    },
+    {
       it: 'should handle errors that occur in the filter function',
       args: ['test/dir', {
         filter: function(stats) {

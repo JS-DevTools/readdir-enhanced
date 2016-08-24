@@ -5,6 +5,7 @@ describe('default behavior', function() {
   var dir = require('../fixtures/dir');
   var expect = require('chai').expect;
   var fs = require('fs');
+  var path = require('path');
 
   forEachApi([
     {
@@ -34,6 +35,21 @@ describe('default behavior', function() {
     {
       it: 'should return all top-level contents',
       args: ['test/dir'],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.shallow.data);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.shallow.data);
+        expect(files).to.have.same.members(dir.shallow.files);
+        expect(dirs).to.have.same.members(dir.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.shallow.symlinks);
+      },
+    },
+    {
+      it: 'should return the same results if the path is absolute',
+      args: [path.resolve('test/dir')],
       assert: function(error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);

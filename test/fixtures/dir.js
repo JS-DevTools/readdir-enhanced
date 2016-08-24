@@ -130,6 +130,67 @@ var dir = module.exports = {
       'file-symlink.txt',
       'broken-symlink.txt',
     ],
+
+    oneLevel: {
+      data: [
+        '.dotfile',
+        '.dotdir',
+        'broken-dir-symlink',
+        'broken-symlink.txt',
+        'empty',
+        'empty.txt',
+        'file-symlink.txt',
+        'file.json',
+        'file.txt',
+        'subdir',
+        'subdir/.dotdir',
+        'subdir/file.txt',
+        'subdir/subsubdir',
+        'subdir-symlink',
+        'subdir-symlink/.dotdir',
+        'subdir-symlink/file.txt',
+        'subdir-symlink/subsubdir',
+        'subsubdir-symlink',
+        'subsubdir-symlink/broken-symlink.txt',
+        'subsubdir-symlink/empty.txt',
+        'subsubdir-symlink/file-symlink.txt',
+        'subsubdir-symlink/file.json',
+        'subsubdir-symlink/file.txt',
+      ],
+      dirs: [
+        '.dotdir',
+        'empty',
+        'subdir',
+        'subdir/.dotdir',
+        'subdir/subsubdir',
+        'subdir-symlink',
+        'subdir-symlink/.dotdir',
+        'subdir-symlink/subsubdir',
+        'subsubdir-symlink',
+      ],
+      files: [
+        'subdir/file.txt',
+        'subdir-symlink/file.txt',
+        'subsubdir-symlink/empty.txt',
+        'subsubdir-symlink/file.txt',
+        'subsubdir-symlink/file.json',
+        'subsubdir-symlink/file-symlink.txt',
+        '.dotfile',
+        'empty.txt',
+        'file.txt',
+        'file.json',
+        'file-symlink.txt',
+      ],
+      symlinks: [
+        'subdir-symlink',
+        'subsubdir-symlink',
+        'subsubdir-symlink/broken-symlink.txt',
+        'subsubdir-symlink/file-symlink.txt',
+        'broken-dir-symlink',
+        'file-symlink.txt',
+        'broken-symlink.txt',
+      ],
+    },
   },
 
   subdir: {
@@ -188,7 +249,22 @@ var dir = module.exports = {
       ],
       symlinks: [],
     },
-  }
+  },
+
+  symlinks: {
+    deep: {
+      files: [
+        'subdir/subsubdir/file-symlink.txt',
+        'subdir-symlink/subsubdir/file-symlink.txt',
+        'subsubdir-symlink/file-symlink.txt',
+        'file-symlink.txt',
+      ],
+      dirs: [
+        'subdir-symlink',
+        'subsubdir-symlink',
+      ],
+    },
+  },
 };
 
 // Change all the path separators to "\" on Windows
