@@ -4,11 +4,12 @@ describe('fs.Stats', function() {
   var readdir = require('../../');
   var dir = require('../fixtures/dir');
   var expect = require('chai').expect;
+  var fs = require('fs');
 
   describe('Synchronous API', function() {
     it('should return stats instead of paths', function(done) {
       var data = readdir.sync.stat('test/dir');
-      assert(data, dir.shallow.data, done);
+      assertStats(data, dir.shallow.data, done);
     });
   });
 
@@ -16,7 +17,7 @@ describe('fs.Stats', function() {
     it('should return stats instead of paths', function(done) {
       readdir.async.stat('test/dir', function(err, data) {
         expect(err).to.be.null;
-        assert(data, dir.shallow.data, done);
+        assertStats(data, dir.shallow.data, done);
       });
     });
   });
@@ -39,10 +40,10 @@ describe('fs.Stats', function() {
         symlinks.push(symlink);
       });
       stream.on('end', function() {
-        assert(data, dir.shallow.data, errorHandler);
-        assert(files, dir.shallow.files, errorHandler);
-        assert(dirs, dir.shallow.dirs, errorHandler);
-        assert(symlinks, dir.shallow.symlinks, errorHandler);
+        assertStats(data, dir.shallow.data, errorHandler);
+        assertStats(files, dir.shallow.files, errorHandler);
+        assertStats(dirs, dir.shallow.dirs, errorHandler);
+        assertStats(symlinks, dir.shallow.symlinks, errorHandler);
         done(error);
 
         var error;
@@ -51,7 +52,7 @@ describe('fs.Stats', function() {
     });
   });
 
-  function assert(data, expected, done) {
+  function assertStats(data, expected, done) {
     try {
       // Should return an array of the correct length
       expect(data).to.be.an('array').with.lengthOf(expected.length);
@@ -63,6 +64,7 @@ describe('fs.Stats', function() {
       // Each item should be a valid fs.Stats object
       data.forEach(function(stat) {
         expect(stat).to.be.an('object');
+        expect(stat).to.be.an.instanceOf(fs.Stats);
         expect(stat.mode).to.be.a('number');
         expect(stat.uid).to.be.a('number');
         expect(stat.gid).to.be.a('number');
