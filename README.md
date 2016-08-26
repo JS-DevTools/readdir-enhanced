@@ -63,12 +63,14 @@ var stream = readdir.stream('my/directory')
 ```
 
 
-Enhanced Features <a id="options"></a>
+<a id="options"></a>
+Enhanced Features
 -----------------
 `readdir-enhanced` adds several features to the built-in `fs.readdir()` function.  All of the enhanced features are opt-in, which makes `readdir-enhanced` [fully backward compatible by default](#backward-compatible).  You can enable any of the features by passing-in an `options` argument as the second parameter.
 
 
-### Recursion - `options.deep` <a id="deep"></a>
+<a id="deep"></a>
+### Recursion - `options.deep`
 By default, `readdir-enhanced` will only return the top-level contents of the directory. But you can enable the `deep` option to recursively traverse the subdirectories and return their contents as well.
 
 The `deep` option can be set to `true` to traverse the entire directory structure, or it can be set to a number to only traverse that many levels deep.  For example, calling `readdir('my/directory', {deep: 2})` will return `subdir1/file.txt` and `subdir1/subdir2/file.txt`, but it _won't_ return `subdir1/subdir2/subdir3/file.txt`.
@@ -89,7 +91,8 @@ readdir('my/directory', {deep: true}, function(err, files) {
 ```
 
 
-### Filtering - `options.filter` <a id="filter"></a>
+<a id="filter"></a>
+### Filtering - `options.filter`
 You can filter the results by whatever criteria you want, by specifying a filter function. The function accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and should return a truthy value to include the item in the results.
 
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the filter function has an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
@@ -112,7 +115,8 @@ readdir('my/directory', {filter: myFilter}, function(err, subdirs) {
 ```
 
 
-### Base Path - `options.basePath` <a id="basepath"></a>
+<a id="basepath"></a>
+### Base Path - `options.basePath`
 By default all `readdir-enhanced` functions return paths that are relative to the directory. But you can use the `basePath` option to customize this.  The `basePath` will be prepended to all of the returned paths.  One common use-case for this is to set `basePath` to the absolute path of the directory, so that all of the returned paths will be absolute.
 
 ```javascript
@@ -140,7 +144,8 @@ readdir('my/directory', {basePath: 'my/directory'}, function(err, files) {
 ```
 
 
-### Path Separator - `options.sep` <a id="sep"></a>
+<a id="sep"></a>
+### Path Separator - `options.sep`
 By default, `readdir-enhanced` uses the correct path separator for your OS (`\` on Windows, `/` on Linux & MacOS). But you can set the `sep` option to any separator character(s) that you want to use instead.  This is usually used to ensure consistent path separators across different OSes.
 
 ```javascript
@@ -159,7 +164,8 @@ readdir('my/directory', {sep: '\\', deep: true}, function(err, files) {
 });
 ```
 
-Get `fs.Stats` objects instead of strings <a id="stats"></a>
+<a id="stats"></a>
+Get `fs.Stats` objects instead of strings
 ------------------------
 All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  So, `readdir-enhanced` provides alternative versions of each function, which return an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of strings.  The `fs.Stats` object contains all sorts of useful information, such the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
 
@@ -194,7 +200,8 @@ readdir.readdirStreamStat('my/directory')
 ```
 
 
-Backward Compatible <a id="backward-compatible"></a>
+<a id="backward-compatible"></a>
+Backward Compatible
 --------------------
 `readdir-enhanced` is fully backward-compatible with Node.js' built-in `fs.readdir()` and `fs.readdirSync()` functions, so you can use it as a drop-in replacement in existing projects without affecting existing functionality, while still being able to use the enhanced features as needed.
 
