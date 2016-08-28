@@ -119,10 +119,11 @@ describe('error handling', function() {
     },
     {
       it: 'should throw an error if options.filter is invalid',
-      args: ['test/dir', {filter: 'my filter'}],
+      args: ['test/dir', {filter: 12345}],
       assert: function(error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.filter must be a function');
+        expect(error.message).to.equal(
+          'options.filter must be a function, regular expression, or glob pattern');
         expect(data).to.be.undefined;
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {

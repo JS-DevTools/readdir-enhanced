@@ -211,6 +211,77 @@ var dir = module.exports = {
     },
   },
 
+  txt: {
+    shallow: {
+      data: [
+        'empty.txt',
+        'file.txt',
+        'file-symlink.txt',
+        'broken-symlink.txt',
+      ],
+      dirs: [],
+      files: [
+        'empty.txt',
+        'file.txt',
+        'file-symlink.txt',
+      ],
+      symlinks: [
+        'file-symlink.txt',
+        'broken-symlink.txt',
+      ],
+    },
+
+    deep: {
+      data: [
+        'broken-symlink.txt',
+        'empty.txt',
+        'file-symlink.txt',
+        'file.txt',
+        'subdir/file.txt',
+        'subdir/subsubdir/broken-symlink.txt',
+        'subdir/subsubdir/empty.txt',
+        'subdir/subsubdir/file-symlink.txt',
+        'subdir/subsubdir/file.txt',
+        'subdir-symlink/file.txt',
+        'subdir-symlink/subsubdir/broken-symlink.txt',
+        'subdir-symlink/subsubdir/empty.txt',
+        'subdir-symlink/subsubdir/file-symlink.txt',
+        'subdir-symlink/subsubdir/file.txt',
+        'subsubdir-symlink/broken-symlink.txt',
+        'subsubdir-symlink/empty.txt',
+        'subsubdir-symlink/file-symlink.txt',
+        'subsubdir-symlink/file.txt',
+      ],
+      dirs: [],
+      files: [
+        'subdir/file.txt',
+        'subdir/subsubdir/empty.txt',
+        'subdir/subsubdir/file.txt',
+        'subdir/subsubdir/file-symlink.txt',
+        'subdir-symlink/file.txt',
+        'subdir-symlink/subsubdir/empty.txt',
+        'subdir-symlink/subsubdir/file.txt',
+        'subdir-symlink/subsubdir/file-symlink.txt',
+        'subsubdir-symlink/empty.txt',
+        'subsubdir-symlink/file.txt',
+        'subsubdir-symlink/file-symlink.txt',
+        'empty.txt',
+        'file.txt',
+        'file-symlink.txt',
+      ],
+      symlinks: [
+        'subdir/subsubdir/broken-symlink.txt',
+        'subdir/subsubdir/file-symlink.txt',
+        'subdir-symlink/subsubdir/broken-symlink.txt',
+        'subdir-symlink/subsubdir/file-symlink.txt',
+        'subsubdir-symlink/broken-symlink.txt',
+        'subsubdir-symlink/file-symlink.txt',
+        'file-symlink.txt',
+        'broken-symlink.txt',
+      ],
+    },
+  },
+
   empties: {
     shallow: {
       data: [

@@ -93,9 +93,27 @@ readdir('my/directory', {deep: true}, function(err, files) {
 
 <a id="filter"></a>
 ### Filtering - `options.filter`
-You can filter the results by whatever criteria you want, by specifying a filter function. The function accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and should return a truthy value to include the item in the results.
+The `filter` option lets limit the results based on any criteria you want.
 
-> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the filter function has an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
+#### Filter by path
+For simple use-cases, you can use a regular expression or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the directory, but you can customize this via [`options.basePath`](#basepath).
+
+```javascript
+var readdir = require('readdir-enhanced');
+
+// Find all .txt files
+readdir('my/directory', {filter: '*.txt'});
+
+// Find all package.json files
+readdir('my/directory', {filter: '**/package.json', deep: true});
+
+// Find everything with at least one number in the name
+readdir('my/directory', {filter: /\d+/});
+```
+
+
+#### Advanced filtering
+For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and should return a truthy value if the item should be included in the results. The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the filter function has an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 ```javascript
 var readdir = require('readdir-enhanced');
