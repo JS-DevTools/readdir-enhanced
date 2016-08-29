@@ -108,19 +108,37 @@ describe('options.filter', function() {
     {
       it: 'should filter by a regular expression',
       args: ['test/dir', {
-        deep: true,
-        filter: /.*empt[^aeiou]/
+        filter: /.*empt[^aeiou]/,
       }],
       assert: function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(dir.empties.deep.data);
+        expect(data).to.have.same.members(dir.empties.shallow.data);
       },
       streamAssert: function(errors, data, files, dirs, symlinks) {
         expect(errors.length).to.equal(0);
-        expect(data).to.have.same.members(dir.empties.deep.data);
-        expect(files).to.have.same.members(dir.empties.deep.files);
-        expect(dirs).to.have.same.members(dir.empties.deep.dirs);
-        expect(symlinks).to.have.same.members(dir.empties.deep.symlinks);
+        expect(data).to.have.same.members(dir.empties.shallow.data);
+        expect(files).to.have.same.members(dir.empties.shallow.files);
+        expect(dirs).to.have.same.members(dir.empties.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.empties.shallow.symlinks);
+      },
+    },
+    {
+      it: 'should use appropriate path separators when filtering by a regular expression',
+      args: ['test/dir', {
+        deep: true,
+        sep: '\\',
+        filter: /subdir\\[^\\]*\\.*\.txt/,
+      }],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
+        expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.files);
+        expect(dirs).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.dirs);
+        expect(symlinks).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.symlinks);
       },
     },
     {
@@ -141,10 +159,49 @@ describe('options.filter', function() {
       },
     },
     {
+      it: 'should use POSIX paths when filtering by a glob pattern',
+      args: ['test/dir', {
+        deep: true,
+        sep: '\\',
+        filter: 'subdir/*/*.txt',
+      }],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
+        expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.files);
+        expect(dirs).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.dirs);
+        expect(symlinks).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.symlinks);
+      },
+    },
+    {
+      it: 'should prepend a POSIX version of the basePath when filtering by a glob pattern',
+      args: ['test/dir', {
+        deep: true,
+        basePath: dir.windowsBasePath,
+        sep: '\\',
+        filter: '/Windows/**/subdir/*/*.txt',
+      }],
+      assert: function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
+      },
+      streamAssert: function(errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
+        expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.files);
+        expect(dirs).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.dirs);
+        expect(symlinks).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.symlinks);
+      },
+    },
+    {
       it: 'should filter by a file extension pattern',
       args: ['test/dir', {
         deep: true,
-        filter: '**/*.txt'
+        filter: '**/*.txt',
       }],
       assert: function(error, data) {
         expect(error).to.be.null;

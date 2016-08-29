@@ -1,8 +1,16 @@
 'use strict';
 
 var path = require('path');
+var isWindows = /^win/.test(process.platform);
+
+// This fake basePath is used to make sure Windows paths are handled properly.
+// The drive letter ("C:") is omitted when testing on POSIX systems,
+// because it gets interpreted as a path segment
+var windowsBasePath = (isWindows ? 'C:' : '') + '\\Windows\\Users\\Desktop';
 
 var dir = module.exports = {
+  windowsBasePath: windowsBasePath,
+
   shallow: {
     data: [
       '.dotdir',
@@ -209,6 +217,152 @@ var dir = module.exports = {
       ],
       symlinks: [],
     },
+
+    deep: {
+      data: [
+        '.dotdir',
+        '.dotdir/.dotfile',
+        '.dotdir/empty',
+        'file.txt',
+        'subsubdir',
+        'subsubdir/broken-symlink.txt',
+        'subsubdir/empty.txt',
+        'subsubdir/file-symlink.txt',
+        'subsubdir/file.json',
+        'subsubdir/file.txt',
+      ],
+      dirs: [
+        '.dotdir',
+        '.dotdir/empty',
+        'subsubdir',
+      ],
+      files: [
+        '.dotdir/.dotfile',
+        'file.txt',
+        'subsubdir/empty.txt',
+        'subsubdir/file-symlink.txt',
+        'subsubdir/file.json',
+        'subsubdir/file.txt',
+      ],
+      symlinks: [
+        'subsubdir/broken-symlink.txt',
+        'subsubdir/file-symlink.txt',
+      ],
+    },
+
+    txt: {
+      shallow: {
+        data: [
+          'file.txt',
+        ],
+        dirs: [],
+        files: [
+          'file.txt',
+        ],
+        symlinks: [],
+      },
+
+      deep: {
+        data: [
+          'file.txt',
+          'subsubdir/broken-symlink.txt',
+          'subsubdir/empty.txt',
+          'subsubdir/file-symlink.txt',
+          'subsubdir/file.txt',
+        ],
+        dirs: [],
+        files: [
+          'file.txt',
+          'subsubdir/empty.txt',
+          'subsubdir/file-symlink.txt',
+          'subsubdir/file.txt',
+        ],
+        symlinks: [
+          'subsubdir/broken-symlink.txt',
+          'subsubdir/file-symlink.txt',
+        ],
+      },
+    },
+
+    subsubdir: {
+      data: [
+        'broken-symlink.txt',
+        'empty.txt',
+        'file-symlink.txt',
+        'file.json',
+        'file.txt',
+      ],
+      dirs: [],
+      files: [
+        'empty.txt',
+        'file-symlink.txt',
+        'file.json',
+        'file.txt',
+      ],
+      symlinks: [
+        'broken-symlink.txt',
+        'file-symlink.txt',
+      ],
+
+      txt: {
+        data: [
+          'broken-symlink.txt',
+          'empty.txt',
+          'file-symlink.txt',
+          'file.txt',
+        ],
+        dirs: [],
+        files: [
+          'empty.txt',
+          'file-symlink.txt',
+          'file.txt',
+        ],
+        symlinks: [
+          'broken-symlink.txt',
+          'file-symlink.txt',
+        ],
+
+        windowsStyle: {
+          fromDir: {
+            data: [
+              'subdir\\subsubdir\\broken-symlink.txt',
+              'subdir\\subsubdir\\empty.txt',
+              'subdir\\subsubdir\\file-symlink.txt',
+              'subdir\\subsubdir\\file.txt',
+            ],
+            dirs: [],
+            files: [
+              'subdir\\subsubdir\\empty.txt',
+              'subdir\\subsubdir\\file-symlink.txt',
+              'subdir\\subsubdir\\file.txt',
+            ],
+            symlinks: [
+              'subdir\\subsubdir\\broken-symlink.txt',
+              'subdir\\subsubdir\\file-symlink.txt',
+            ],
+          },
+
+          fromRoot: {
+            data: [
+              windowsBasePath + '\\subdir\\subsubdir\\broken-symlink.txt',
+              windowsBasePath + '\\subdir\\subsubdir\\empty.txt',
+              windowsBasePath + '\\subdir\\subsubdir\\file-symlink.txt',
+              windowsBasePath + '\\subdir\\subsubdir\\file.txt',
+            ],
+            dirs: [],
+            files: [
+              windowsBasePath + '\\subdir\\subsubdir\\empty.txt',
+              windowsBasePath + '\\subdir\\subsubdir\\file-symlink.txt',
+              windowsBasePath + '\\subdir\\subsubdir\\file.txt',
+            ],
+            symlinks: [
+              windowsBasePath + '\\subdir\\subsubdir\\broken-symlink.txt',
+              windowsBasePath + '\\subdir\\subsubdir\\file-symlink.txt',
+            ],
+          },
+        }
+      },
+    }
   },
 
   txt: {

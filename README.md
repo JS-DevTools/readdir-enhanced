@@ -96,7 +96,9 @@ readdir('my/directory', {deep: true}, function(err, files) {
 The `filter` option lets limit the results based on any criteria you want.
 
 #### Filter by path
-For simple use-cases, you can use a regular expression or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the directory, but you can customize this via [`options.basePath`](#basepath).
+For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the directory, but you can customize this via [`options.basePath`](#basepath).
+
+> **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
 
 ```javascript
 var readdir = require('readdir-enhanced');
