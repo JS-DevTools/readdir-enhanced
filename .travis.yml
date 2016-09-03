@@ -8,8 +8,12 @@ language: node_js
 matrix:
   include:
     - node_js: 6
+      env: DEPLOY=true
+
     - node_js: 5
+
     - node_js: 4
+
     - node_js: 0.12
       env: ESLINT_VER=2
 
@@ -27,3 +31,12 @@ after_success:
 
   # send code-coverage data to Coveralls
   - cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
+
+deploy:
+  provider: npm
+  api_key: ${NPM_AUTH_TOKEN}
+  on:
+    tags: true
+    repo: BigstickCarpet/readdir-enhanced
+    branch: master
+    condition: $DEPLOY = true
