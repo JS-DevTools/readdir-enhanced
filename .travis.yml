@@ -34,7 +34,8 @@ after_success:
 
 deploy:
   provider: npm
-  api_key: ${NPM_AUTH_TOKEN}
+  email: ${NPM_EMAIL}
+  api_key: ${NPM_API_KEY}
   on:
     tags: true
     repo: BigstickCarpet/readdir-enhanced
