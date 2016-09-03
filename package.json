@@ -42,7 +42,7 @@
     "mocha": "^3.0.2",
     "npm-check": "^5.2.3",
     "through2": "^2.0.1",
-    "version-bump-prompt": "^1.5.2"
+    "version-bump-prompt": "^1.6.3"
   },
   "dependencies": {
     "call-me-maybe": "^1.0.1",
