@@ -31,13 +31,3 @@ after_success:
 
   # send code-coverage data to Coveralls
   - cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
-
-deploy:
-  provider: npm
-  email: ${NPM_EMAIL}
-  api_key: ${NPM_API_KEY}
-  on:
-    tags: true
-    repo: BigstickCarpet/readdir-enhanced
-    branch: master
-    condition: $DEPLOY = true
