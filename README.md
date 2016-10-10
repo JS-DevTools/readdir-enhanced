@@ -11,7 +11,7 @@ Enhanced `fs.readdir()`
 [![npm](https://img.shields.io/npm/v/readdir-enhanced.svg?maxAge=43200)](https://www.npmjs.com/package/readdir-enhanced)
 [![License](https://img.shields.io/npm/l/readdir-enhanced.svg?maxAge=2592000)](LICENSE)
 
-`readdir-enhanced` enhances Node.js' built-in [`fs.readdir()`](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [`fs.readdirSync()`](https://nodejs.org/api/fs.html#fs_fs_readdirsync_path_options) methods to support additional syntaxes (Promises, Streams, EventEmitter) and features ([filtering](#filter), [recursion](#deep), [absolute paths](#basepath), [stats](#stats), and more).
+`readdir-enhanced` is a [backward-compatible](#backward-compatible) drop-in replacement for [`fs.readdir()`](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [`fs.readdirSync()`](https://nodejs.org/api/fs.html#fs_fs_readdirsync_path_options) with tons of extra features ([filtering](#filter), [recursion](#deep), [absolute paths](#basepath), [stats](#stats), and more) as well as additional APIs for Promises, Streams, and EventEmitters.
 
 
 Pick Your API
