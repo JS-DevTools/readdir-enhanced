@@ -25,7 +25,8 @@
     "test-only": "mocha",
     "cover": "istanbul cover _mocha",
     "upgrade": "npm-check -u",
-    "release": "npm run upgrade && npm test && bump --prompt --tag --push --all"
+    "bump": "bump --prompt --tag --push --all",
+    "release": "npm run upgrade && npm test && npm run bump && npm publish"
   },
   "repository": {
     "type": "git",
