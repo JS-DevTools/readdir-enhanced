@@ -3,7 +3,6 @@
 
 environment:
   matrix:
-    - nodejs_version: "0.12"
     - nodejs_version: "4"
     - nodejs_version: "5"
     - nodejs_version: "6"
@@ -21,6 +20,7 @@ test_script:
   - npm --version
 
   # run tests
+  - npm run lint
   - npm test
 
 # Don't run MSBuild
