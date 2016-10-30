@@ -497,11 +497,11 @@ if (path.sep !== '/') {
   changePathSeparators(dir);
 }
 
-function changePathSeparators(obj) {
-  Object.keys(obj).forEach(function(key) {
+function changePathSeparators (obj) {
+  Object.keys(obj).forEach(function (key) {
     var value = obj[key];
     if (Array.isArray(value)) {
-      obj[key] = value.map(function(p) {
+      obj[key] = value.map(function (p) {
         return p.replace(/\//g, path.sep);
       });
     }

@@ -5,7 +5,7 @@ var del = require('del');
 var path = require('path');
 var fs = require('fs');
 
-before(function() {
+before(function () {
   console.log('Initializing test directory');
 
   // create some empty dirs (cannot check-in empty dirs to git)
@@ -25,15 +25,15 @@ before(function() {
   brokenSymlink('test/dir/broken-dir-symlink', 'dir');
 
   // delete files that get created automatically by the OS
-  del.sync('test/dir/**/.DS_Store', {dot: true});
-  del.sync('test/dir/**/Thumbs.db', {dot: true});
+  del.sync('test/dir/**/.DS_Store', { dot: true });
+  del.sync('test/dir/**/Thumbs.db', { dot: true });
 });
 
 /**
  * Creates (or re-creates) a symbolic link.
  * If the symlink already exists, it is re-created, in case paths or permissions have changed.
  */
-function symlink(targetPath, linkPath, type) {
+function symlink (targetPath, linkPath, type) {
   try {
     var stats = fs.lstatSync(linkPath);
     if (stats.isSymbolicLink()) {
@@ -56,7 +56,7 @@ function symlink(targetPath, linkPath, type) {
 /**
  * Creates (or re-creates) a broken symbolic link.
  */
-function brokenSymlink(linkPath, type) {
+function brokenSymlink (linkPath, type) {
   var tmp = path.join(path.dirname(linkPath), Date.now() + type);
 
   if (type === 'file') {

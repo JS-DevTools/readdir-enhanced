@@ -35,7 +35,7 @@ pids
 # Dependencies
 node_modules
 
-# Test files
+# Test output
 lib-cov
 /coverage
 /test/dir/**/*symlink*

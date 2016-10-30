@@ -1,21 +1,8 @@
-extends: 'eslint:recommended'
-
-env:
-  node: true
+extends:
+  - modular/best-practices
+  - modular/style
+  - modular/node
+  - modular/es5
 
 globals:
   Promise: true
-
-rules:
-  indent:
-    - error
-    - 2
-  linebreak-style:
-    - error
-    - unix
-  quotes:
-    - error
-    - single
-  semi:
-    - error
-    - always
