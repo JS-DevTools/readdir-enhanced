@@ -36,13 +36,14 @@
     "codacy-coverage": "^2.0.0",
     "coveralls": "^2.11.14",
     "del": "^2.2.2",
-    "eslint": "^3.7.1",
+    "eslint": "^3.9.0",
+    "eslint-config-modular": "^1.0.1",
     "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.1.1",
+    "mocha": "^3.1.2",
     "npm-check": "^5.4.0",
     "through2": "^2.0.1",
-    "version-bump-prompt": "^1.7.1"
+    "version-bump-prompt": "^1.7.2"
   },
   "dependencies": {
     "call-me-maybe": "^1.0.1",
