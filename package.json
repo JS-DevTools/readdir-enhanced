@@ -21,8 +21,7 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint lib test --fix",
-    "test": "mocha && npm run lint",
-    "test-only": "mocha",
+    "test": "mocha",
     "cover": "istanbul cover _mocha",
     "upgrade": "npm-check -u",
     "bump": "bump --prompt --tag --push --all",

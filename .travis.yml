@@ -7,22 +7,20 @@ sudo: false
 language: node_js
 matrix:
   include:
-    - node_js: 6
-
-    - node_js: 5
-
-    - node_js: 4
-
     - node_js: 0.12
       env: ESLINT_VER=2
+    - node_js: 4
+    - node_js: 5
+    - node_js: 6
+    - node_js: 7
 
 before_script:
   # Install the version of ESLint that is compatible with this version of Node
   - 'if [ "$ESLINT_VER" != "" ]; then npm install eslint@$ESLINT_VER; fi'
 
 script:
-  - npm run cover
   - npm run lint
+  - npm run cover
 
 after_success:
   # send code-coverage data to Codacy
