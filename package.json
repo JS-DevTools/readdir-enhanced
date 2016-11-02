@@ -19,6 +19,9 @@
   "license": "MIT",
   "homepage": "https://github.com/bigstickcarpet/readdir-enhanced",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "lint": "eslint lib test --fix",
     "test": "mocha",
@@ -49,8 +52,5 @@
     "call-me-maybe": "^1.0.1",
     "es6-promise": "^4.0.5",
     "glob-to-regexp": "^0.3.0"
-  },
-  "files": [
-    "lib"
-  ]
+  }
 }
