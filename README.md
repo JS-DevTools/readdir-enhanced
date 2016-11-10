@@ -235,3 +235,28 @@ readdir('my/directory', function(err, files) { ... });
 // Use it just like Node's built-in fs.readdirSync function
 var files = readdirSync('my/directory');
 ```
+
+
+
+Contributing
+--------------------------
+I welcome any contributions, enhancements, and bug-fixes.  [File an issue](https://github.com/BigstickCarpet/readdir-enhanced/issues) on GitHub and [submit a pull request](https://github.com/BigstickCarpet/readdir-enhanced/pulls).
+
+#### Building
+To build the project locally on your computer:
+
+1. __Clone this repo__<br>
+`git clone https://github.com/bigstickcarpet/readdir-enhanced.git`
+
+2. __Install dependencies__<br>
+`npm install`
+
+3. __Run the tests__<br>
+`npm test`
+
+
+
+License
+--------------------------
+`readdir-enhanced` is 100% free and open-source, under the [MIT license](LICENSE). Use it however you want.
+
