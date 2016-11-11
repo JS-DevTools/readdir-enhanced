@@ -187,7 +187,7 @@ readdir('my/directory', {sep: '\\', deep: true}, function(err, files) {
 <a id="stats"></a>
 Get `fs.Stats` objects instead of strings
 ------------------------
-All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  So, `readdir-enhanced` provides alternative versions of each function, which return an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of strings.  The `fs.Stats` object contains all sorts of useful information, such the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
+All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  So, `readdir-enhanced` provides alternative versions of each function, which return an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of strings.  The `fs.Stats` object contains all sorts of useful information, such as the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
 
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
 
