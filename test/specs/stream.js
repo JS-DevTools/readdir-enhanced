@@ -6,6 +6,8 @@ var expect = require('chai').expect;
 var through2 = require('through2');
 var fs = require('fs');
 
+var isNode10 = process.version.substr(0, 5) === 'v0.10';
+
 describe('Stream API', function () {
   it('should be able to pipe to other streams as a Buffer', function (done) {
     var allData = [];
@@ -105,16 +107,22 @@ describe('Stream API', function () {
       .on('data', function (data) {
         allData.push(data);
 
-        // The stream should not be paused
-        expect(stream.isPaused()).to.be.false;
+        // stream.isPaused() doesn't exist in Node v0.10
+        if (!isNode10) {
+          // The stream should not be paused
+          expect(stream.isPaused()).to.be.false;
+        }
 
         if (allData.length === 3) {
           // Pause for one second
           stream.pause();
           setTimeout(function () {
             try {
-              // The stream should still be paused
-              expect(stream.isPaused()).to.be.true;
+              // stream.isPaused() doesn't exist in Node v0.10
+              if (!isNode10) {
+                // The stream should still be paused
+                expect(stream.isPaused()).to.be.true;
+              }
 
               // The array should still only contain 3 items
               expect(allData).to.have.lengthOf(3);
@@ -155,8 +163,14 @@ describe('Stream API', function () {
         }
       })
       .on('end', function () {
-        // stream.read() should only return null once
-        expect(nullCount).to.equal(1);
+        if (isNode10) {
+          // In Node v0.10, stream.read() always returns data
+          expect(nullCount).to.equal(0);
+        }
+        else {
+          // stream.read() should only return null once
+          expect(nullCount).to.equal(1);
+        }
 
         expect(allData).to.have.same.members(dir.shallow.data);
         done();
@@ -168,8 +182,12 @@ describe('Stream API', function () {
     var allFiles = [];
     var allSubdirs = [];
 
-    readdir.stream('test/dir')
-      .resume()           // <--- Calling "resume" is required, since we're not handling the "data" event
+    var stream = readdir.stream('test/dir');
+
+    // Calling "resume" is required, since we're not handling the "data" event
+    stream.resume();
+
+    stream
       .on('file', function (filename) {
         expect(filename).to.be.a('string').and.not.empty;
         allFiles.push(filename);
