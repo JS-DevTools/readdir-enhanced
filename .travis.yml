@@ -7,24 +7,20 @@ sudo: false
 language: node_js
 matrix:
   include:
-    # Old versions of Node.js require old versions of ESLint.
-    # NOTE: Node.js 0.x is supported because chai-fs supports it
+    # ESLint no longer supports Node.js 0.x, so skip the lint script.
+    # NOTE: readdir-enhanced supports Node.js 0.x because chai-fs supports it.
     - node_js: 0.10
-      env: ESLINT_VER=2
+      env: SKIP_LINT=true
     - node_js: 0.12
-      env: ESLINT_VER=2
+      env: SKIP_LINT=true
 
     - node_js: 4
     - node_js: 5
     - node_js: 6
     - node_js: 7
 
-before_script:
-  # Install the version of ESLint that is compatible with this version of Node
-  - 'if [ "$ESLINT_VER" != "" ]; then npm install eslint@$ESLINT_VER; fi'
-
 script:
-  - npm run lint
+  - 'if [ "$SKIP_LINT" = "" ]; then npm run lint; fi'
   - npm run cover
 
 after_success:
