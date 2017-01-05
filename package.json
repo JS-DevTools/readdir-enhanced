@@ -37,16 +37,16 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "codacy-coverage": "^2.0.0",
-    "coveralls": "^2.11.14",
+    "coveralls": "^2.11.15",
     "del": "^2.2.2",
-    "eslint": "^3.9.0",
-    "eslint-config-modular": "^1.0.1",
+    "eslint": "^3.12.2",
+    "eslint-config-modular": "^2.0.1",
     "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.1.2",
+    "mocha": "^3.2.0",
     "npm-check": "^5.4.0",
-    "through2": "^2.0.1",
-    "version-bump-prompt": "^1.7.2"
+    "through2": "^2.0.3",
+    "version-bump-prompt": "^3.0.1"
   },
   "dependencies": {
     "call-me-maybe": "^1.0.1",
