@@ -2,7 +2,8 @@ Enhanced `fs.readdir()`
 =======================
 
 [![Build Status](https://api.travis-ci.org/BigstickCarpet/readdir-enhanced.svg?branch=master)](https://travis-ci.org/BigstickCarpet/readdir-enhanced)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/2a56yy1fmt7w77bm/branch/master?svg=true&failingText=Windows%20build%20failing&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/BigstickCarpet/readdir-enhanced/branch/master)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/bigstickcarpet/readdir-enhanced?svg=true&failingText=Windows%20build%20failing&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/BigstickCarpet/readdir-enhanced/branch/master)
+
 [![Dependencies](https://david-dm.org/BigstickCarpet/readdir-enhanced.svg)](https://david-dm.org/BigstickCarpet/readdir-enhanced)
 [![Coverage Status](https://coveralls.io/repos/github/BigstickCarpet/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/BigstickCarpet/readdir-enhanced?branch=master)
 [![Codacy Score](https://api.codacy.com/project/badge/Grade/178a817b6c864de7813fef457c0ed5ae)](https://www.codacy.com/public/jamesmessinger/readdir-enhanced)
