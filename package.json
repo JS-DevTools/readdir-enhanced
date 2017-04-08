@@ -16,8 +16,12 @@
     "name": "James Messinger",
     "url": "http://jamesmessinger.com"
   },
-  "license": "MIT",
   "homepage": "https://github.com/bigstickcarpet/readdir-enhanced",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigstickcarpet/readdir-enhanced.git"
+  },
+  "license": "MIT",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -29,10 +33,6 @@
     "upgrade": "npm-check -u",
     "bump": "bump --prompt --tag --push --all",
     "release": "npm run upgrade && npm test && npm run bump && npm publish"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bigstickcarpet/readdir-enhanced.git"
   },
   "devDependencies": {
     "chai": "^3.5.0",
