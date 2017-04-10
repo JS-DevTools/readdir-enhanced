@@ -27,17 +27,17 @@ describe('fs.Stats', function () {
       var data = [], files = [], dirs = [], symlinks = [];
       var stream = readdir.stream.stat('test/dir');
       stream.on('error', done);
-      stream.on('data', function (datum) {
-        data.push(datum);
+      stream.on('data', function (dataInfo) {
+        data.push(dataInfo);
       });
-      stream.on('file', function (file) {
-        files.push(file);
+      stream.on('file', function (fileInfo) {
+        files.push(fileInfo);
       });
-      stream.on('directory', function (dir) {
-        dirs.push(dir);
+      stream.on('directory', function (dirInfo) {
+        dirs.push(dirInfo);
       });
-      stream.on('symlink', function (symlink) {
-        symlinks.push(symlink);
+      stream.on('symlink', function (symlinkInfo) {
+        symlinks.push(symlinkInfo);
       });
       stream.on('end', function () {
         assertStats(data, dir.shallow.data, errorHandler);
