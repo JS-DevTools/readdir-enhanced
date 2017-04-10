@@ -3,6 +3,13 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v1.5.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v1.5.0) (2017-04-10)
+
+The [`deep` option](README.md#deep) can now be set to a function, which allows you to customize which subdirectories get crawled.  The function accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the directory should be crawled.  Of course, you can also still still set the `deep` option to a boolean to enable/disable recursion, or a number if you just want to limit the recursion depth.
+
+[Full Changelog](https://github.com/BigstickCarpet/readdir-enhanced/compare/v1.4.0...v1.5.0)
+
+
 ## [v1.4.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v1.4.0) (2016-08-26)
 
 The [`filter` option](README.md#filter) can now be set to a regular expression or a glob pattern string, which simplifies filtering based on file names. Of course, you can still set the `filter` option to a function if you need to perform more advanced filtering based on the [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) of each file.
