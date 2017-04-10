@@ -92,6 +92,30 @@ readdir('my/directory', {deep: true}, function(err, files) {
 ```
 
 
+#### Advanced Recursion
+For more advanced recursion, you can specify a function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the directory should be crawled. The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+
+```javascript
+var readdir = require('readdir-enhanced');
+
+// Crawl all subdirectories, except "node_modules"
+function ignoreNodeModules (stats) {
+  return stats.path.indexOf('node_modules') === -1;
+}
+
+readdir('my/directory', {deep: ignoreNodeModules}, function(err, files) {
+  console.log(files);
+  // => package.json
+  // => lib
+  // => lib/index.js
+  // => node_modules
+  // ...
+});
+```
+
+> **NOTE:** In the example above, the "node_modules" directory is _not_ crawled, but the directory itself _is_ still included in the results.  You could also omit the "node_modules" directory from the results by using the [`filter` option](#filter).
+
+
 <a id="filter"></a>
 ### Filtering - `options.filter`
 The `filter` option lets limit the results based on any criteria you want.
@@ -116,21 +140,21 @@ readdir('my/directory', {filter: /\d+/});
 
 
 #### Advanced filtering
-For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and should return a truthy value if the item should be included in the results. The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the filter function has an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
+For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the item should be included in the results. The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the filter function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 ```javascript
 var readdir = require('readdir-enhanced');
 
-// Only return subdirectories containing an underscore
+// Only return file names containing an underscore
 function myFilter(stats) {
-  return stats.isDirectory() && stats.path.indexOf('_') >= 0;
+  return stats.isFile() && stats.path.indexOf('_') >= 0;
 }
 
-readdir('my/directory', {filter: myFilter}, function(err, subdirs) {
-  console.log(subdirs);
-  // => _tmp
-  // => bower_components
-  // => node_modules
+readdir('my/directory', {filter: myFilter}, function(err, files) {
+  console.log(files);
+  // => __myFile.txt
+  // => my_other_file.txt
+  // => imgq_1.jpg
   // ...
 });
 ```
