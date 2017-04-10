@@ -96,5 +96,67 @@ describe('options.deep', function () {
         expect(symlinks).to.have.same.members(dir.deep.symlinks);
       },
     },
+    {
+      it: 'should use custom `deep` criteria',
+      args: ['test/dir', {
+        deep: function (stats) {
+          return stats.path !== 'subdir';
+        },
+      }],
+      assert: function (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(this.filterOutSubDir(dir.deep.data));
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(this.filterOutSubDir(dir.deep.data));
+        expect(files).to.have.same.members(this.filterOutSubDir(dir.deep.files));
+        expect(dirs).to.have.same.members(this.filterOutSubDir(dir.deep.dirs));
+        expect(symlinks).to.have.same.members(this.filterOutSubDir(dir.deep.symlinks));
+      },
+      filterOutSubDir: function (paths) {
+        return paths.filter(function (p) {
+          return p.substr(0, 7) !== 'subdir/';
+        });
+      }
+    },
+    {
+      it: 'should return all deep contents if custom `deep` criteria always returns true',
+      args: ['test/dir', {
+        deep: function () {
+          return true;
+        },
+      }],
+      assert: function (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.deep.data);
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.deep.data);
+        expect(files).to.have.same.members(dir.deep.files);
+        expect(dirs).to.have.same.members(dir.deep.dirs);
+        expect(symlinks).to.have.same.members(dir.deep.symlinks);
+      },
+    },
+    {
+      it: 'should return shallow contents if custom `deep` criteria always returns false',
+      args: ['test/dir', {
+        deep: function () {
+          return false;
+        },
+      }],
+      assert: function (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.shallow.data);
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(dir.shallow.data);
+        expect(files).to.have.same.members(dir.shallow.files);
+        expect(dirs).to.have.same.members(dir.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.shallow.symlinks);
+      },
+    },
   ]);
 });

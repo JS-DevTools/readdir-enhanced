@@ -58,7 +58,7 @@ describe('error handling', function () {
       args: ['test/dir', { deep: 'very deep' }],
       assert: function (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.deep must be a boolean or number');
+        expect(error.message).to.equal('options.deep must be a boolean, number, or function');
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
