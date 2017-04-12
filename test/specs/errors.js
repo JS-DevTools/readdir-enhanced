@@ -55,10 +55,10 @@ describe('error handling', function () {
     },
     {
       it: 'should throw an error if options.deep is invalid',
-      args: ['test/dir', { deep: 'very deep' }],
+      args: ['test/dir', { deep: { foo: 'bar' }}],
       assert: function (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.deep must be a boolean, number, or function');
+        expect(error.message).to.equal('options.deep must be a boolean, number, function, regular expression, or glob pattern');
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {

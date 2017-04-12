@@ -3,6 +3,7 @@
 var forEachApi = require('../fixtures/for-each-api');
 var dir = require('../fixtures/dir');
 var expect = require('chai').expect;
+var path = require('path');
 
 describe('options.deep', function () {
   forEachApi([
@@ -97,7 +98,57 @@ describe('options.deep', function () {
       },
     },
     {
-      it: 'should not crawl the "subdir" directory',
+      it: 'should recurse based on a regular expression',
+      args: ['test/dir', {
+        deep: /^((?!\-symlink).)*$/,
+      }],
+      assert: function (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
+        expect(files).to.have.same.members(this.omitSymlinkDirs(dir.deep.files));
+        expect(dirs).to.have.same.members(this.omitSymlinkDirs(dir.deep.dirs));
+        expect(symlinks).to.have.same.members(this.omitSymlinkDirs(dir.deep.symlinks));
+      },
+
+      // Omits the contents of the "-symlink" directories
+      omitSymlinkDirs: function (paths) {
+        return paths.filter(function (p) {
+          return p.indexOf('-symlink' + path.sep) === -1;
+        });
+      }
+    },
+    {
+      it: 'should recurse based on a glob pattern',
+      args: ['test/dir', {
+        deep: 'subdir',
+      }],
+      assert: function (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(this.shallowPlusSubdir('data'));
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(0);
+        expect(data).to.have.same.members(this.shallowPlusSubdir('data'));
+        expect(files).to.have.same.members(this.shallowPlusSubdir('files'));
+        expect(dirs).to.have.same.members(this.shallowPlusSubdir('dirs'));
+        expect(symlinks).to.have.same.members(this.shallowPlusSubdir('symlinks'));
+      },
+
+      // Returns the shallow contents of the root directory and the "subdir" directory
+      shallowPlusSubdir (type) {
+        return dir.shallow[type].concat(
+          dir.subdir.shallow[type].map(function (file) {
+            return path.join('subdir', file);
+          })
+        );
+      }
+    },
+    {
+      it: 'should recurse based on a custom function',
       args: ['test/dir', {
         deep: function (stats) {
           return stats.path !== 'subdir';
@@ -105,23 +156,25 @@ describe('options.deep', function () {
       }],
       assert: function (error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(this.filterOutSubDir(dir.deep.data));
+        expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
         expect(errors.length).to.equal(0);
-        expect(data).to.have.same.members(this.filterOutSubDir(dir.deep.data));
-        expect(files).to.have.same.members(this.filterOutSubDir(dir.deep.files));
-        expect(dirs).to.have.same.members(this.filterOutSubDir(dir.deep.dirs));
-        expect(symlinks).to.have.same.members(this.filterOutSubDir(dir.deep.symlinks));
+        expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
+        expect(files).to.have.same.members(this.omitSubdir(dir.deep.files));
+        expect(dirs).to.have.same.members(this.omitSubdir(dir.deep.dirs));
+        expect(symlinks).to.have.same.members(this.omitSubdir(dir.deep.symlinks));
       },
-      filterOutSubDir: function (paths) {
+
+      // Omits the contents of the "subdir" directory
+      omitSubdir: function (paths) {
         return paths.filter(function (p) {
-          return p.substr(0, 7) !== 'subdir/';
+          return p.substr(0, 7) !== 'subdir' + path.sep;
         });
       }
     },
     {
-      it: 'should return all deep contents if custom deep criteria always returns true',
+      it: 'should return all deep contents if custom deep function always returns true',
       args: ['test/dir', {
         deep: function () {
           return true;
@@ -140,7 +193,7 @@ describe('options.deep', function () {
       },
     },
     {
-      it: 'should return shallow contents if custom deep criteria always returns false',
+      it: 'should return shallow contents if custom deep function always returns false',
       args: ['test/dir', {
         deep: function () {
           return false;
