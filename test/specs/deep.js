@@ -97,7 +97,7 @@ describe('options.deep', function () {
       },
     },
     {
-      it: 'should use custom `deep` criteria',
+      it: 'should not crawl the "subdir" directory',
       args: ['test/dir', {
         deep: function (stats) {
           return stats.path !== 'subdir';
@@ -121,7 +121,7 @@ describe('options.deep', function () {
       }
     },
     {
-      it: 'should return all deep contents if custom `deep` criteria always returns true',
+      it: 'should return all deep contents if custom deep criteria always returns true',
       args: ['test/dir', {
         deep: function () {
           return true;
@@ -140,7 +140,7 @@ describe('options.deep', function () {
       },
     },
     {
-      it: 'should return shallow contents if custom `deep` criteria always returns false',
+      it: 'should return shallow contents if custom deep criteria always returns false',
       args: ['test/dir', {
         deep: function () {
           return false;
@@ -156,6 +156,42 @@ describe('options.deep', function () {
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
         expect(symlinks).to.have.same.members(dir.shallow.symlinks);
+      },
+    },
+    {
+      it: 'should handle errors that occur in the deep function',
+      args: ['test/dir', {
+        deep: function (stats) {
+          if (stats.isSymbolicLink()) {
+            throw new Error('Boooooom!');
+          }
+          return false;
+        }
+      }],
+      assert: function (error, data) {
+        // The sync & async APIs abort after the first error and don't return any data
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('Boooooom!');
+        expect(data).to.be.undefined;
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        // The streaming API emits errors and data separately
+        expect(errors.length).to.equal(2);
+        expect(data).to.have.same.members([
+          '.dotdir', 'empty', 'subdir', '.dotfile', 'empty.txt', 'file.txt', 'file.json',
+          'broken-dir-symlink', 'broken-symlink.txt', 'file-symlink.txt', 'subdir-symlink',
+          'subsubdir-symlink'
+        ]);
+        expect(files).to.have.same.members([
+          '.dotfile', 'empty.txt', 'file.txt', 'file.json', 'file-symlink.txt'
+        ]);
+        expect(dirs).to.have.same.members([
+          '.dotdir', 'empty', 'subdir', 'subdir-symlink', 'subsubdir-symlink'
+        ]);
+        expect(symlinks).to.have.same.members([
+          'broken-dir-symlink', 'broken-symlink.txt', 'file-symlink.txt', 'subdir-symlink',
+          'subsubdir-symlink'
+        ]);
       },
     },
   ]);
