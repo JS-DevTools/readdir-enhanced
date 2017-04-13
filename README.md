@@ -71,7 +71,7 @@ Enhanced Features
 
 
 <a id="deep"></a>
-### Recursion - `options.deep`
+### Recursion
 By default, `readdir-enhanced` will only return the top-level contents of the starting directory. But you can set the `deep` option to recursively traverse the subdirectories and return their contents as well.
 
 #### Crawl ALL subdirectories
@@ -155,7 +155,7 @@ readdir('my/directory', {deep: ignoreNodeModules}, function(err, files) {
 
 
 <a id="filter"></a>
-### Filtering - `options.filter`
+### Filtering
 The `filter` option lets you limit the results based on any criteria you want.
 
 #### Filter by name
@@ -200,7 +200,7 @@ readdir('my/directory', {filter: myFilter}, function(err, files) {
 
 
 <a id="basepath"></a>
-### Base Path - `options.basePath`
+### Base Path
 By default all `readdir-enhanced` functions return paths that are relative to the starting directory. But you can use the `basePath` option to customize this.  The `basePath` will be prepended to all of the returned paths.  One common use-case for this is to set `basePath` to the absolute path of the starting directory, so that all of the returned paths will be absolute.
 
 ```javascript
@@ -227,7 +227,7 @@ readdir('my/directory', {basePath: 'my/directory'}, function(err, files) {
 
 
 <a id="sep"></a>
-### Path Separator - `options.sep`
+### Path Separator
 By default, `readdir-enhanced` uses the correct path separator for your OS (`\` on Windows, `/` on Linux & MacOS). But you can set the `sep` option to any separator character(s) that you want to use instead.  This is usually used to ensure consistent path separators across different OSes.
 
 ```javascript
