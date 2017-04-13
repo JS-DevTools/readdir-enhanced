@@ -139,7 +139,7 @@ describe('options.deep', function () {
       },
 
       // Returns the shallow contents of the root directory and the "subdir" directory
-      shallowPlusSubdir (type) {
+      shallowPlusSubdir: function (type) {
         return dir.shallow[type].concat(
           dir.subdir.shallow[type].map(function (file) {
             return path.join('subdir', file);
