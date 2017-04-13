@@ -25,11 +25,11 @@ Blocks the thread until all directory contents are read, and then returns all th
 
 - **Async API**<br>
 aliases: `readdir`, `readdir.async`, `readdir.readdirAsync`<br>
-Reads the directory contents asynchronously and buffers all the results until all contents have been read. Supports callback or Promise syntax (see example below).
+Reads the starting directory contents asynchronously and buffers all the results until all contents have been read. Supports callback or Promise syntax (see example below).
 
 - **Streaming API**<br>
 aliases: `readdir.stream`, `readdir.readdirStream`<br>
-The streaming API reads the directory asynchronously and returns the results in real-time as they are read. The results can be [piped](https://nodejs.org/api/stream.html#stream_readable_pipe_destination_options) to other Node.js streams, or you can listen for specific events via the [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter) interface. (see example below)
+The streaming API reads the starting directory asynchronously and returns the results in real-time as they are read. The results can be [piped](https://nodejs.org/api/stream.html#stream_readable_pipe_destination_options) to other Node.js streams, or you can listen for specific events via the [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter) interface. (see example below)
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -72,9 +72,11 @@ Enhanced Features
 
 <a id="deep"></a>
 ### Recursion - `options.deep`
-By default, `readdir-enhanced` will only return the top-level contents of the directory. But you can enable the `deep` option to recursively traverse the subdirectories and return their contents as well.
+By default, `readdir-enhanced` will only return the top-level contents of the starting directory. But you can set the `deep` option to recursively traverse the subdirectories and return their contents as well.
 
-The `deep` option can be set to `true` to traverse the entire directory structure, or it can be set to a number to only traverse that many levels deep.  For example, calling `readdir('my/directory', {deep: 2})` will return `subdir1/file.txt` and `subdir1/subdir2/file.txt`, but it _won't_ return `subdir1/subdir2/subdir3/file.txt`.
+#### Crawl ALL subdirectories
+
+The `deep` option can be set to `true` to traverse the entire directory structure.
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -87,13 +89,50 @@ readdir('my/directory', {deep: true}, function(err, files) {
   // => subdir1/subdir2/file.txt
   // => subdir1/subdir2/subdir3
   // => subdir1/subdir2/subdir3/file.txt
-  // ...
 });
 ```
 
+#### Crawl to a specific depth
+The `deep` option can be set to a number to only traverse that many levels deep.  For example, calling `readdir('my/directory', {deep: 2})` will return `subdir1/file.txt` and `subdir1/subdir2/file.txt`, but it _won't_ return `subdir1/subdir2/subdir3/file.txt`.
 
-#### Advanced Recursion
-For more advanced recursion, you can specify a function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the directory should be crawled. The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+```javascript
+var readdir = require('readdir-enhanced');
+
+readdir('my/directory', {deep: 2}, function(err, files) {
+  console.log(files);
+  // => subdir1
+  // => subdir1/file.txt
+  // => subdir1/subdir2
+  // => subdir1/subdir2/file.txt
+  // => subdir1/subdir2/subdir3
+});
+```
+
+#### Crawl subdirectories by name
+For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to crawl only the directories whose path matches the pattern.  The path is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+
+> **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
+
+```javascript
+var readdir = require('readdir-enhanced');
+
+// Only crawl the "lib" and "bin" subdirectories
+// (notice that the "node_modules" subdirectory does NOT get crawled)
+readdir('my/directory', {deep: /lib|bin/}, function(err, files) {
+  console.log(files);
+  // => bin
+  // => bin/cli.js
+  // => lib
+  // => lib/index.js
+  // => node_modules
+  // => package.json
+});
+```
+
+#### Custom recursion logic
+For more advanced recursion, you can set the `deep` option to a function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the starting directory should be crawled.
+
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -105,23 +144,22 @@ function ignoreNodeModules (stats) {
 
 readdir('my/directory', {deep: ignoreNodeModules}, function(err, files) {
   console.log(files);
-  // => package.json
+  // => bin
+  // => bin/cli.js
   // => lib
   // => lib/index.js
   // => node_modules
-  // ...
+  // => package.json
 });
 ```
-
-> **NOTE:** In the example above, the "node_modules" directory is _not_ crawled, but the directory itself _is_ still included in the results.  You could also omit the "node_modules" directory from the results by using the [`filter` option](#filter).
 
 
 <a id="filter"></a>
 ### Filtering - `options.filter`
 The `filter` option lets limit the results based on any criteria you want.
 
-#### Filter by path
-For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the directory, but you can customize this via [`options.basePath`](#basepath).
+#### Filter by name
+For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 > **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
 
@@ -138,9 +176,10 @@ readdir('my/directory', {filter: '**/package.json', deep: true});
 readdir('my/directory', {filter: /\d+/});
 ```
 
+#### Custom filtering logic
+For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the item should be included in the results.
 
-#### Advanced filtering
-For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the item should be included in the results. The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that is passed to the filter function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the filter function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -154,15 +193,15 @@ readdir('my/directory', {filter: myFilter}, function(err, files) {
   console.log(files);
   // => __myFile.txt
   // => my_other_file.txt
-  // => imgq_1.jpg
-  // ...
+  // => img_1.jpg
+  // => node_modules
 });
 ```
 
 
 <a id="basepath"></a>
 ### Base Path - `options.basePath`
-By default all `readdir-enhanced` functions return paths that are relative to the directory. But you can use the `basePath` option to customize this.  The `basePath` will be prepended to all of the returned paths.  One common use-case for this is to set `basePath` to the absolute path of the directory, so that all of the returned paths will be absolute.
+By default all `readdir-enhanced` functions return paths that are relative to the starting directory. But you can use the `basePath` option to customize this.  The `basePath` will be prepended to all of the returned paths.  One common use-case for this is to set `basePath` to the absolute path of the starting directory, so that all of the returned paths will be absolute.
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -175,7 +214,6 @@ readdir('my/directory', {basePath: absPath}, function(err, files) {
   // => /absolute/path/to/my/directory/file1.txt
   // => /absolute/path/to/my/directory/file2.txt
   // => /absolute/path/to/my/directory/subdir
-  // ...
 });
 
 // Get paths relative to the working directory
@@ -184,7 +222,6 @@ readdir('my/directory', {basePath: 'my/directory'}, function(err, files) {
   // => my/directory/file1.txt
   // => my/directory/file2.txt
   // => my/directory/subdir
-  // ...
 });
 ```
 
@@ -205,7 +242,6 @@ readdir('my/directory', {sep: '\\', deep: true}, function(err, files) {
   // => subdir1\subdir2\file.txt
   // => subdir1\subdir2\subdir3
   // => subdir1\subdir2\subdir3\file.txt
-  // ...
 });
 ```
 
@@ -214,7 +250,7 @@ Get `fs.Stats` objects instead of strings
 ------------------------
 All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  So, `readdir-enhanced` provides alternative versions of each function, which return an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of strings.  The `fs.Stats` object contains all sorts of useful information, such as the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
 
-> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have an additional `path` property. The `path` is relative to the directory by default, but you can customize this via [`options.basePath`](#basepath).
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 To get `fs.Stats` objects instead of strings, just call add the word "Stat" to the function name.  As with the normal functions, each one is aliased, so you can use whichever naming style you prefer.
 

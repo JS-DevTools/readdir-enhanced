@@ -5,7 +5,7 @@ All notable changes will be documented in this file.
 
 ## [v1.5.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v1.5.0) (2017-04-10)
 
-The [`deep` option](README.md#deep) can now be set to a function, which allows you to customize which subdirectories get crawled.  The function accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the directory should be crawled.  Of course, you can also still still set the `deep` option to a boolean to enable/disable recursion, or a number if you just want to limit the recursion depth.
+The [`deep` option](README.md#deep) can now be set to a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp), a [glob pattern](https://github.com/isaacs/node-glob#glob-primer), or a function, which allows you to customize which subdirectories get crawled.  Of course, you can also still still set the `deep` option to `true` to crawl _all_ subdirectories, or a number if you just want to limit the recursion depth.
 
 [Full Changelog](https://github.com/BigstickCarpet/readdir-enhanced/compare/v1.4.0...v1.5.0)
 
