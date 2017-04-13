@@ -156,7 +156,7 @@ readdir('my/directory', {deep: ignoreNodeModules}, function(err, files) {
 
 <a id="filter"></a>
 ### Filtering - `options.filter`
-The `filter` option lets limit the results based on any criteria you want.
+The `filter` option lets you limit the results based on any criteria you want.
 
 #### Filter by name
 For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
@@ -252,7 +252,7 @@ All of the `readdir-enhanced` functions listed above return an array of strings 
 
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
-To get `fs.Stats` objects instead of strings, just call add the word "Stat" to the function name.  As with the normal functions, each one is aliased, so you can use whichever naming style you prefer.
+To get `fs.Stats` objects instead of strings, just add the word "Stat" to the function name.  As with the normal functions, each one is aliased (e.g. `readdir.async.stat` is the same as `readdir.readdirAsyncStat`), so you can use whichever naming style you prefer.
 
 ```javascript
 var readdir = require('readdir-enhanced');
