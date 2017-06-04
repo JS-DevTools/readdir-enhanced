@@ -35,7 +35,7 @@
     "release": "npm run upgrade && npm test && npm run bump && npm publish"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.0.1",
     "codacy-coverage": "^2.0.1",
     "coveralls": "^2.13.0",
     "del": "^2.2.2",
