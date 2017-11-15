@@ -7,13 +7,6 @@ sudo: false
 language: node_js
 matrix:
   include:
-    # ESLint no longer supports Node.js 0.x, so skip the lint script.
-    # NOTE: readdir-enhanced supports Node.js 0.x because chai-fs supports it.
-    - node_js: 0.10
-      env: SKIP_LINT=true
-    - node_js: 0.12
-      env: SKIP_LINT=true
-
     - node_js: 4
     - node_js: 5
     - node_js: 6
@@ -21,7 +14,6 @@ matrix:
     - node_js: 8
 
 script:
-  - 'if [ "$SKIP_LINT" = "" ]; then npm run lint; fi'
   - npm run cover
 
 after_success:
