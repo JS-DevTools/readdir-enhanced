@@ -3,6 +3,13 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v2.0.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v2.0.0) (2017-11-15)
+
+- Dropped support for Node v0.x, which is no longer actively maintained.  Please upgrade to Node 4 or newer.
+
+[Full Changelog](https://github.com/BigstickCarpet/readdir-enhanced/compare/v1.5.0...v2.0.0)
+
+
 ## [v1.5.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v1.5.0) (2017-04-10)
 
 The [`deep` option](README.md#deep) can now be set to a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp), a [glob pattern](https://github.com/isaacs/node-glob#glob-primer), or a function, which allows you to customize which subdirectories get crawled.  Of course, you can also still still set the `deep` option to `true` to crawl _all_ subdirectories, or a number if you just want to limit the recursion depth.

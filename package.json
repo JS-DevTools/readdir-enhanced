@@ -1,6 +1,6 @@
 {
   "name": "readdir-enhanced",
-  "version": "1.5.2",
+  "version": "2.0.0",
   "description": "fs.readdir with sync, async, and streaming APIs + filtering, recursion, absolute paths, etc.",
   "keywords": [
     "fs",
