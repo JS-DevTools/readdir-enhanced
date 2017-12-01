@@ -132,7 +132,7 @@ readdir('my/directory', {deep: /lib|bin/}, function(err, files) {
 #### Custom recursion logic
 For more advanced recursion, you can set the `deep` option to a function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the starting directory should be crawled.
 
-> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the function has additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -179,7 +179,7 @@ readdir('my/directory', {filter: /\d+/});
 #### Custom filtering logic
 For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the item should be included in the results.
 
-> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the filter function has an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the filter function has additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
 
 ```javascript
 var readdir = require('readdir-enhanced');
@@ -250,7 +250,7 @@ Get `fs.Stats` objects instead of strings
 ------------------------
 All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  So, `readdir-enhanced` provides alternative versions of each function, which return an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of strings.  The `fs.Stats` object contains all sorts of useful information, such as the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
 
-> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have an additional `path` property. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
 
 To get `fs.Stats` objects instead of strings, just add the word "Stat" to the function name.  As with the normal functions, each one is aliased (e.g. `readdir.async.stat` is the same as `readdir.readdirAsyncStat`), so you can use whichever naming style you prefer.
 
