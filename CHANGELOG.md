@@ -3,6 +3,13 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v2.1.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v2.1.0) (2017-12-01)
+
+- The `fs.Stats` objects now include a `depth` property, which indicates the number of subdirectories beneath the base path.  Thanks to [@mrmlnc](https://github.com/mrmlnc) for [the PR](https://github.com/BigstickCarpet/readdir-enhanced/pull/8)!
+
+[Full Changelog](https://github.com/BigstickCarpet/readdir-enhanced/compare/v2.0.0...v2.1.0)
+
+
 ## [v2.0.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v2.0.0) (2017-11-15)
 
 - Dropped support for Node v0.x, which is no longer actively maintained.  Please upgrade to Node 4 or newer.
