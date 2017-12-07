@@ -280,6 +280,30 @@ readdir.readdirStreamStat('my/directory')
 
 ```
 
+<a id="facade"></a>
+### Custom FS methods
+By default, `readdir-enhanced` uses the default Node.js FileSystem methods, like `fs.stat`, `fs.readdir` and `fs.lstat`. But in some situations, you can want to use your own FS methods (FTP, SSH, remote drive and etc). So you can provide your own implementation of FS methods by `options.facade.async` (for asynchronous methods) and `options.facade.sync` (for aynchronous methods).
+
+> **NOTE:** Each method takes as input `path` and `callback`.
+
+```javascript
+var readdir = require('readdir-enhanced');
+
+function customReaddirMethod(dir, callback) {
+  callback(null, ['__myFile.txt']);
+}
+
+var options = {
+  facade: {
+    async: { readdir: customReaddirMethod }
+  }
+};
+
+readdir('my/directory', options, function(err, files) {
+  console.log(files);
+  // => __myFile.txt
+});
+```
 
 <a id="backward-compatible"></a>
 Backward Compatible
