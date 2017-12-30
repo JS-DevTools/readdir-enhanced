@@ -214,5 +214,21 @@ describe('error handling', function () {
         expect(symlinks.length).to.equal(0);
       },
     },
+    {
+      it: 'should throw an error if `options.fs` is invalid',
+      args: ['test/dir', { fs: 'Hello, World' }],
+      assert: function (error, data) {
+        expect(error).to.be.an.instanceOf(TypeError);
+        expect(error.message).to.equal('options.fs must be an object');
+        expect(data).to.be.undefined;
+      },
+      streamAssert: function (errors, data, files, dirs, symlinks) {
+        expect(errors.length).to.equal(1);
+        expect(data.length).to.equal(0);
+        expect(files.length).to.equal(0);
+        expect(dirs.length).to.equal(0);
+        expect(symlinks.length).to.equal(0);
+      },
+    },
   ]);
 });
