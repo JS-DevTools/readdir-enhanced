@@ -1,6 +1,6 @@
 'use strict';
 
-let path = require('path');
+const path = require('path');
 let isWindows = /^win/.test(process.platform);
 
 // This fake basePath is used to make sure Windows paths are handled properly.
@@ -498,10 +498,10 @@ if (path.sep !== '/') {
 }
 
 function changePathSeparators (obj) {
-  Object.keys(obj).forEach(function (key) {
+  Object.keys(obj).forEach(key => {
     let value = obj[key];
     if (Array.isArray(value)) {
-      obj[key] = value.map(function (p) {
+      obj[key] = value.map(p => {
         return p.replace(/\//g, path.sep);
       });
     }

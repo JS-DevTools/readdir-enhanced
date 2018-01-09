@@ -1,6 +1,6 @@
 'use strict';
 
-let readdir = require('../../');
+const readdir = require('../../');
 
 module.exports = forEachApi;
 
@@ -8,9 +8,9 @@ module.exports = forEachApi;
  * Runs an array of tests tests against each of the readdir-enhanced APIs
  */
 function forEachApi (tests) {
-  describe('Synchronous API', function () {
-    tests.forEach(function (test) {
-      testApi(test, 'sync', function (done) {
+  describe('Synchronous API', () => {
+    tests.forEach(test => {
+      testApi(test, 'sync', done => {
         try {
           let data = readdir.sync.apply(null, test.args);
           done(null, data);
@@ -22,15 +22,15 @@ function forEachApi (tests) {
     });
   });
 
-  describe('Asynchronous API (callback/Promise)', function () {
-    tests.forEach(function (test) {
-      testApi(test, 'async', function (done) {
+  describe('Asynchronous API (callback/Promise)', () => {
+    tests.forEach(test => {
+      testApi(test, 'async', done => {
         readdir.async.apply(null, test.args)
           .then(
-            function (data) {
+            data => {
               done(null, data);
             },
-            function (error) {
+            error => {
               done(error);
             }
           );
@@ -38,9 +38,9 @@ function forEachApi (tests) {
     });
   });
 
-  describe('Asynchronous API (Stream/EventEmitter)', function () {
-    tests.forEach(function (test) {
-      testApi(test, 'stream', function (done) {
+  describe('Asynchronous API (Stream/EventEmitter)', () => {
+    tests.forEach(test => {
+      testApi(test, 'stream', done => {
         let stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
 
         try {
@@ -50,22 +50,22 @@ function forEachApi (tests) {
           return done([error], data, files, dirs, symlinks);
         }
 
-        stream.on('error', function (error) {
+        stream.on('error', error => {
           errors.push(error);
         });
-        stream.on('file', function (file) {
+        stream.on('file', file => {
           files.push(file);
         });
-        stream.on('directory', function (dir) {
+        stream.on('directory', dir => {
           dirs.push(dir);
         });
-        stream.on('symlink', function (symlink) {
+        stream.on('symlink', symlink => {
           symlinks.push(symlink);
         });
-        stream.on('data', function (datum) {
+        stream.on('data', datum => {
           data.push(datum);
         });
-        stream.on('end', function () {
+        stream.on('end', () => {
           done(errors, data, files, dirs, symlinks);
         });
       });
@@ -96,7 +96,7 @@ function testApi (test, apiName, api) {
 
   function runTest (done) {
     // Call the readdir-enhanced API and get the results
-    api(function (errors, data, files, dirs, symlinks) {
+    api((errors, data, files, dirs, symlinks) => {
       try {
         data && data.sort();
         files && files.sort();

@@ -1,11 +1,11 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let dir = require('../fixtures/dir');
-let expect = require('chai').expect;
-let path = require('path');
+const forEachApi = require('../fixtures/for-each-api');
+const dir = require('../fixtures/dir');
+const expect = require('chai').expect;
+const path = require('path');
 
-describe('options.deep', function () {
+describe('options.deep', () => {
   forEachApi([
     {
       it: 'should return all deep contents',
@@ -116,7 +116,7 @@ describe('options.deep', function () {
 
       // Omits the contents of the "-symlink" directories
       omitSymlinkDirs (paths) {
-        return paths.filter(function (p) {
+        return paths.filter(p => {
           return p.indexOf('-symlink' + path.sep) === -1;
         });
       }
@@ -141,7 +141,7 @@ describe('options.deep', function () {
       // Returns the shallow contents of the root directory and the "subdir" directory
       shallowPlusSubdir (type) {
         return dir.shallow[type].concat(
-          dir.subdir.shallow[type].map(function (file) {
+          dir.subdir.shallow[type].map(file => {
             return path.join('subdir', file);
           })
         );
@@ -168,7 +168,7 @@ describe('options.deep', function () {
 
       // Omits the contents of the "subdir" directory
       omitSubdir (paths) {
-        return paths.filter(function (p) {
+        return paths.filter(p => {
           return p.substr(0, 7) !== 'subdir' + path.sep;
         });
       }
@@ -194,7 +194,7 @@ describe('options.deep', function () {
 
       // Omits the contents of the "subdir" directory
       omitSubdir (paths) {
-        return paths.filter(function (p) {
+        return paths.filter(p => {
           return p.split(path.sep).length <= 2;
         });
       }

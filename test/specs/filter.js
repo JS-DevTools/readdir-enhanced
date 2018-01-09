@@ -1,10 +1,10 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let dir = require('../fixtures/dir');
-let expect = require('chai').expect;
+const forEachApi = require('../fixtures/for-each-api');
+const dir = require('../fixtures/dir');
+const expect = require('chai').expect;
 
-describe('options.filter', function () {
+describe('options.filter', () => {
   forEachApi([
     {
       it: 'should return filtered top-level contents',

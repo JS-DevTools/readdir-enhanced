@@ -1,11 +1,11 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let dir = require('../fixtures/dir');
-let expect = require('chai').expect;
-let path = require('path');
+const forEachApi = require('../fixtures/for-each-api');
+const dir = require('../fixtures/dir');
+const expect = require('chai').expect;
+const path = require('path');
 
-describe('options.sep', function () {
+describe('options.sep', () => {
   forEachApi([
     {
       it: 'should have no effect if `options.deep` is not set',
@@ -86,7 +86,7 @@ describe('options.sep', function () {
 
   function assertPathsMatch (actual, expected, sep) {
     let regExp = new RegExp('\\' + path.sep, 'g');
-    let expectedPaths = expected.map(function (expectedPath) {
+    let expectedPaths = expected.map(expectedPath => {
       return expectedPath.replace(regExp, sep);
     });
     expect(actual).to.have.same.members(expectedPaths);

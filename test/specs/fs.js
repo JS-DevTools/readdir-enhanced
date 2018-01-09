@@ -1,12 +1,12 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let dir = require('../fixtures/dir');
-let path = require('path');
-let fs = require('fs');
-let expect = require('chai').expect;
+const forEachApi = require('../fixtures/for-each-api');
+const dir = require('../fixtures/dir');
+const path = require('path');
+const fs = require('fs');
+const expect = require('chai').expect;
 
-describe('options.fs', function () {
+describe('options.fs', () => {
   forEachApi([
     {
       it: 'should have no effect if `options.fs` is null',
@@ -176,7 +176,7 @@ describe('options.fs', function () {
 
       // Omits the contents of the "subsubdir" directory
       omitSubdir (paths) {
-        return paths.filter(function (p) {
+        return paths.filter(p => {
           return p.substr(7, 10) !== 'subsubdir' + path.sep;
         });
       }
@@ -215,7 +215,7 @@ describe('options.fs', function () {
 
       // Omits the contents of the "subsubdir" directory
       omitSubdir (paths) {
-        return paths.filter(function (p) {
+        return paths.filter(p => {
           return p.substr(7, 10) !== 'subsubdir' + path.sep;
         });
       }

@@ -1,9 +1,9 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let expect = require('chai').expect;
+const forEachApi = require('../fixtures/for-each-api');
+const expect = require('chai').expect;
 
-describe('error handling', function () {
+describe('error handling', () => {
   forEachApi([
     {
       it: 'should throw an error if no arguments are passed',

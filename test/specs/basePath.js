@@ -1,13 +1,13 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let dir = require('../fixtures/dir');
-let expect = require('chai').expect;
-let path = require('path');
+const forEachApi = require('../fixtures/for-each-api');
+const dir = require('../fixtures/dir');
+const expect = require('chai').expect;
+const path = require('path');
 
 let testDirAbsPath = path.resolve('test/dir');
 
-describe('options.basePath', function () {
+describe('options.basePath', () => {
   forEachApi([
     {
       it: 'should return relative paths if basePath === "" (empty string)',
@@ -72,7 +72,7 @@ describe('options.basePath', function () {
   ]);
 
   function assertPathsMatch (actual, expected, basePath) {
-    let expectedAbsolutePaths = expected.map(function (relPath) {
+    let expectedAbsolutePaths = expected.map(relPath => {
       return basePath + path.sep + relPath;
     });
     expect(actual).to.have.same.members(expectedAbsolutePaths);

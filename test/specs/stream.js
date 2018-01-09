@@ -1,19 +1,19 @@
 'use strict';
 
-let readdir = require('../../');
-let dir = require('../fixtures/dir');
-let expect = require('chai').expect;
-let through2 = require('through2');
-let fs = require('fs');
+const readdir = require('../../');
+const dir = require('../fixtures/dir');
+const expect = require('chai').expect;
+const through2 = require('through2');
+const fs = require('fs');
 
 let isNode10 = process.version.substr(0, 5) === 'v0.10';
 
-describe('Stream API', function () {
-  it('should be able to pipe to other streams as a Buffer', function (done) {
+describe('Stream API', () => {
+  it('should be able to pipe to other streams as a Buffer', done => {
     let allData = [];
 
     readdir.stream('test/dir')
-      .pipe(through2(function (data, enc, next) {
+      .pipe(through2((data, enc, next) => {
         try {
           // By default, the data is streamed as a Buffer
           expect(data).to.be.an.instanceOf(Buffer);
@@ -27,7 +27,7 @@ describe('Stream API', function () {
           next(e);
         }
       }))
-      .on('finish', function () {
+      .on('finish', () => {
         try {
           expect(allData).to.have.same.members(dir.shallow.data);
           done();
@@ -36,16 +36,16 @@ describe('Stream API', function () {
           done(e);
         }
       })
-      .on('error', function (err) {
+      .on('error', err => {
         done(err);
       });
   });
 
-  it('should be able to pipe to other streams in "object mode"', function (done) {
+  it('should be able to pipe to other streams in "object mode"', done => {
     let allData = [];
 
     readdir.stream('test/dir')
-      .pipe(through2({ objectMode: true }, function (data, enc, next) {
+      .pipe(through2({ objectMode: true }, (data, enc, next) => {
         try {
           // In "object mode", the data is a string
           expect(data).to.be.a('string');
@@ -57,7 +57,7 @@ describe('Stream API', function () {
           next(e);
         }
       }))
-      .on('finish', function () {
+      .on('finish', () => {
         try {
           expect(allData).to.have.same.members(dir.shallow.data);
           done();
@@ -66,16 +66,16 @@ describe('Stream API', function () {
           done(e);
         }
       })
-      .on('error', function (err) {
+      .on('error', err => {
         done(err);
       });
   });
 
-  it('should be able to pipe fs.Stats to other streams in "object mode"', function (done) {
+  it('should be able to pipe fs.Stats to other streams in "object mode"', done => {
     let allData = [];
 
     readdir.stream.stat('test/dir')
-      .pipe(through2({ objectMode: true }, function (data, enc, next) {
+      .pipe(through2({ objectMode: true }, (data, enc, next) => {
         try {
           // The data is an fs.Stats object
           expect(data).to.be.an('object');
@@ -88,7 +88,7 @@ describe('Stream API', function () {
           next(e);
         }
       }))
-      .on('finish', function () {
+      .on('finish', () => {
         try {
           expect(allData).to.have.same.members(dir.shallow.data);
           done();
@@ -100,11 +100,11 @@ describe('Stream API', function () {
       .on('error', done);
   });
 
-  it('should be able to pause & resume the stream', function (done) {
+  it('should be able to pause & resume the stream', done => {
     let allData = [];
 
     let stream = readdir.stream('test/dir')
-      .on('data', function (data) {
+      .on('data', data => {
         allData.push(data);
 
         // stream.isPaused() doesn't exist in Node v0.10
@@ -116,7 +116,7 @@ describe('Stream API', function () {
         if (allData.length === 3) {
           // Pause for one second
           stream.pause();
-          setTimeout(function () {
+          setTimeout(() => {
             try {
               // stream.isPaused() doesn't exist in Node v0.10
               if (!isNode10) {
@@ -136,19 +136,19 @@ describe('Stream API', function () {
           }, 1000);
         }
       })
-      .on('end', function () {
+      .on('end', () => {
         expect(allData).to.have.same.members(dir.shallow.data);
         done();
       })
       .on('error', done);
   });
 
-  it('should be able to use "readable" and "read"', function (done) {
+  it('should be able to use "readable" and "read"', done => {
     let allData = [];
     let nullCount = 0;
 
     let stream = readdir.stream('test/dir')
-      .on('readable', function () {
+      .on('readable', () => {
         // Manually read the next chunk of data
         let data = stream.read();
 
@@ -162,7 +162,7 @@ describe('Stream API', function () {
           allData.push(data);
         }
       })
-      .on('end', function () {
+      .on('end', () => {
         if (isNode10) {
           // In Node v0.10, stream.read() always returns data
           expect(nullCount).to.equal(0);
@@ -178,7 +178,7 @@ describe('Stream API', function () {
       .on('error', done);
   });
 
-  it('should be able to subscribe to custom events instead of "data"', function (done) {
+  it('should be able to subscribe to custom events instead of "data"', done => {
     let allFiles = [];
     let allSubdirs = [];
 
@@ -188,15 +188,15 @@ describe('Stream API', function () {
     stream.resume();
 
     stream
-      .on('file', function (filename) {
+      .on('file', filename => {
         expect(filename).to.be.a('string').and.not.empty;
         allFiles.push(filename);
       })
-      .on('directory', function (subdir) {
+      .on('directory', subdir => {
         expect(subdir).to.be.a('string').and.not.empty;
         allSubdirs.push(subdir);
       })
-      .on('end', function () {
+      .on('end', () => {
         expect(allFiles).to.have.same.members(dir.shallow.files);
         expect(allSubdirs).to.have.same.members(dir.shallow.dirs);
         done();
@@ -204,19 +204,19 @@ describe('Stream API', function () {
       .on('error', done);
   });
 
-  it('should handle errors that occur in the "data" event listener', function (done) {
+  it('should handle errors that occur in the "data" event listener', done => {
     testErrorHandling('data', dir.shallow.data, 7, done);
   });
 
-  it('should handle errors that occur in the "file" event listener', function (done) {
+  it('should handle errors that occur in the "file" event listener', done => {
     testErrorHandling('file', dir.shallow.files, 3, done);
   });
 
-  it('should handle errors that occur in the "directory" event listener', function (done) {
+  it('should handle errors that occur in the "directory" event listener', done => {
     testErrorHandling('directory', dir.shallow.dirs, 2, done);
   });
 
-  it('should handle errors that occur in the "symlink" event listener', function (done) {
+  it('should handle errors that occur in the "symlink" event listener', done => {
     testErrorHandling('symlink', dir.shallow.symlinks, 5, done);
   });
 
@@ -225,11 +225,11 @@ describe('Stream API', function () {
     let stream = readdir.stream('test/dir');
 
     // Capture all errors
-    stream.on('error', function (error) {
+    stream.on('error', error => {
       errors.push(error);
     });
 
-    stream.on(eventName, function (path) {
+    stream.on(eventName, path => {
       data.push(path);
 
       if (path.indexOf('.txt') >= 0 || path.indexOf('dir-') >= 0) {
@@ -240,11 +240,11 @@ describe('Stream API', function () {
       }
     });
 
-    stream.on('end', function () {
+    stream.on('end', () => {
       try {
         // Make sure the correct number of errors were thrown
         expect(errors).to.have.lengthOf(expectedErrors);
-        errors.forEach(function (error) {
+        errors.forEach(error => {
           expect(error.message).to.equal('Epic Fail!!!');
         });
 

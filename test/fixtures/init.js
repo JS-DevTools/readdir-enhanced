@@ -1,11 +1,11 @@
 'use strict';
 
-let mkdirp = require('mkdirp');
-let del = require('del');
-let path = require('path');
-let fs = require('fs');
+const mkdirp = require('mkdirp');
+const del = require('del');
+const path = require('path');
+const fs = require('fs');
 
-before(function () {
+before(() => {
   console.log('Initializing test directory');
 
   // create some empty dirs (cannot check-in empty dirs to git)

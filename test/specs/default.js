@@ -1,12 +1,12 @@
 'use strict';
 
-let forEachApi = require('../fixtures/for-each-api');
-let dir = require('../fixtures/dir');
-let expect = require('chai').expect;
-let fs = require('fs');
-let path = require('path');
+const forEachApi = require('../fixtures/for-each-api');
+const dir = require('../fixtures/dir');
+const expect = require('chai').expect;
+const fs = require('fs');
+const path = require('path');
 
-describe('default behavior', function () {
+describe('default behavior', () => {
   forEachApi([
     {
       it: 'should return the same results as `fs.readdir`',
@@ -82,7 +82,7 @@ describe('default behavior', function () {
       args: ['test/dir'],
       assert (error, data) {
         expect(error).to.be.null;
-        data.forEach(function (item) {
+        data.forEach(item => {
           expect(item).not.to.contain('/');
           expect(item).not.to.contain('\\');
         });
