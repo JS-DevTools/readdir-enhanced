@@ -243,7 +243,7 @@ describe('Stream API', function () {
     stream.on('end', function () {
       try {
         // Make sure the correct number of errors were thrown
-        expect(errors.length).to.equal(expectedErrors);
+        expect(errors).to.have.lengthOf(expectedErrors);
         errors.forEach(function (error) {
           expect(error.message).to.equal('Epic Fail!!!');
         });

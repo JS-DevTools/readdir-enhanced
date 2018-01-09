@@ -15,7 +15,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.deep.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
         expect(dirs).to.have.same.members(dir.deep.dirs);
@@ -30,7 +30,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
@@ -45,7 +45,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
@@ -60,7 +60,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.deep.oneLevel.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.oneLevel.data);
         expect(files).to.have.same.members(dir.deep.oneLevel.files);
         expect(dirs).to.have.same.members(dir.deep.oneLevel.dirs);
@@ -75,7 +75,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.deep.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
         expect(dirs).to.have.same.members(dir.deep.dirs);
@@ -90,7 +90,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.deep.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
         expect(dirs).to.have.same.members(dir.deep.dirs);
@@ -107,7 +107,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
         expect(files).to.have.same.members(this.omitSymlinkDirs(dir.deep.files));
         expect(dirs).to.have.same.members(this.omitSymlinkDirs(dir.deep.dirs));
@@ -131,7 +131,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(this.shallowPlusSubdir('data'));
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.shallowPlusSubdir('data'));
         expect(files).to.have.same.members(this.shallowPlusSubdir('files'));
         expect(dirs).to.have.same.members(this.shallowPlusSubdir('dirs'));
@@ -159,7 +159,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
         expect(files).to.have.same.members(this.omitSubdir(dir.deep.files));
         expect(dirs).to.have.same.members(this.omitSubdir(dir.deep.dirs));
@@ -185,7 +185,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
         expect(files).to.have.same.members(this.omitSubdir(dir.deep.files));
         expect(dirs).to.have.same.members(this.omitSubdir(dir.deep.dirs));
@@ -211,7 +211,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.deep.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
         expect(dirs).to.have.same.members(dir.deep.dirs);
@@ -230,7 +230,7 @@ describe('options.deep', function () {
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
@@ -255,7 +255,7 @@ describe('options.deep', function () {
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
-        expect(errors.length).to.equal(2);
+        expect(errors).to.have.lengthOf(2);
         expect(data).to.have.same.members([
           '.dotdir', 'empty', 'subdir', '.dotfile', 'empty.txt', 'file.txt', 'file.json',
           'broken-dir-symlink', 'broken-symlink.txt', 'file-symlink.txt', 'subdir-symlink',

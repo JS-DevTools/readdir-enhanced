@@ -17,7 +17,7 @@ describe('options.basePath', function () {
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
@@ -32,7 +32,7 @@ describe('options.basePath', function () {
         assertPathsMatch(data, dir.shallow.data, '.');
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.shallow.data, '.');
         assertPathsMatch(files, dir.shallow.files, '.');
         assertPathsMatch(dirs, dir.shallow.dirs, '.');
@@ -47,7 +47,7 @@ describe('options.basePath', function () {
         assertPathsMatch(data, dir.shallow.data, testDirAbsPath);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.shallow.data, testDirAbsPath);
         assertPathsMatch(files, dir.shallow.files, testDirAbsPath);
         assertPathsMatch(dirs, dir.shallow.dirs, testDirAbsPath);
@@ -62,7 +62,7 @@ describe('options.basePath', function () {
         assertPathsMatch(data, dir.shallow.data, 'test/dir');
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.shallow.data, 'test/dir');
         assertPathsMatch(files, dir.shallow.files, 'test/dir');
         assertPathsMatch(dirs, dir.shallow.dirs, 'test/dir');

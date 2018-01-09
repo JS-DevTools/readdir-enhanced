@@ -15,7 +15,7 @@ describe('options.sep', function () {
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(dir.shallow.dirs);
@@ -30,7 +30,7 @@ describe('options.sep', function () {
         assertPathsMatch(data, dir.deep.data, '/');
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.deep.data, '/');
         assertPathsMatch(files, dir.deep.files, '/');
         assertPathsMatch(dirs, dir.deep.dirs, '/');
@@ -45,7 +45,7 @@ describe('options.sep', function () {
         assertPathsMatch(data, dir.deep.data, '\\');
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.deep.data, '\\');
         assertPathsMatch(files, dir.deep.files, '\\');
         assertPathsMatch(dirs, dir.deep.dirs, '\\');
@@ -60,7 +60,7 @@ describe('options.sep', function () {
         assertPathsMatch(data, dir.deep.data, '');
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.deep.data, '');
         assertPathsMatch(files, dir.deep.files, '');
         assertPathsMatch(dirs, dir.deep.dirs, '');
@@ -75,7 +75,7 @@ describe('options.sep', function () {
         assertPathsMatch(data, dir.deep.data, '-----');
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         assertPathsMatch(data, dir.deep.data, '-----');
         assertPathsMatch(files, dir.deep.files, '-----');
         assertPathsMatch(dirs, dir.deep.dirs, '-----');

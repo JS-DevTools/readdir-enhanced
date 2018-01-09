@@ -14,11 +14,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -30,11 +30,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -46,11 +46,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -62,11 +62,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -78,11 +78,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -94,11 +94,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -110,11 +110,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -127,11 +127,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -143,11 +143,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -159,11 +159,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -175,11 +175,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -191,11 +191,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -207,11 +207,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
@@ -223,11 +223,11 @@ describe('error handling', function () {
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(1);
-        expect(data.length).to.equal(0);
-        expect(files.length).to.equal(0);
-        expect(dirs.length).to.equal(0);
-        expect(symlinks.length).to.equal(0);
+        expect(errors).to.have.lengthOf(1);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
       },
     },
   ]);

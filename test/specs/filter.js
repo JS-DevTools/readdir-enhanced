@@ -18,7 +18,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(['empty', 'empty.txt']);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(['empty', 'empty.txt']);
         expect(files).to.have.same.members(['empty.txt']);
         expect(dirs).to.have.same.members(['empty']);
@@ -38,7 +38,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.empties.deep.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.empties.deep.data);
         expect(files).to.have.same.members(dir.empties.deep.files);
         expect(dirs).to.have.same.members(dir.empties.deep.dirs);
@@ -58,7 +58,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.deep.files);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.files);
         expect(files).to.have.same.members(dir.deep.files);
         expect(dirs).to.have.lengthOf(0);
@@ -78,7 +78,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.deep.dirs);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.dirs);
         expect(files).to.have.lengthOf(0);
         expect(dirs).to.have.same.members(dir.deep.dirs);
@@ -98,7 +98,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.deep.symlinks);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.symlinks);
         expect(files).to.have.same.members(dir.symlinks.deep.files);
         expect(dirs).to.have.same.members(dir.symlinks.deep.dirs);
@@ -115,7 +115,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.empties.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.empties.shallow.data);
         expect(files).to.have.same.members(dir.empties.shallow.files);
         expect(dirs).to.have.same.members(dir.empties.shallow.dirs);
@@ -134,7 +134,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
         expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.files);
         expect(dirs).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.dirs);
@@ -151,7 +151,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.empties.shallow.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.empties.shallow.data);
         expect(files).to.have.same.members(dir.empties.shallow.files);
         expect(dirs).to.have.same.members(dir.empties.shallow.dirs);
@@ -170,7 +170,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
         expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.files);
         expect(dirs).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.dirs);
@@ -190,7 +190,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
         expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.files);
         expect(dirs).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.dirs);
@@ -208,7 +208,7 @@ describe('options.filter', function () {
         expect(data).to.have.same.members(dir.txt.deep.data);
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
-        expect(errors.length).to.equal(0);
+        expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.txt.deep.data);
         expect(files).to.have.same.members(dir.txt.deep.files);
         expect(dirs).to.have.same.members(dir.txt.deep.dirs);
@@ -233,7 +233,7 @@ describe('options.filter', function () {
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
-        expect(errors.length).to.equal(5);
+        expect(errors).to.have.lengthOf(5);
         expect(data).to.have.same.members([
           '.dotdir', 'empty', 'subdir', '.dotfile', 'empty.txt', 'file.txt', 'file.json',
         ]);
