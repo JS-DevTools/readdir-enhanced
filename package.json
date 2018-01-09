@@ -39,11 +39,11 @@
     "codacy-coverage": "^2.0.3",
     "coveralls": "^3.0.0",
     "del": "^3.0.0",
-    "eslint": "^4.12.1",
+    "eslint": "^4.15.0",
     "eslint-config-modular": "^4.1.1",
     "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
-    "mocha": "^4.0.1",
+    "mocha": "^4.1.0",
     "npm-check": "^5.5.2",
     "through2": "^2.0.3",
     "version-bump-prompt": "^4.0.0"
