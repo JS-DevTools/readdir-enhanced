@@ -98,6 +98,11 @@ function testApi (test, apiName, api) {
     // Call the readdir-enhanced API and get the results
     api(function (errors, data, files, dirs, symlinks) {
       try {
+        data && data.sort();
+        files && files.sort();
+        dirs && dirs.sort();
+        symlinks && symlinks.sort();
+
         if (apiName === 'stream') {
           // Perform assertions that are specific to the streaming API
           if (test.streamAssert) {
