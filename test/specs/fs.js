@@ -149,7 +149,7 @@ describe('options.fs', () => {
         fs: {
           readdir (dirPath, callback) {
             // Simulate a sporadic error
-            if (dirPath === 'test/dir/subdir/subsubdir') {
+            if (dirPath === dir.path('test/dir/subdir/subsubdir')) {
               callback(new Error('Boooooom!'));
             }
             else {
@@ -188,7 +188,7 @@ describe('options.fs', () => {
         fs: {
           readdir (dirPath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
-            if (dirPath === 'test/dir/subdir/subsubdir') {
+            if (dirPath === dir.path('test/dir/subdir/subsubdir')) {
               throw new Error('Boooooom!');
             }
             else {
@@ -262,7 +262,7 @@ describe('options.fs', () => {
 
       // Omits symlink directories
       omitSymlinkDirs (files) {
-        return files.filter(file => !file.includes('symlink/'));
+        return files.filter(file => !file.includes('symlink' + path.sep));
       },
     },
     {
@@ -333,7 +333,7 @@ describe('options.fs', () => {
         fs: {
           stat (filePath, callback) {
             // Simulate a sporadic error
-            if (filePath === 'test/dir/subsubdir-symlink') {
+            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
               callback(new Error('Boooooom!'));
             }
             else {
@@ -364,7 +364,7 @@ describe('options.fs', () => {
         fs: {
           stat (filePath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
-            if (filePath === 'test/dir/subsubdir-symlink') {
+            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
               throw new Error('Boooooom!');
             }
             else {
@@ -479,7 +479,7 @@ describe('options.fs', () => {
         fs: {
           lstat (filePath, callback) {
             // Simulate a sporadic error
-            if (filePath === 'test/dir/subsubdir-symlink') {
+            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
               callback(new Error('Boooooom!'));
             }
             else {
@@ -514,7 +514,7 @@ describe('options.fs', () => {
         fs: {
           lstat (filePath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
-            if (filePath === 'test/dir/subsubdir-symlink') {
+            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
               throw new Error('Boooooom!');
             }
             else {

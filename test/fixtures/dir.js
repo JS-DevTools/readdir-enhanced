@@ -11,6 +11,8 @@ let windowsBasePath = (isWindows ? 'C:' : '') + '\\Windows\\Users\\Desktop';
 let dir = module.exports = {
   windowsBasePath,
 
+  path: changePathSeparators,
+
   shallow: {
     data: [
       '.dotdir',
@@ -494,19 +496,21 @@ let dir = module.exports = {
 
 // Change all the path separators to "\" on Windows
 if (path.sep !== '/') {
-  changePathSeparators(dir);
+  changePathSeparatorsRecursive(dir);
 }
 
-function changePathSeparators (obj) {
+function changePathSeparatorsRecursive (obj) {
   Object.keys(obj).forEach(key => {
     let value = obj[key];
     if (Array.isArray(value)) {
-      obj[key] = value.map(p => {
-        return p.replace(/\//g, path.sep);
-      });
+      obj[key] = value.map(changePathSeparators);
     }
     else if (typeof value === 'object') {
-      changePathSeparators(value);
+      changePathSeparatorsRecursive(value);
     }
   });
+}
+
+function changePathSeparators (p) {
+  return p.replace(/\//g, path.sep);
 }
