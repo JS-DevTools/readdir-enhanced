@@ -1,16 +1,16 @@
 'use strict';
 
-var readdir = require('../../');
-var dir = require('../fixtures/dir');
-var expect = require('chai').expect;
-var through2 = require('through2');
-var fs = require('fs');
+let readdir = require('../../');
+let dir = require('../fixtures/dir');
+let expect = require('chai').expect;
+let through2 = require('through2');
+let fs = require('fs');
 
-var isNode10 = process.version.substr(0, 5) === 'v0.10';
+let isNode10 = process.version.substr(0, 5) === 'v0.10';
 
 describe('Stream API', function () {
   it('should be able to pipe to other streams as a Buffer', function (done) {
-    var allData = [];
+    let allData = [];
 
     readdir.stream('test/dir')
       .pipe(through2(function (data, enc, next) {
@@ -42,7 +42,7 @@ describe('Stream API', function () {
   });
 
   it('should be able to pipe to other streams in "object mode"', function (done) {
-    var allData = [];
+    let allData = [];
 
     readdir.stream('test/dir')
       .pipe(through2({ objectMode: true }, function (data, enc, next) {
@@ -72,7 +72,7 @@ describe('Stream API', function () {
   });
 
   it('should be able to pipe fs.Stats to other streams in "object mode"', function (done) {
-    var allData = [];
+    let allData = [];
 
     readdir.stream.stat('test/dir')
       .pipe(through2({ objectMode: true }, function (data, enc, next) {
@@ -101,9 +101,9 @@ describe('Stream API', function () {
   });
 
   it('should be able to pause & resume the stream', function (done) {
-    var allData = [];
+    let allData = [];
 
-    var stream = readdir.stream('test/dir')
+    let stream = readdir.stream('test/dir')
       .on('data', function (data) {
         allData.push(data);
 
@@ -144,13 +144,13 @@ describe('Stream API', function () {
   });
 
   it('should be able to use "readable" and "read"', function (done) {
-    var allData = [];
-    var nullCount = 0;
+    let allData = [];
+    let nullCount = 0;
 
-    var stream = readdir.stream('test/dir')
+    let stream = readdir.stream('test/dir')
       .on('readable', function () {
         // Manually read the next chunk of data
-        var data = stream.read();
+        let data = stream.read();
 
         if (data === null) {
           // The stream is done
@@ -179,10 +179,10 @@ describe('Stream API', function () {
   });
 
   it('should be able to subscribe to custom events instead of "data"', function (done) {
-    var allFiles = [];
-    var allSubdirs = [];
+    let allFiles = [];
+    let allSubdirs = [];
 
-    var stream = readdir.stream('test/dir');
+    let stream = readdir.stream('test/dir');
 
     // Calling "resume" is required, since we're not handling the "data" event
     stream.resume();
@@ -221,8 +221,8 @@ describe('Stream API', function () {
   });
 
   function testErrorHandling (eventName, expected, expectedErrors, done) {
-    var errors = [], data = [];
-    var stream = readdir.stream('test/dir');
+    let errors = [], data = [];
+    let stream = readdir.stream('test/dir');
 
     // Capture all errors
     stream.on('error', function (error) {

@@ -15,6 +15,7 @@ matrix:
 
 script:
   - npm run cover
+  - npm run lint
 
 after_success:
   # send code-coverage data to Codacy

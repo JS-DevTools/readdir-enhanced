@@ -1,18 +1,18 @@
 'use strict';
 
-var forEachApi = require('../fixtures/for-each-api');
-var dir = require('../fixtures/dir');
-var expect = require('chai').expect;
-var fs = require('fs');
-var path = require('path');
+let forEachApi = require('../fixtures/for-each-api');
+let dir = require('../fixtures/dir');
+let expect = require('chai').expect;
+let fs = require('fs');
+let path = require('path');
 
 describe('default behavior', function () {
   forEachApi([
     {
       it: 'should return the same results as `fs.readdir`',
       args: ['test/dir'],
-      assert: function (error, data) {
-        var fsResults = fs.readdirSync('test/dir');
+      assert (error, data) {
+        let fsResults = fs.readdirSync('test/dir');
         expect(error).to.be.null;
         expect(data).to.have.same.members(fsResults);
       },
@@ -20,11 +20,11 @@ describe('default behavior', function () {
     {
       it: 'should return an empty array for an empty dir',
       args: ['test/dir/empty'],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.be.an('array').with.lengthOf(0);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.lengthOf(0);
         expect(files).to.have.lengthOf(0);
@@ -35,11 +35,11 @@ describe('default behavior', function () {
     {
       it: 'should return all top-level contents',
       args: ['test/dir'],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -50,11 +50,11 @@ describe('default behavior', function () {
     {
       it: 'should return the same results if the path is absolute',
       args: [path.resolve('test/dir')],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -65,11 +65,11 @@ describe('default behavior', function () {
     {
       it: 'should return all top-level contents of a directory symlink',
       args: ['test/dir/subdir-symlink'],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.subdir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.shallow.data);
         expect(files).to.have.same.members(dir.subdir.shallow.files);
@@ -80,14 +80,14 @@ describe('default behavior', function () {
     {
       it: 'should return relative paths',
       args: ['test/dir'],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         data.forEach(function (item) {
           expect(item).not.to.contain('/');
           expect(item).not.to.contain('\\');
         });
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);

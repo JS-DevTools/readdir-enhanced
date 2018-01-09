@@ -1,23 +1,23 @@
 'use strict';
 
-var forEachApi = require('../fixtures/for-each-api');
-var dir = require('../fixtures/dir');
-var expect = require('chai').expect;
+let forEachApi = require('../fixtures/for-each-api');
+let dir = require('../fixtures/dir');
+let expect = require('chai').expect;
 
 describe('options.filter', function () {
   forEachApi([
     {
       it: 'should return filtered top-level contents',
       args: ['test/dir', {
-        filter: function (stats) {
+        filter (stats) {
           return stats.path.indexOf('empty') >= 0;
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(['empty', 'empty.txt']);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(['empty', 'empty.txt']);
         expect(files).to.have.same.members(['empty.txt']);
@@ -29,15 +29,15 @@ describe('options.filter', function () {
       it: 'should return filtered deep contents',
       args: ['test/dir', {
         deep: true,
-        filter: function (stats) {
+        filter (stats) {
           return stats.path.indexOf('empty') >= 0;
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.empties.deep.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.empties.deep.data);
         expect(files).to.have.same.members(dir.empties.deep.files);
@@ -49,15 +49,15 @@ describe('options.filter', function () {
       it: 'should filter by files',
       args: ['test/dir', {
         deep: true,
-        filter: function (stats) {
+        filter (stats) {
           return stats.isFile();
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.files);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.files);
         expect(files).to.have.same.members(dir.deep.files);
@@ -69,15 +69,15 @@ describe('options.filter', function () {
       it: 'should filter by directories',
       args: ['test/dir', {
         deep: true,
-        filter: function (stats) {
+        filter (stats) {
           return stats.isDirectory();
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.dirs);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.dirs);
         expect(files).to.have.lengthOf(0);
@@ -89,15 +89,15 @@ describe('options.filter', function () {
       it: 'should filter by symlinks',
       args: ['test/dir', {
         deep: true,
-        filter: function (stats) {
+        filter (stats) {
           return stats.isSymbolicLink();
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.symlinks);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.symlinks);
         expect(files).to.have.same.members(dir.symlinks.deep.files);
@@ -110,11 +110,11 @@ describe('options.filter', function () {
       args: ['test/dir', {
         filter: /.*empt[^aeiou]/,
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.empties.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.empties.shallow.data);
         expect(files).to.have.same.members(dir.empties.shallow.files);
@@ -129,11 +129,11 @@ describe('options.filter', function () {
         sep: '\\',
         filter: /subdir\\[^\\]*\\.*\.txt/,
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
         expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.files);
@@ -146,11 +146,11 @@ describe('options.filter', function () {
       args: ['test/dir', {
         filter: 'empty*'
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.empties.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.empties.shallow.data);
         expect(files).to.have.same.members(dir.empties.shallow.files);
@@ -165,11 +165,11 @@ describe('options.filter', function () {
         sep: '\\',
         filter: 'subdir/*/*.txt',
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
         expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.files);
@@ -185,11 +185,11 @@ describe('options.filter', function () {
         sep: '\\',
         filter: '/Windows/**/subdir/*/*.txt',
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
         expect(files).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.files);
@@ -203,11 +203,11 @@ describe('options.filter', function () {
         deep: true,
         filter: '**/*.txt',
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.txt.deep.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.txt.deep.data);
         expect(files).to.have.same.members(dir.txt.deep.files);
@@ -218,20 +218,20 @@ describe('options.filter', function () {
     {
       it: 'should handle errors that occur in the filter function',
       args: ['test/dir', {
-        filter: function (stats) {
+        filter (stats) {
           if (stats.isSymbolicLink()) {
             throw new Error('Boooooom!');
           }
           return true;
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal('Boooooom!');
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(5);
         expect(data).to.have.same.members([

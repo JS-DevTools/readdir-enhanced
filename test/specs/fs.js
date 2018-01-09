@@ -1,21 +1,21 @@
 'use strict';
 
-var forEachApi = require('../fixtures/for-each-api');
-var dir = require('../fixtures/dir');
-var path = require('path');
-var fs = require('fs');
-var expect = require('chai').expect;
+let forEachApi = require('../fixtures/for-each-api');
+let dir = require('../fixtures/dir');
+let path = require('path');
+let fs = require('fs');
+let expect = require('chai').expect;
 
 describe('options.fs', function () {
   forEachApi([
     {
       it: 'should have no effect if `options.fs` is null',
       args: ['test/dir', { fs: null }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -26,11 +26,11 @@ describe('options.fs', function () {
     {
       it: 'should have no effect if `options.fs` is empty',
       args: ['test/dir', { fs: {}}],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -47,16 +47,16 @@ describe('options.fs', function () {
       it: 'should use a custom `fs.readdir` method',
       args: ['test/dir', {
         fs: {
-          readdir: function (dirPath, callback) {
+          readdir (dirPath, callback) {
             callback(null, dir.txt.shallow.data);
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.txt.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.txt.shallow.data);
         expect(files).to.have.same.members(dir.txt.shallow.files);
@@ -69,18 +69,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          readdir: function (dirPath, callback) {
+          readdir (dirPath, callback) {
             callback(null, ['empty.txt', 'invalid.txt', 'file.txt']);
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.code).to.equal('ENOENT');
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
         expect(errors[0].code).to.equal('ENOENT');
@@ -95,18 +95,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          readdir: function (dirPath, callback) {
+          readdir (dirPath, callback) {
             callback(null, null);
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot read property '\w+' of null/);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
         expect(errors[0].message).to.match(/Cannot read property '\w+' of null/);
@@ -121,18 +121,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          readdir: function (dirPath, callback) {
+          readdir (dirPath, callback) {
             callback(null, 12345);
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal('array.forEach is not a function');
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
         expect(errors[0].message).to.equal('array.forEach is not a function');
@@ -147,25 +147,25 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          readdir: function (dirPath, callback) {
+          readdir (dirPath, callback) {
             // Simulate a sporadic error
             if (dirPath === 'test/dir/subdir/subsubdir') {
               callback(new Error('Boooooom!'));
             }
             else {
-              var files = fs.readdirSync(dirPath);
+              let files = fs.readdirSync(dirPath);
               callback(null, files);
             }
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal('Boooooom!');
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
@@ -175,7 +175,7 @@ describe('options.fs', function () {
       },
 
       // Omits the contents of the "subsubdir" directory
-      omitSubdir: function (paths) {
+      omitSubdir (paths) {
         return paths.filter(function (p) {
           return p.substr(7, 10) !== 'subsubdir' + path.sep;
         });
@@ -186,25 +186,25 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          readdir: function (dirPath, callback) {
+          readdir (dirPath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
             if (dirPath === 'test/dir/subdir/subsubdir') {
               throw new Error('Boooooom!');
             }
             else {
-              var files = fs.readdirSync(dirPath);
+              let files = fs.readdirSync(dirPath);
               callback(null, files);
             }
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal('Boooooom!');
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
@@ -214,7 +214,7 @@ describe('options.fs', function () {
       },
 
       // Omits the contents of the "subsubdir" directory
-      omitSubdir: function (paths) {
+      omitSubdir (paths) {
         return paths.filter(function (p) {
           return p.substr(7, 10) !== 'subsubdir' + path.sep;
         });
@@ -230,38 +230,38 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          stat: function (dirPath, callback) {
+          stat (dirPath, callback) {
             callback(null, {
-              isFile: function () { return true; },
-              isDirectory: function () { return false; },
-              isSymbolicLink: function () { return false; },
+              isFile () { return true; },
+              isDirectory () { return false; },
+              isSymbolicLink () { return false; },
             });
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
         expect(files).to.have.same.members(
           Array.from(new Set(
             this.omitSymlinkDirs(dir.deep.files)
-            .concat(this.omitSymlinkDirs(dir.deep.symlinks))))
+              .concat(this.omitSymlinkDirs(dir.deep.symlinks))))
         );
         expect(dirs).to.have.same.members(this.omitSymlinks(dir.deep.dirs));
         expect(symlinks).to.have.same.members(this.omitSymlinkDirs(dir.deep.symlinks));
       },
 
       // Omits symlink directories
-      omitSymlinks: function (files) {
+      omitSymlinks (files) {
         return files.filter(file => !file.includes('symlink'));
       },
 
       // Omits symlink directories
-      omitSymlinkDirs: function (files) {
+      omitSymlinkDirs (files) {
         return files.filter(file => !file.includes('symlink/'));
       },
     },
@@ -270,18 +270,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          stat: function (dirPath, callback) {
+          stat (dirPath, callback) {
             callback(null, null);
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot \w+ property 'isSymbolicLink' of null/);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(7);
         expect(errors[0].message).to.match(/Cannot \w+ property 'isSymbolicLink' of null/);
@@ -292,7 +292,7 @@ describe('options.fs', function () {
       },
 
       // Omits symlinks
-      omitSymlinks: function (files) {
+      omitSymlinks (files) {
         return files.filter(file => !file.includes('symlink'));
       }
     },
@@ -301,18 +301,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          stat: function (dirPath, callback) {
+          stat (dirPath, callback) {
             callback(null, 'Hello, world');
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot .* property 'isSymbolicLink'/);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(7);
         expect(errors[0].message).to.match(/Cannot .* property 'isSymbolicLink'/);
@@ -323,7 +323,7 @@ describe('options.fs', function () {
       },
 
       // Omits symlinks
-      omitSymlinks: function (files) {
+      omitSymlinks (files) {
         return files.filter(file => !file.includes('symlink'));
       }
     },
@@ -331,24 +331,24 @@ describe('options.fs', function () {
       it: 'should handle an error from a custom `fs.stat` method',
       args: ['test/dir', {
         fs: {
-          stat: function (filePath, callback) {
+          stat (filePath, callback) {
             // Simulate a sporadic error
             if (filePath === 'test/dir/subsubdir-symlink') {
               callback(new Error('Boooooom!'));
             }
             else {
-              var stats = fs.statSync(filePath);
+              let stats = fs.statSync(filePath);
               callback(null, stats);
             }
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // An error in fs.stat is handled internally, so no error is thrown
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -362,24 +362,24 @@ describe('options.fs', function () {
       it: 'should handle an error thrown by a custom `fs.stat` method',
       args: ['test/dir', {
         fs: {
-          stat: function (filePath, callback) {
+          stat (filePath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
             if (filePath === 'test/dir/subsubdir-symlink') {
               throw new Error('Boooooom!');
             }
             else {
-              var stats = fs.statSync(filePath);
+              let stats = fs.statSync(filePath);
               callback(null, stats);
             }
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // An error in fs.stat is handled internally, so no error is thrown
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -399,20 +399,20 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          lstat: function (dirPath, callback) {
+          lstat (dirPath, callback) {
             callback(null, {
-              isFile: function () { return true; },
-              isDirectory: function () { return false; },
-              isSymbolicLink: function () { return false; },
+              isFile () { return true; },
+              isDirectory () { return false; },
+              isSymbolicLink () { return false; },
             });
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.data);
@@ -425,18 +425,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          lstat: function (dirPath, callback) {
+          lstat (dirPath, callback) {
             callback(null, null);
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot \w+ property 'isSymbolicLink' of null/);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(12);
         expect(errors[0].message).to.match(/Cannot \w+ property 'isSymbolicLink' of null/);
@@ -451,18 +451,18 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          lstat: function (dirPath, callback) {
+          lstat (dirPath, callback) {
             callback(null, 'Hello, world');
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/lstats.isSymbolicLink is not a function/);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(12);
         expect(errors[0].message).to.match(/lstats.isSymbolicLink is not a function/);
@@ -477,24 +477,24 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          lstat: function (filePath, callback) {
+          lstat (filePath, callback) {
             // Simulate a sporadic error
             if (filePath === 'test/dir/subsubdir-symlink') {
               callback(new Error('Boooooom!'));
             }
             else {
-              var lstats = fs.lstatSync(filePath);
+              let lstats = fs.lstatSync(filePath);
               callback(null, lstats);
             }
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // An error in fs.lstat is handled internally, so no error is thrown
         expect(error).to.be.an.instanceOf(Error);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
         expect(data).to.have.same.members(this.omitSubdirSymlink(dir.deep.data));
         expect(files).to.have.same.members(this.omitSubdirSymlink(dir.deep.files));
@@ -503,7 +503,7 @@ describe('options.fs', function () {
       },
 
       // Omits the "subsubdir-symlink" directory and its children
-      omitSubdirSymlink: function (files) {
+      omitSubdirSymlink (files) {
         return files.filter(file => !file.includes('subsubdir-symlink'));
       }
     },
@@ -512,24 +512,24 @@ describe('options.fs', function () {
       args: ['test/dir', {
         deep: true,
         fs: {
-          lstat: function (filePath, callback) {
+          lstat (filePath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
             if (filePath === 'test/dir/subsubdir-symlink') {
               throw new Error('Boooooom!');
             }
             else {
-              var lstats = fs.lstatSync(filePath);
+              let lstats = fs.lstatSync(filePath);
               callback(null, lstats);
             }
           },
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // An error in fs.lstat is handled internally, so no error is thrown
         expect(error).to.be.an.instanceOf(Error);
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
         expect(data).to.have.same.members(this.omitSubdirSymlink(dir.deep.data));
         expect(files).to.have.same.members(this.omitSubdirSymlink(dir.deep.files));
@@ -538,7 +538,7 @@ describe('options.fs', function () {
       },
 
       // Omits the "subsubdir-symlink" directory and its children
-      omitSubdirSymlink: function (files) {
+      omitSubdirSymlink (files) {
         return files.filter(file => !file.includes('subsubdir-symlink'));
       }
     },

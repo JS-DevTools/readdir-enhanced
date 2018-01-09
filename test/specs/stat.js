@@ -1,14 +1,14 @@
 'use strict';
 
-var readdir = require('../../');
-var dir = require('../fixtures/dir');
-var expect = require('chai').expect;
-var fs = require('fs');
+let readdir = require('../../');
+let dir = require('../fixtures/dir');
+let expect = require('chai').expect;
+let fs = require('fs');
 
 describe('fs.Stats', function () {
   describe('Synchronous API', function () {
     it('should return stats instead of paths', function (done) {
-      var data = readdir.sync.stat('test/dir');
+      let data = readdir.sync.stat('test/dir');
       assertStats(data, dir.shallow.data, done);
     });
   });
@@ -24,8 +24,9 @@ describe('fs.Stats', function () {
 
   describe('Asynchronous API (Stream/EventEmitter)', function () {
     it('should return stats instead of paths', function (done) {
-      var data = [], files = [], dirs = [], symlinks = [];
-      var stream = readdir.stream.stat('test/dir');
+      let error, data = [], files = [], dirs = [], symlinks = [];
+      let stream = readdir.stream.stat('test/dir');
+
       stream.on('error', done);
       stream.on('data', function (dataInfo) {
         data.push(dataInfo);
@@ -46,7 +47,6 @@ describe('fs.Stats', function () {
         assertStats(symlinks, dir.shallow.symlinks, errorHandler);
         done(error);
 
-        var error;
         function errorHandler (e) { error = error || e; }
       });
     });
@@ -58,7 +58,7 @@ describe('fs.Stats', function () {
       expect(data).to.be.an('array').with.lengthOf(expected.length);
 
       // Should return the expected paths
-      var paths = data.map(function (stat) { return stat.path; });
+      let paths = data.map(function (stat) { return stat.path; });
       expect(paths).to.have.same.members(expected);
 
       // Each item should be a valid fs.Stats object

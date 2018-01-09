@@ -1,15 +1,15 @@
 'use strict';
 
-var path = require('path');
-var isWindows = /^win/.test(process.platform);
+let path = require('path');
+let isWindows = /^win/.test(process.platform);
 
 // This fake basePath is used to make sure Windows paths are handled properly.
 // The drive letter ("C:") is omitted when testing on POSIX systems,
 // because it gets interpreted as a path segment
-var windowsBasePath = (isWindows ? 'C:' : '') + '\\Windows\\Users\\Desktop';
+let windowsBasePath = (isWindows ? 'C:' : '') + '\\Windows\\Users\\Desktop';
 
-var dir = module.exports = {
-  windowsBasePath: windowsBasePath,
+let dir = module.exports = {
+  windowsBasePath,
 
   shallow: {
     data: [
@@ -497,9 +497,9 @@ if (path.sep !== '/') {
   changePathSeparators(dir);
 }
 
-function changePathSeparators(obj) {
+function changePathSeparators (obj) {
   Object.keys(obj).forEach(function (key) {
-    var value = obj[key];
+    let value = obj[key];
     if (Array.isArray(value)) {
       obj[key] = value.map(function (p) {
         return p.replace(/\//g, path.sep);

@@ -1,9 +1,9 @@
 'use strict';
 
-var mkdirp = require('mkdirp');
-var del = require('del');
-var path = require('path');
-var fs = require('fs');
+let mkdirp = require('mkdirp');
+let del = require('del');
+let path = require('path');
+let fs = require('fs');
 
 before(function () {
   console.log('Initializing test directory');
@@ -35,7 +35,7 @@ before(function () {
  */
 function symlink (targetPath, linkPath, type) {
   try {
-    var stats = fs.lstatSync(linkPath);
+    let stats = fs.lstatSync(linkPath);
     if (stats.isSymbolicLink()) {
       fs.unlinkSync(linkPath);
     }
@@ -57,7 +57,7 @@ function symlink (targetPath, linkPath, type) {
  * Creates (or re-creates) a broken symbolic link.
  */
 function brokenSymlink (linkPath, type) {
-  var tmp = path.join(path.dirname(linkPath), Date.now() + type);
+  let tmp = path.join(path.dirname(linkPath), Date.now() + type);
 
   if (type === 'file') {
     fs.writeFileSync(tmp, '');

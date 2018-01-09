@@ -1,20 +1,20 @@
 'use strict';
 
-var forEachApi = require('../fixtures/for-each-api');
-var dir = require('../fixtures/dir');
-var expect = require('chai').expect;
-var path = require('path');
+let forEachApi = require('../fixtures/for-each-api');
+let dir = require('../fixtures/dir');
+let expect = require('chai').expect;
+let path = require('path');
 
 describe('options.deep', function () {
   forEachApi([
     {
       it: 'should return all deep contents',
       args: ['test/dir', { deep: true }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
@@ -25,11 +25,11 @@ describe('options.deep', function () {
     {
       it: 'should only return top-level contents if deep === false',
       args: ['test/dir', { deep: false }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -40,11 +40,11 @@ describe('options.deep', function () {
     {
       it: 'should only return top-level contents if deep === 0',
       args: ['test/dir', { deep: 0 }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -55,11 +55,11 @@ describe('options.deep', function () {
     {
       it: 'should return 1-level deep contents',
       args: ['test/dir', { deep: 1 }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.oneLevel.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.oneLevel.data);
         expect(files).to.have.same.members(dir.deep.oneLevel.files);
@@ -70,11 +70,11 @@ describe('options.deep', function () {
     {
       it: 'should return all deep contents if deep is a number greater than the number of dirs',
       args: ['test/dir', { deep: 25 }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
@@ -85,11 +85,11 @@ describe('options.deep', function () {
     {
       it: 'should return all deep contents if deep === Infinity',
       args: ['test/dir', { deep: Infinity }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
@@ -102,11 +102,11 @@ describe('options.deep', function () {
       args: ['test/dir', {
         deep: /^((?!\-symlink).)*$/,
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
         expect(files).to.have.same.members(this.omitSymlinkDirs(dir.deep.files));
@@ -115,7 +115,7 @@ describe('options.deep', function () {
       },
 
       // Omits the contents of the "-symlink" directories
-      omitSymlinkDirs: function (paths) {
+      omitSymlinkDirs (paths) {
         return paths.filter(function (p) {
           return p.indexOf('-symlink' + path.sep) === -1;
         });
@@ -126,11 +126,11 @@ describe('options.deep', function () {
       args: ['test/dir', {
         deep: 'subdir',
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(this.shallowPlusSubdir('data'));
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.shallowPlusSubdir('data'));
         expect(files).to.have.same.members(this.shallowPlusSubdir('files'));
@@ -139,7 +139,7 @@ describe('options.deep', function () {
       },
 
       // Returns the shallow contents of the root directory and the "subdir" directory
-      shallowPlusSubdir: function (type) {
+      shallowPlusSubdir (type) {
         return dir.shallow[type].concat(
           dir.subdir.shallow[type].map(function (file) {
             return path.join('subdir', file);
@@ -150,15 +150,15 @@ describe('options.deep', function () {
     {
       it: 'should recurse based on a custom function',
       args: ['test/dir', {
-        deep: function (stats) {
+        deep (stats) {
           return stats.path !== 'subdir';
         },
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
         expect(files).to.have.same.members(this.omitSubdir(dir.deep.files));
@@ -167,7 +167,7 @@ describe('options.deep', function () {
       },
 
       // Omits the contents of the "subdir" directory
-      omitSubdir: function (paths) {
+      omitSubdir (paths) {
         return paths.filter(function (p) {
           return p.substr(0, 7) !== 'subdir' + path.sep;
         });
@@ -176,15 +176,15 @@ describe('options.deep', function () {
     {
       it: 'should recurse based on a custom function with depth property',
       args: ['test/dir', {
-        deep: function (stats) {
+        deep (stats) {
           return stats.depth !== 1;
         },
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(this.omitSubdir(dir.deep.data));
         expect(files).to.have.same.members(this.omitSubdir(dir.deep.files));
@@ -193,7 +193,7 @@ describe('options.deep', function () {
       },
 
       // Omits the contents of the "subdir" directory
-      omitSubdir: function (paths) {
+      omitSubdir (paths) {
         return paths.filter(function (p) {
           return p.split(path.sep).length <= 2;
         });
@@ -202,15 +202,15 @@ describe('options.deep', function () {
     {
       it: 'should return all deep contents if custom deep function always returns true',
       args: ['test/dir', {
-        deep: function () {
+        deep () {
           return true;
         },
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.deep.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.deep.data);
         expect(files).to.have.same.members(dir.deep.files);
@@ -221,15 +221,15 @@ describe('options.deep', function () {
     {
       it: 'should return shallow contents if custom deep function always returns false',
       args: ['test/dir', {
-        deep: function () {
+        deep () {
           return false;
         },
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
@@ -240,20 +240,20 @@ describe('options.deep', function () {
     {
       it: 'should handle errors that occur in the deep function',
       args: ['test/dir', {
-        deep: function (stats) {
+        deep (stats) {
           if (stats.isSymbolicLink()) {
             throw new Error('Boooooom!');
           }
           return false;
         }
       }],
-      assert: function (error, data) {
+      assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal('Boooooom!');
         expect(data).to.be.undefined;
       },
-      streamAssert: function (errors, data, files, dirs, symlinks) {
+      streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(2);
         expect(data).to.have.same.members([

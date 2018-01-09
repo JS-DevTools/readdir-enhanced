@@ -1,6 +1,6 @@
 'use strict';
 
-var readdir = require('../../');
+let readdir = require('../../');
 
 module.exports = forEachApi;
 
@@ -12,7 +12,7 @@ function forEachApi (tests) {
     tests.forEach(function (test) {
       testApi(test, 'sync', function (done) {
         try {
-          var data = readdir.sync.apply(null, test.args);
+          let data = readdir.sync.apply(null, test.args);
           done(null, data);
         }
         catch (error) {
@@ -41,7 +41,7 @@ function forEachApi (tests) {
   describe('Asynchronous API (Stream/EventEmitter)', function () {
     tests.forEach(function (test) {
       testApi(test, 'stream', function (done) {
-        var stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
+        let stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
 
         try {
           stream = readdir.stream.apply(null, test.args);
