@@ -309,13 +309,13 @@ describe('options.fs', function () {
       assert: function (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.match(/Cannot create property 'isSymbolicLink' on string/);
+        expect(error.message).to.match(/Cannot .* property 'isSymbolicLink'/);
         expect(data).to.be.undefined;
       },
       streamAssert: function (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(7);
-        expect(errors[0].message).to.match(/Cannot create property 'isSymbolicLink' on string/);
+        expect(errors[0].message).to.match(/Cannot .* property 'isSymbolicLink'/);
         expect(data).to.have.same.members(this.omitSymlinks(dir.deep.data));
         expect(files).to.have.same.members(this.omitSymlinks(dir.deep.files));
         expect(dirs).to.have.same.members(this.omitSymlinks(dir.deep.dirs));
