@@ -123,13 +123,15 @@ function testApi (test, apiName, api) {
         // An assertion failed, so fail the test
         done(e);
 
-        console.error('==================== ACTUAL RESULTS ====================');
-        console.error('errors:', errors);
-        console.error('data:', data);
-        console.error('files:', files);
-        console.error('dirs:', dirs);
-        console.error('symlinks:', symlinks);
-        console.error('========================================================');
+        console.error(
+          '==================== ACTUAL RESULTS ====================\n' +
+          'errors: ' + JSON.stringify(errors) + '\n\n' +
+          'data: ' + JSON.stringify(data) + '\n\n' +
+          'files: ' + JSON.stringify(files) + '\n\n' +
+          'dirs: ' + JSON.stringify(dirs) + '\n\n' +
+          'symlinks: ' + JSON.stringify(symlinks) + '\n' +
+          '========================================================'
+        );
       }
     });
   }
