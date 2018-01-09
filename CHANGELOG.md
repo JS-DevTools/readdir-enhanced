@@ -3,6 +3,17 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v2.2.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v2.2.0) (2018-01-09)
+
+- Refactored the codebase to use ES6 syntax (Node v4.x compatible)
+
+- You can now provide [your own implementation](https://github.com/BigstickCarpet/readdir-enhanced#custom-fs-methods) for the [filesystem module](https://nodejs.org/api/fs.html) that's used by `readdir-enhanced`.  Just set the `fs` option to your implementation.  Thanks to [@mrmlnc](https://github.com/mrmlnc) for the idea and [the PR](https://github.com/BigstickCarpet/readdir-enhanced/pull/10)!
+
+- [Better error handling](https://github.com/BigstickCarpet/readdir-enhanced/commit/0d330b68524bafbdeae11566a3e8af1bc3f184bf), especially around user-specified logic, such as `options.deep`, `options.filter`, and `options.fs`
+
+[Full Changelog](https://github.com/BigstickCarpet/readdir-enhanced/compare/v2.1.0...v2.2.0)
+
+
 ## [v2.1.0](https://github.com/BigstickCarpet/readdir-enhanced/tree/v2.1.0) (2017-12-01)
 
 - The `fs.Stats` objects now include a `depth` property, which indicates the number of subdirectories beneath the base path.  Thanks to [@mrmlnc](https://github.com/mrmlnc) for [the PR](https://github.com/BigstickCarpet/readdir-enhanced/pull/8)!
