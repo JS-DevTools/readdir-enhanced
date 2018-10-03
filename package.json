@@ -14,12 +14,12 @@
   ],
   "author": {
     "name": "James Messinger",
-    "url": "http://bigstickcarpet.com"
+    "url": "https://jamesmessinger.com"
   },
-  "homepage": "https://github.com/bigstickcarpet/readdir-enhanced",
+  "homepage": "https://github.com/James-Messinger/readdir-enhanced",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bigstickcarpet/readdir-enhanced.git"
+    "url": "https://github.com/James-Messinger/readdir-enhanced.git"
   },
   "license": "MIT",
   "main": "lib/index.js",
