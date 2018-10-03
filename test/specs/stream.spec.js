@@ -6,8 +6,6 @@ const expect = require('chai').expect;
 const through2 = require('through2');
 const fs = require('fs');
 
-let isNode10 = process.version.substr(0, 5) === 'v0.10';
-
 describe('Stream API', () => {
   it('should be able to pipe to other streams as a Buffer', done => {
     let allData = [];
@@ -107,22 +105,16 @@ describe('Stream API', () => {
       .on('data', data => {
         allData.push(data);
 
-        // stream.isPaused() doesn't exist in Node v0.10
-        if (!isNode10) {
-          // The stream should not be paused
-          expect(stream.isPaused()).to.be.false;
-        }
+        // The stream should not be paused
+        expect(stream.isPaused()).to.be.false;
 
         if (allData.length === 3) {
           // Pause for one second
           stream.pause();
           setTimeout(() => {
             try {
-              // stream.isPaused() doesn't exist in Node v0.10
-              if (!isNode10) {
-                // The stream should still be paused
-                expect(stream.isPaused()).to.be.true;
-              }
+              // The stream should still be paused
+              expect(stream.isPaused()).to.be.true;
 
               // The array should still only contain 3 items
               expect(allData).to.have.lengthOf(3);
@@ -163,14 +155,8 @@ describe('Stream API', () => {
         }
       })
       .on('end', () => {
-        if (isNode10) {
-          // In Node v0.10, stream.read() always returns data
-          expect(nullCount).to.equal(0);
-        }
-        else {
-          // stream.read() should only return null once
-          expect(nullCount).to.equal(1);
-        }
+        // stream.read() should only return null once
+        expect(nullCount).to.equal(1);
 
         expect(allData).to.have.same.members(dir.shallow.data);
         done();
