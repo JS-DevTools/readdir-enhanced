@@ -144,14 +144,19 @@ describe('Stream API', () => {
         // Manually read the next chunk of data
         let data = stream.read();
 
-        if (data === null) {
-          // The stream is done
-          nullCount++;
-        }
-        else {
-          // The data should be a string (the file name)
-          expect(data).to.be.a('string').and.not.empty;
-          allData.push(data);
+        while (true) {    // eslint-disable-line
+          if (data === null) {
+            // The stream is done
+            nullCount++;
+            break;
+          }
+          else {
+            // The data should be a string (the file name)
+            expect(data).to.be.a('string').and.not.empty;
+            allData.push(data);
+
+            data = stream.read();
+          }
         }
       })
       .on('end', () => {
