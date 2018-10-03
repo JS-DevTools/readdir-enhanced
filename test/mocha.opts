@@ -1,4 +1,4 @@
 --bail
 --async-only
 test/fixtures/*.js
-test/specs/*.js
+test/specs/*.spec.js
