@@ -16,10 +16,10 @@
     "name": "James Messinger",
     "url": "https://jamesmessinger.com"
   },
-  "homepage": "https://github.com/James-Messinger/readdir-enhanced",
+  "homepage": "https://github.com/JS-DevTools/readdir-enhanced",
   "repository": {
     "type": "git",
-    "url": "https://github.com/James-Messinger/readdir-enhanced.git"
+    "url": "https://github.com/JS-DevTools/readdir-enhanced.git"
   },
   "license": "MIT",
   "main": "lib/index.js",

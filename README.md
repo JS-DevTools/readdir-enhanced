@@ -1,13 +1,13 @@
 Enhanced `fs.readdir()`
 =======================
 
-[![Build Status](https://api.travis-ci.org/James-Messinger/readdir-enhanced.svg?branch=master)](https://travis-ci.org/James-Messinger/readdir-enhanced)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/james-messinger/readdir-enhanced?svg=true&branch=master&failingText=Windows%20build%20failing&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/BigstickCarpet/readdir-enhanced/branch/master)
+[![Build Status](https://api.travis-ci.org/JS-DevTools/readdir-enhanced.svg?branch=master)](https://travis-ci.org/JS-DevTools/readdir-enhanced)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/JS-DevTools/readdir-enhanced?svg=true&branch=master&failingText=Windows%20build%20failing&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/JamesMessinger/readdir-enhanced/branch/master)
 
-[![Coverage Status](https://coveralls.io/repos/github/James-Messinger/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/James-Messinger/readdir-enhanced?branch=master)
-[![Codacy Score](https://api.codacy.com/project/badge/Grade/178a817b6c864de7813fef457c0ed5ae)](https://www.codacy.com/public/jamesmessinger/readdir-enhanced)
-[![Inline docs](https://inch-ci.org/github/James-Messinger/readdir-enhanced.svg?branch=master&style=shields)](https://inch-ci.org/github/James-Messinger/readdir-enhanced)
-[![Dependencies](https://david-dm.org/James-Messinger/readdir-enhanced.svg)](https://david-dm.org/James-Messinger/readdir-enhanced)
+[![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
+[![Codacy Score](https://api.codacy.com/project/badge/Grade/178a817b6c864de7813fef457c0ed5ae)](https://www.codacy.com/public/JamesMessinger/readdir-enhanced)
+[![Inline docs](https://inch-ci.org/github/JS-DevTools/readdir-enhanced.svg?branch=master&style=shields)](https://inch-ci.org/github/JS-DevTools/readdir-enhanced)
+[![Dependencies](https://david-dm.org/JS-DevTools/readdir-enhanced.svg)](https://david-dm.org/JS-DevTools/readdir-enhanced)
 
 [![npm](https://img.shields.io/npm/v/readdir-enhanced.svg?maxAge=43200)](https://www.npmjs.com/package/readdir-enhanced)
 [![License](https://img.shields.io/npm/l/readdir-enhanced.svg?maxAge=2592000)](LICENSE)
@@ -323,13 +323,13 @@ var files = readdirSync('my/directory');
 
 Contributing
 --------------------------
-I welcome any contributions, enhancements, and bug-fixes.  [File an issue](https://github.com/James-Messinger/readdir-enhanced/issues) on GitHub and [submit a pull request](https://github.com/James-Messinger/readdir-enhanced/pulls).
+I welcome any contributions, enhancements, and bug-fixes.  [File an issue](https://github.com/JS-DevTools/readdir-enhanced/issues) on GitHub and [submit a pull request](https://github.com/JS-DevTools/readdir-enhanced/pulls).
 
 #### Building
 To build the project locally on your computer:
 
 1. __Clone this repo__<br>
-`git clone https://github.com/James-Messinger/readdir-enhanced.git`
+`git clone https://github.com/JS-DevTools/readdir-enhanced.git`
 
 2. __Install dependencies__<br>
 `npm install`
