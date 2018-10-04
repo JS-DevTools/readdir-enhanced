@@ -6,6 +6,8 @@ const expect = require('chai').expect;
 const through2 = require('through2');
 const fs = require('fs');
 
+let nodeVersion = parseFloat(process.version.substr(1));
+
 describe('Stream API', () => {
   it('should be able to pipe to other streams as a Buffer', done => {
     let allData = [];
@@ -135,7 +137,7 @@ describe('Stream API', () => {
       .on('error', done);
   });
 
-  it('should be able to use "readable" and "read"', done => {
+  it.only('should be able to use "readable" and "read"', done => {
     let allData = [];
     let nullCount = 0;
 
@@ -160,8 +162,16 @@ describe('Stream API', () => {
         }
       })
       .on('end', () => {
-        // stream.read() should only return null once
-        expect(nullCount).to.equal(1);
+        if (nodeVersion >= 10) {
+          // In Node >= 10, the "readable" event only fires once,
+          // and stream.read() only returns null once
+          expect(nullCount).to.equal(1);
+        }
+        else {
+          // In Node < 10, the "readable" event fires 13 times (once per file),
+          // and stream.read() returns null each time
+          expect(nullCount).to.equal(13);
+        }
 
         expect(allData).to.have.same.members(dir.shallow.data);
         done();
