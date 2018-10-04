@@ -137,7 +137,7 @@ describe('Stream API', () => {
       .on('error', done);
   });
 
-  it.only('should be able to use "readable" and "read"', done => {
+  it('should be able to use "readable" and "read"', done => {
     let allData = [];
     let nullCount = 0;
 
