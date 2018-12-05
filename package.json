@@ -27,7 +27,7 @@
     "lib"
   ],
   "scripts": {
-    "lint": "eslint lib test --fix",
+    "lint": "eslint lib test",
     "test": "mocha && npm run lint",
     "coverage": "nyc --reporter=text --reporter=lcov mocha",
     "upgrade": "npm-check -u",
