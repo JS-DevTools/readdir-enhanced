@@ -35,13 +35,7 @@ before(() => {
  */
 function symlink (targetPath, linkPath, type) {
   try {
-    let stats = fs.lstatSync(linkPath);
-    if (stats.isSymbolicLink()) {
-      fs.unlinkSync(linkPath);
-    }
-    else {
-      throw new Error(linkPath + ' already exists and is not a symbolic link');
-    }
+    fs.unlinkSync(linkPath);
   }
   catch (e) {
     if (e.code !== 'ENOENT') {
