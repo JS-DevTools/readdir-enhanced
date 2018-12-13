@@ -1,36 +1,36 @@
-'use strict';
+"use strict";
 
-const forEachApi = require('../fixtures/for-each-api');
-const dir = require('../fixtures/dir');
-const expect = require('chai').expect;
+const forEachApi = require("../fixtures/for-each-api");
+const dir = require("../fixtures/dir");
+const expect = require("chai").expect;
 
-describe('options.filter', () => {
+describe("options.filter", () => {
   forEachApi([
     {
-      it: 'should return filtered top-level contents',
-      args: ['test/dir', {
+      it: "should return filtered top-level contents",
+      args: ["test/dir", {
         filter (stats) {
-          return stats.path.indexOf('empty') >= 0;
+          return stats.path.indexOf("empty") >= 0;
         }
       }],
       assert (error, data) {
         expect(error).to.be.null;
-        expect(data).to.have.same.members(['empty', 'empty.txt']);
+        expect(data).to.have.same.members(["empty", "empty.txt"]);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);
-        expect(data).to.have.same.members(['empty', 'empty.txt']);
-        expect(files).to.have.same.members(['empty.txt']);
-        expect(dirs).to.have.same.members(['empty']);
+        expect(data).to.have.same.members(["empty", "empty.txt"]);
+        expect(files).to.have.same.members(["empty.txt"]);
+        expect(dirs).to.have.same.members(["empty"]);
         expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
-      it: 'should return filtered deep contents',
-      args: ['test/dir', {
+      it: "should return filtered deep contents",
+      args: ["test/dir", {
         deep: true,
         filter (stats) {
-          return stats.path.indexOf('empty') >= 0;
+          return stats.path.indexOf("empty") >= 0;
         }
       }],
       assert (error, data) {
@@ -46,8 +46,8 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should filter by files',
-      args: ['test/dir', {
+      it: "should filter by files",
+      args: ["test/dir", {
         deep: true,
         filter (stats) {
           return stats.isFile();
@@ -66,8 +66,8 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should filter by directories',
-      args: ['test/dir', {
+      it: "should filter by directories",
+      args: ["test/dir", {
         deep: true,
         filter (stats) {
           return stats.isDirectory();
@@ -86,8 +86,8 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should filter by symlinks',
-      args: ['test/dir', {
+      it: "should filter by symlinks",
+      args: ["test/dir", {
         deep: true,
         filter (stats) {
           return stats.isSymbolicLink();
@@ -106,8 +106,8 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should filter by a regular expression',
-      args: ['test/dir', {
+      it: "should filter by a regular expression",
+      args: ["test/dir", {
         filter: /.*empt[^aeiou]/,
       }],
       assert (error, data) {
@@ -123,10 +123,10 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should use appropriate path separators when filtering by a regular expression',
-      args: ['test/dir', {
+      it: "should use appropriate path separators when filtering by a regular expression",
+      args: ["test/dir", {
         deep: true,
-        sep: '\\',
+        sep: "\\",
         filter: /subdir\\[^\\]*\\.*\.txt/,
       }],
       assert (error, data) {
@@ -142,9 +142,9 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should filter by a glob pattern',
-      args: ['test/dir', {
-        filter: 'empty*'
+      it: "should filter by a glob pattern",
+      args: ["test/dir", {
+        filter: "empty*"
       }],
       assert (error, data) {
         expect(error).to.be.null;
@@ -159,11 +159,11 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should use POSIX paths when filtering by a glob pattern',
-      args: ['test/dir', {
+      it: "should use POSIX paths when filtering by a glob pattern",
+      args: ["test/dir", {
         deep: true,
-        sep: '\\',
-        filter: 'subdir/*/*.txt',
+        sep: "\\",
+        filter: "subdir/*/*.txt",
       }],
       assert (error, data) {
         expect(error).to.be.null;
@@ -178,12 +178,12 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should prepend a POSIX version of the basePath when filtering by a glob pattern',
-      args: ['test/dir', {
+      it: "should prepend a POSIX version of the basePath when filtering by a glob pattern",
+      args: ["test/dir", {
         deep: true,
         basePath: dir.windowsBasePath,
-        sep: '\\',
-        filter: '/Windows/**/subdir/*/*.txt',
+        sep: "\\",
+        filter: "/Windows/**/subdir/*/*.txt",
       }],
       assert (error, data) {
         expect(error).to.be.null;
@@ -198,10 +198,10 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should filter by a file extension pattern',
-      args: ['test/dir', {
+      it: "should filter by a file extension pattern",
+      args: ["test/dir", {
         deep: true,
-        filter: '**/*.txt',
+        filter: "**/*.txt",
       }],
       assert (error, data) {
         expect(error).to.be.null;
@@ -216,11 +216,11 @@ describe('options.filter', () => {
       },
     },
     {
-      it: 'should handle errors that occur in the filter function',
-      args: ['test/dir', {
+      it: "should handle errors that occur in the filter function",
+      args: ["test/dir", {
         filter (stats) {
           if (stats.isSymbolicLink()) {
-            throw new Error('Boooooom!');
+            throw new Error("Boooooom!");
           }
           return true;
         }
@@ -228,20 +228,20 @@ describe('options.filter', () => {
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.message).to.equal('Boooooom!');
+        expect(error.message).to.equal("Boooooom!");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(5);
         expect(data).to.have.same.members([
-          '.dotdir', 'empty', 'subdir', '.dotfile', 'empty.txt', 'file.txt', 'file.json',
+          ".dotdir", "empty", "subdir", ".dotfile", "empty.txt", "file.txt", "file.json",
         ]);
         expect(files).to.have.same.members([
-          '.dotfile', 'empty.txt', 'file.txt', 'file.json',
+          ".dotfile", "empty.txt", "file.txt", "file.json",
         ]);
         expect(dirs).to.have.same.members([
-          '.dotdir', 'empty', 'subdir',
+          ".dotdir", "empty", "subdir",
         ]);
         expect(symlinks).to.have.lengthOf(0);
       },

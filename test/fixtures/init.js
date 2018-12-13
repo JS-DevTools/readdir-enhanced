@@ -1,32 +1,32 @@
-'use strict';
+"use strict";
 
-const mkdirp = require('mkdirp');
-const del = require('del');
-const path = require('path');
-const fs = require('fs');
+const mkdirp = require("mkdirp");
+const del = require("del");
+const path = require("path");
+const fs = require("fs");
 
 before(() => {
-  console.log('Initializing test directory');
+  console.log("Initializing test directory");
 
   // create some empty dirs (cannot check-in empty dirs to git)
-  mkdirp.sync('test/dir/.dotdir');
-  mkdirp.sync('test/dir/empty');
-  mkdirp.sync('test/dir/subdir/.dotdir/empty');
+  mkdirp.sync("test/dir/.dotdir");
+  mkdirp.sync("test/dir/empty");
+  mkdirp.sync("test/dir/subdir/.dotdir/empty");
 
   // create symlinks (checking symlinks into git is problematic cross-platform)
-  symlink('test/dir/file.txt', 'test/dir/file-symlink.txt', 'file');
-  symlink('test/dir/subdir/subsubdir/file.txt', 'test/dir/subdir/subsubdir/file-symlink.txt', 'file');
-  symlink('test/dir/subdir', 'test/dir/subdir-symlink', 'dir');
-  symlink('test/dir/subdir/subsubdir', 'test/dir/subsubdir-symlink', 'dir');
+  symlink("test/dir/file.txt", "test/dir/file-symlink.txt", "file");
+  symlink("test/dir/subdir/subsubdir/file.txt", "test/dir/subdir/subsubdir/file-symlink.txt", "file");
+  symlink("test/dir/subdir", "test/dir/subdir-symlink", "dir");
+  symlink("test/dir/subdir/subsubdir", "test/dir/subsubdir-symlink", "dir");
 
   // create broken symlinks (checking broken symlinks into git is problematic)
-  brokenSymlink('test/dir/broken-symlink.txt', 'file');
-  brokenSymlink('test/dir/subdir/subsubdir/broken-symlink.txt', 'file');
-  brokenSymlink('test/dir/broken-dir-symlink', 'dir');
+  brokenSymlink("test/dir/broken-symlink.txt", "file");
+  brokenSymlink("test/dir/subdir/subsubdir/broken-symlink.txt", "file");
+  brokenSymlink("test/dir/broken-dir-symlink", "dir");
 
   // delete files that get created automatically by the OS
-  del.sync('test/dir/**/.DS_Store', { dot: true });
-  del.sync('test/dir/**/Thumbs.db', { dot: true });
+  del.sync("test/dir/**/.DS_Store", { dot: true });
+  del.sync("test/dir/**/Thumbs.db", { dot: true });
 });
 
 /**
@@ -38,7 +38,7 @@ function symlink (targetPath, linkPath, type) {
     fs.unlinkSync(linkPath);
   }
   catch (e) {
-    if (e.code !== 'ENOENT') {
+    if (e.code !== "ENOENT") {
       throw e;
     }
   }
@@ -53,8 +53,8 @@ function symlink (targetPath, linkPath, type) {
 function brokenSymlink (linkPath, type) {
   let tmp = path.join(path.dirname(linkPath), Date.now() + type);
 
-  if (type === 'file') {
-    fs.writeFileSync(tmp, '');
+  if (type === "file") {
+    fs.writeFileSync(tmp, "");
     symlink(tmp, linkPath, type);
     fs.unlinkSync(tmp);
   }

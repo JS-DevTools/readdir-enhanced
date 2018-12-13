@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const readdir = require('../../');
+const readdir = require("../../");
 
 module.exports = forEachApi;
 
@@ -8,9 +8,9 @@ module.exports = forEachApi;
  * Runs an array of tests tests against each of the readdir-enhanced APIs
  */
 function forEachApi (tests) {
-  describe('Synchronous API', () => {
+  describe("Synchronous API", () => {
     tests.forEach(test => {
-      testApi(test, 'sync', done => {
+      testApi(test, "sync", done => {
         try {
           let data = readdir.sync.apply(null, test.args);
           done(null, data);
@@ -22,9 +22,9 @@ function forEachApi (tests) {
     });
   });
 
-  describe('Asynchronous API (callback/Promise)', () => {
+  describe("Asynchronous API (callback/Promise)", () => {
     tests.forEach(test => {
-      testApi(test, 'async', done => {
+      testApi(test, "async", done => {
         readdir.async.apply(null, test.args)
           .then(
             data => {
@@ -38,9 +38,9 @@ function forEachApi (tests) {
     });
   });
 
-  describe('Asynchronous API (Stream/EventEmitter)', () => {
+  describe("Asynchronous API (Stream/EventEmitter)", () => {
     tests.forEach(test => {
-      testApi(test, 'stream', done => {
+      testApi(test, "stream", done => {
         let stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
 
         try {
@@ -50,22 +50,22 @@ function forEachApi (tests) {
           return done([error], data, files, dirs, symlinks);
         }
 
-        stream.on('error', error => {
+        stream.on("error", error => {
           errors.push(error);
         });
-        stream.on('file', file => {
+        stream.on("file", file => {
           files.push(file);
         });
-        stream.on('directory', dir => {
+        stream.on("directory", dir => {
           dirs.push(dir);
         });
-        stream.on('symlink', symlink => {
+        stream.on("symlink", symlink => {
           symlinks.push(symlink);
         });
-        stream.on('data', datum => {
+        stream.on("data", datum => {
           data.push(datum);
         });
-        stream.on('end', () => {
+        stream.on("end", () => {
           done(errors, data, files, dirs, symlinks);
         });
       });
@@ -103,7 +103,7 @@ function testApi (test, apiName, api) {
         dirs && dirs.sort();
         symlinks && symlinks.sort();
 
-        if (apiName === 'stream') {
+        if (apiName === "stream") {
           // Perform assertions that are specific to the streaming API
           if (test.streamAssert) {
             test.streamAssert(errors, data, files, dirs, symlinks);
@@ -129,13 +129,13 @@ function testApi (test, apiName, api) {
         done(e);
 
         console.error(
-          '==================== ACTUAL RESULTS ====================\n' +
-          'errors: ' + JSON.stringify(errors) + '\n\n' +
-          'data: ' + JSON.stringify(data) + '\n\n' +
-          'files: ' + JSON.stringify(files) + '\n\n' +
-          'dirs: ' + JSON.stringify(dirs) + '\n\n' +
-          'symlinks: ' + JSON.stringify(symlinks) + '\n' +
-          '========================================================'
+          "==================== ACTUAL RESULTS ====================\n" +
+          "errors: " + JSON.stringify(errors) + "\n\n" +
+          "data: " + JSON.stringify(data) + "\n\n" +
+          "files: " + JSON.stringify(files) + "\n\n" +
+          "dirs: " + JSON.stringify(dirs) + "\n\n" +
+          "symlinks: " + JSON.stringify(symlinks) + "\n" +
+          "========================================================"
         );
       }
     });

@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const forEachApi = require('../fixtures/for-each-api');
-const expect = require('chai').expect;
+const forEachApi = require("../fixtures/for-each-api");
+const expect = require("chai").expect;
 
-describe('error handling', () => {
+describe("error handling", () => {
   forEachApi([
     {
-      it: 'should throw an error if no arguments are passed',
+      it: "should throw an error if no arguments are passed",
       args: [],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
@@ -22,7 +22,7 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if the path is not a string',
+      it: "should throw an error if the path is not a string",
       args: [55555],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
@@ -38,11 +38,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options are invalid',
-      args: ['test/dir', 'invalid options'],
+      it: "should throw an error if options are invalid",
+      args: ["test/dir", "invalid options"],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options must be an object');
+        expect(error.message).to.equal("options must be an object");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -54,11 +54,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.deep is invalid',
-      args: ['test/dir', { deep: { foo: 'bar' }}],
+      it: "should throw an error if options.deep is invalid",
+      args: ["test/dir", { deep: { foo: "bar" }}],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.deep must be a boolean, number, function, regular expression, or glob pattern');
+        expect(error.message).to.equal("options.deep must be a boolean, number, function, regular expression, or glob pattern");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -70,11 +70,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.deep is negative',
-      args: ['test/dir', { deep: -5 }],
+      it: "should throw an error if options.deep is negative",
+      args: ["test/dir", { deep: -5 }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.message).to.equal('options.deep must be a positive number');
+        expect(error.message).to.equal("options.deep must be a positive number");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -86,11 +86,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.deep is NaN',
-      args: ['test/dir', { deep: NaN }],
+      it: "should throw an error if options.deep is NaN",
+      args: ["test/dir", { deep: NaN }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.message).to.equal('options.deep must be a positive number');
+        expect(error.message).to.equal("options.deep must be a positive number");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -102,11 +102,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.deep is not an integer',
-      args: ['test/dir', { deep: 5.4 }],
+      it: "should throw an error if options.deep is not an integer",
+      args: ["test/dir", { deep: 5.4 }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.message).to.equal('options.deep must be an integer');
+        expect(error.message).to.equal("options.deep must be an integer");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -118,12 +118,12 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.filter is invalid',
-      args: ['test/dir', { filter: 12345 }],
+      it: "should throw an error if options.filter is invalid",
+      args: ["test/dir", { filter: 12345 }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal(
-          'options.filter must be a function, regular expression, or glob pattern');
+          "options.filter must be a function, regular expression, or glob pattern");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -135,11 +135,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.sep is invalid',
-      args: ['test/dir', { sep: 57 }],
+      it: "should throw an error if options.sep is invalid",
+      args: ["test/dir", { sep: 57 }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.sep must be a string');
+        expect(error.message).to.equal("options.sep must be a string");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -151,11 +151,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if options.basePath is invalid',
-      args: ['test/dir', { basePath: 57 }],
+      it: "should throw an error if options.basePath is invalid",
+      args: ["test/dir", { basePath: 57 }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.basePath must be a string');
+        expect(error.message).to.equal("options.basePath must be a string");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -167,11 +167,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if the directory does not exist',
-      args: ['test/dir/does-not-exist'],
+      it: "should throw an error if the directory does not exist",
+      args: ["test/dir/does-not-exist"],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOENT');
+        expect(error.code).to.equal("ENOENT");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -183,11 +183,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if the path is not a directory',
-      args: ['test/dir/file.txt'],
+      it: "should throw an error if the path is not a directory",
+      args: ["test/dir/file.txt"],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOTDIR');
+        expect(error.code).to.equal("ENOTDIR");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -199,11 +199,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if the path is a broken symlink',
-      args: ['test/dir/broken-dir-symlink'],
+      it: "should throw an error if the path is a broken symlink",
+      args: ["test/dir/broken-dir-symlink"],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOENT');
+        expect(error.code).to.equal("ENOENT");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -215,11 +215,11 @@ describe('error handling', () => {
       },
     },
     {
-      it: 'should throw an error if `options.fs` is invalid',
-      args: ['test/dir', { fs: 'Hello, World' }],
+      it: "should throw an error if `options.fs` is invalid",
+      args: ["test/dir", { fs: "Hello, World" }],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('options.fs must be an object');
+        expect(error.message).to.equal("options.fs must be an object");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {

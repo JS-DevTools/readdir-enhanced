@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
-const forEachApi = require('../fixtures/for-each-api');
-const dir = require('../fixtures/dir');
-const path = require('path');
-const fs = require('fs');
-const expect = require('chai').expect;
+const forEachApi = require("../fixtures/for-each-api");
+const dir = require("../fixtures/dir");
+const path = require("path");
+const fs = require("fs");
+const expect = require("chai").expect;
 
-describe('options.fs', () => {
+describe("options.fs", () => {
   forEachApi([
     {
-      it: 'should have no effect if `options.fs` is null',
-      args: ['test/dir', { fs: null }],
+      it: "should have no effect if `options.fs` is null",
+      args: ["test/dir", { fs: null }],
       assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
@@ -24,8 +24,8 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should have no effect if `options.fs` is empty',
-      args: ['test/dir', { fs: {}}],
+      it: "should have no effect if `options.fs` is empty",
+      args: ["test/dir", { fs: {}}],
       assert (error, data) {
         expect(error).to.be.null;
         expect(data).to.have.same.members(dir.shallow.data);
@@ -44,8 +44,8 @@ describe('options.fs', () => {
      * fs.readdir
      ************************************************************/
     {
-      it: 'should use a custom `fs.readdir` method',
-      args: ['test/dir', {
+      it: "should use a custom `fs.readdir` method",
+      args: ["test/dir", {
         fs: {
           readdir (dirPath, callback) {
             callback(null, dir.txt.shallow.data);
@@ -65,34 +65,34 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should handle an invalid file name from a custom `fs.readdir` method',
-      args: ['test/dir', {
+      it: "should handle an invalid file name from a custom `fs.readdir` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           readdir (dirPath, callback) {
-            callback(null, ['empty.txt', 'invalid.txt', 'file.txt']);
+            callback(null, ["empty.txt", "invalid.txt", "file.txt"]);
           },
         }
       }],
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.code).to.equal('ENOENT');
+        expect(error.code).to.equal("ENOENT");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
-        expect(errors[0].code).to.equal('ENOENT');
-        expect(data).to.have.same.members(['empty.txt', 'file.txt']);
-        expect(files).to.have.same.members(['empty.txt', 'file.txt']);
+        expect(errors[0].code).to.equal("ENOENT");
+        expect(data).to.have.same.members(["empty.txt", "file.txt"]);
+        expect(files).to.have.same.members(["empty.txt", "file.txt"]);
         expect(dirs).to.have.lengthOf(0);
         expect(symlinks).to.have.lengthOf(0);
       },
     },
     {
-      it: 'should handle a null result from a custom `fs.readdir` method',
-      args: ['test/dir', {
+      it: "should handle a null result from a custom `fs.readdir` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           readdir (dirPath, callback) {
@@ -117,8 +117,8 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should handle an invalid result from a custom `fs.readdir` method',
-      args: ['test/dir', {
+      it: "should handle an invalid result from a custom `fs.readdir` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           readdir (dirPath, callback) {
@@ -129,13 +129,13 @@ describe('options.fs', () => {
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('array.forEach is not a function');
+        expect(error.message).to.equal("array.forEach is not a function");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
-        expect(errors[0].message).to.equal('array.forEach is not a function');
+        expect(errors[0].message).to.equal("array.forEach is not a function");
         expect(data).to.have.lengthOf(0);
         expect(files).to.have.lengthOf(0);
         expect(dirs).to.have.lengthOf(0);
@@ -143,14 +143,14 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should handle an error from a custom `fs.readdir` method',
-      args: ['test/dir', {
+      it: "should handle an error from a custom `fs.readdir` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           readdir (dirPath, callback) {
             // Simulate a sporadic error
-            if (dirPath === dir.path('test/dir/subdir/subsubdir')) {
-              callback(new Error('Boooooom!'));
+            if (dirPath === dir.path("test/dir/subdir/subsubdir")) {
+              callback(new Error("Boooooom!"));
             }
             else {
               let files = fs.readdirSync(dirPath);
@@ -162,7 +162,7 @@ describe('options.fs', () => {
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.message).to.equal('Boooooom!');
+        expect(error.message).to.equal("Boooooom!");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -177,19 +177,19 @@ describe('options.fs', () => {
       // Omits the contents of the "subsubdir" directory
       omitSubdir (paths) {
         return paths.filter(p => {
-          return p.substr(7, 10) !== 'subsubdir' + path.sep;
+          return p.substr(7, 10) !== "subsubdir" + path.sep;
         });
       }
     },
     {
-      it: 'should handle an error thrown by a custom `fs.readdir` method',
-      args: ['test/dir', {
+      it: "should handle an error thrown by a custom `fs.readdir` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           readdir (dirPath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
-            if (dirPath === dir.path('test/dir/subdir/subsubdir')) {
-              throw new Error('Boooooom!');
+            if (dirPath === dir.path("test/dir/subdir/subsubdir")) {
+              throw new Error("Boooooom!");
             }
             else {
               let files = fs.readdirSync(dirPath);
@@ -201,7 +201,7 @@ describe('options.fs', () => {
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
-        expect(error.message).to.equal('Boooooom!');
+        expect(error.message).to.equal("Boooooom!");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -216,7 +216,7 @@ describe('options.fs', () => {
       // Omits the contents of the "subsubdir" directory
       omitSubdir (paths) {
         return paths.filter(p => {
-          return p.substr(7, 10) !== 'subsubdir' + path.sep;
+          return p.substr(7, 10) !== "subsubdir" + path.sep;
         });
       }
     },
@@ -226,8 +226,8 @@ describe('options.fs', () => {
      * fs.stat
      ************************************************************/
     {
-      it: 'should use a custom `fs.stat` method',
-      args: ['test/dir', {
+      it: "should use a custom `fs.stat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           stat (dirPath, callback) {
@@ -257,17 +257,17 @@ describe('options.fs', () => {
 
       // Omits symlink directories
       omitSymlinks (files) {
-        return files.filter(file => !file.includes('symlink'));
+        return files.filter(file => !file.includes("symlink"));
       },
 
       // Omits symlink directories
       omitSymlinkDirs (files) {
-        return files.filter(file => !file.includes('symlink' + path.sep));
+        return files.filter(file => !file.includes("symlink" + path.sep));
       },
     },
     {
-      it: 'should handle a null result from a custom `fs.stat` method',
-      args: ['test/dir', {
+      it: "should handle a null result from a custom `fs.stat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           stat (dirPath, callback) {
@@ -293,16 +293,16 @@ describe('options.fs', () => {
 
       // Omits symlinks
       omitSymlinks (files) {
-        return files.filter(file => !file.includes('symlink'));
+        return files.filter(file => !file.includes("symlink"));
       }
     },
     {
-      it: 'should handle an invalid result from a custom `fs.stat` method',
-      args: ['test/dir', {
+      it: "should handle an invalid result from a custom `fs.stat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           stat (dirPath, callback) {
-            callback(null, 'Hello, world');
+            callback(null, "Hello, world");
           },
         }
       }],
@@ -324,17 +324,17 @@ describe('options.fs', () => {
 
       // Omits symlinks
       omitSymlinks (files) {
-        return files.filter(file => !file.includes('symlink'));
+        return files.filter(file => !file.includes("symlink"));
       }
     },
     {
-      it: 'should handle an error from a custom `fs.stat` method',
-      args: ['test/dir', {
+      it: "should handle an error from a custom `fs.stat` method",
+      args: ["test/dir", {
         fs: {
           stat (filePath, callback) {
             // Simulate a sporadic error
-            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
-              callback(new Error('Boooooom!'));
+            if (filePath === dir.path("test/dir/subsubdir-symlink")) {
+              callback(new Error("Boooooom!"));
             }
             else {
               let stats = fs.statSync(filePath);
@@ -353,19 +353,19 @@ describe('options.fs', () => {
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(
-          dir.shallow.dirs.filter(file => file !== 'subsubdir-symlink')
+          dir.shallow.dirs.filter(file => file !== "subsubdir-symlink")
         );
         expect(symlinks).to.have.same.members(dir.shallow.symlinks);
       },
     },
     {
-      it: 'should handle an error thrown by a custom `fs.stat` method',
-      args: ['test/dir', {
+      it: "should handle an error thrown by a custom `fs.stat` method",
+      args: ["test/dir", {
         fs: {
           stat (filePath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
-            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
-              throw new Error('Boooooom!');
+            if (filePath === dir.path("test/dir/subsubdir-symlink")) {
+              throw new Error("Boooooom!");
             }
             else {
               let stats = fs.statSync(filePath);
@@ -384,7 +384,7 @@ describe('options.fs', () => {
         expect(data).to.have.same.members(dir.shallow.data);
         expect(files).to.have.same.members(dir.shallow.files);
         expect(dirs).to.have.same.members(
-          dir.shallow.dirs.filter(file => file !== 'subsubdir-symlink')
+          dir.shallow.dirs.filter(file => file !== "subsubdir-symlink")
         );
         expect(symlinks).to.have.same.members(dir.shallow.symlinks);
       },
@@ -395,8 +395,8 @@ describe('options.fs', () => {
      * fs.lstat
      ************************************************************/
     {
-      it: 'should use a custom `fs.lstat` method',
-      args: ['test/dir', {
+      it: "should use a custom `fs.lstat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           lstat (dirPath, callback) {
@@ -421,8 +421,8 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should handle a null result from a custom `fs.lstat` method',
-      args: ['test/dir', {
+      it: "should handle a null result from a custom `fs.lstat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           lstat (dirPath, callback) {
@@ -447,12 +447,12 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should handle an invalid result from a custom `fs.lstat` method',
-      args: ['test/dir', {
+      it: "should handle an invalid result from a custom `fs.lstat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           lstat (dirPath, callback) {
-            callback(null, 'Hello, world');
+            callback(null, "Hello, world");
           },
         }
       }],
@@ -473,14 +473,14 @@ describe('options.fs', () => {
       },
     },
     {
-      it: 'should handle an error from a custom `fs.lstat` method',
-      args: ['test/dir', {
+      it: "should handle an error from a custom `fs.lstat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           lstat (filePath, callback) {
             // Simulate a sporadic error
-            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
-              callback(new Error('Boooooom!'));
+            if (filePath === dir.path("test/dir/subsubdir-symlink")) {
+              callback(new Error("Boooooom!"));
             }
             else {
               let lstats = fs.lstatSync(filePath);
@@ -504,18 +504,18 @@ describe('options.fs', () => {
 
       // Omits the "subsubdir-symlink" directory and its children
       omitSubdirSymlink (files) {
-        return files.filter(file => !file.includes('subsubdir-symlink'));
+        return files.filter(file => !file.includes("subsubdir-symlink"));
       }
     },
     {
-      it: 'should handle an error thrown by a custom `fs.lstat` method',
-      args: ['test/dir', {
+      it: "should handle an error thrown by a custom `fs.lstat` method",
+      args: ["test/dir", {
         deep: true,
         fs: {
           lstat (filePath, callback) {
             // Simulate an error being thrown (rather than returned to the callback)
-            if (filePath === dir.path('test/dir/subsubdir-symlink')) {
-              throw new Error('Boooooom!');
+            if (filePath === dir.path("test/dir/subsubdir-symlink")) {
+              throw new Error("Boooooom!");
             }
             else {
               let lstats = fs.lstatSync(filePath);
@@ -539,7 +539,7 @@ describe('options.fs', () => {
 
       // Omits the "subsubdir-symlink" directory and its children
       omitSubdirSymlink (files) {
-        return files.filter(file => !file.includes('subsubdir-symlink'));
+        return files.filter(file => !file.includes("subsubdir-symlink"));
       }
     },
   ]);
