@@ -1,6 +1,7 @@
 Enhanced `fs.readdir()`
 =======================
 
+[![Cross-Platform Compatibility](https://jsdevtools.org/img/badges/os-badges.svg)](https://travis-ci.com/JS-DevTools/simplifyify)
 [![Build Status](https://api.travis-ci.com/JS-DevTools/readdir-enhanced.svg?branch=master)](https://travis-ci.com/JS-DevTools/readdir-enhanced)
 
 [![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
