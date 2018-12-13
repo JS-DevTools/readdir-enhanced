@@ -6,24 +6,41 @@
 filter_secrets: false
 language: node_js
 
-node_js:
-  - 10
-  - 8
-  - 6
-
-os:
-  - linux
-  - osx
-  - windows
-
 script: npm run lint && npm run coverage
 
 after_success:
   # send code-coverage data to Coveralls
   - cat ./coverage/lcov.info | coveralls
+  
+stages:
+  - Linux
+  - macOS
+  - Windows
+  - Deploy
 
 jobs:
   include:
+    - stage: Linux
+      os: linux
+      node_js: 10
+    - os: linux
+      node_js: 9
+    - os: linux
+      node_js: 8
+    - stage: macOS
+      os: osx
+      node_js: 10
+    - os: osx
+      node_js: 9
+    - os: osx
+      node_js: 8
+    - stage: Windows
+      os: windows
+      node_js: 10
+    - os: windows
+      node_js: 9
+    - os: windows
+      node_js: 8
     - stage: Deploy
       name: Publish to npm
       script: true
