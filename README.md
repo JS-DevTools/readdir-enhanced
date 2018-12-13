@@ -1,8 +1,7 @@
 Enhanced `fs.readdir()`
 =======================
 
-[![Build Status](https://api.travis-ci.org/JS-DevTools/readdir-enhanced.svg?branch=master)](https://travis-ci.org/JS-DevTools/readdir-enhanced)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/JS-DevTools/readdir-enhanced?svg=true&branch=master&failingText=Windows%20build%20failing&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/JamesMessinger/readdir-enhanced/branch/master)
+[![Build Status](https://api.travis-ci.com/JS-DevTools/readdir-enhanced.svg?branch=master)](https://travis-ci.com/JS-DevTools/readdir-enhanced)
 
 [![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
 [![Dependencies](https://david-dm.org/JS-DevTools/readdir-enhanced.svg)](https://david-dm.org/JS-DevTools/readdir-enhanced)
