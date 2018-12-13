@@ -5,8 +5,6 @@ Enhanced `fs.readdir()`
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/JS-DevTools/readdir-enhanced?svg=true&branch=master&failingText=Windows%20build%20failing&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/JamesMessinger/readdir-enhanced/branch/master)
 
 [![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
-[![Codacy Score](https://api.codacy.com/project/badge/Grade/178a817b6c864de7813fef457c0ed5ae)](https://www.codacy.com/public/JamesMessinger/readdir-enhanced)
-[![Inline docs](https://inch-ci.org/github/JS-DevTools/readdir-enhanced.svg?branch=master&style=shields)](https://inch-ci.org/github/JS-DevTools/readdir-enhanced)
 [![Dependencies](https://david-dm.org/JS-DevTools/readdir-enhanced.svg)](https://david-dm.org/JS-DevTools/readdir-enhanced)
 
 [![npm](https://img.shields.io/npm/v/readdir-enhanced.svg?maxAge=43200)](https://www.npmjs.com/package/readdir-enhanced)
