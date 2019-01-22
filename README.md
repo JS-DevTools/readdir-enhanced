@@ -62,6 +62,42 @@ var stream = readdir.stream('my/directory')
 ```
 
 
+A Note on Streams
+-----------------
+The `readdir-enhanced` streaming API follows the Node.js streaming API. A lot of questions around the streaming API can be answered by reading the [Node.js documentation.](https://nodejs.org/api/stream.html). However, we've tried to answer the most common questions here.
+
+### Stream Events
+
+All events in the Node.js streaming API are supported by `readdir-enhanced`. These events include "end", "close", "drain", "error", plus more. [An exhaustive list of events is available in the Node.js documentation.](https://nodejs.org/api/stream.html#stream_class_stream_readable)
+
+#### Detect when the Stream has finished
+
+Using these events, we can detect when the stream has finished reading files.
+
+```javascript
+var readdir = require('readdir-enhanced');
+
+// Build the stream using the Streaming API
+var stream = readdir.stream('my/directory')
+  .on('data', function(path) { ... });
+
+// Listen to the end event to detect the end of the stream
+stream.on('end', function() {
+  console.log('Stream finished!');
+});
+```
+
+### Paused Streams vs. Flowing Streams
+
+As with all Node.js streams, a `readdir-enhanced` stream starts in "paused mode". For the stream to start emitting files, you'll need to switch it to "flowing mode".
+
+There are many ways to trigger flowing mode, such as adding a `stream.data(function() { ... })` handler, using `stream.pipe()` or calling `stream.resume()`.
+
+Unless you trigger flowing mode, your stream will stay paused and you won't receive any file events.
+
+[More information on paused vs. flowing mode can be found in the Node.js documentation.](https://nodejs.org/api/stream.html#stream_two_reading_modes)
+
+
 <a id="options"></a>
 Enhanced Features
 -----------------
