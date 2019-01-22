@@ -64,23 +64,24 @@ var stream = readdir.stream('my/directory')
 
 A Note on Streams
 -----------------
-The `readdir-enhanced` streaming API follows the Node.js stream conventions. A lot of questions around the streaming API can be answered by reading the [Node.js documentation on streams.](https://nodejs.org/api/stream.html). In order to help, we've tried to answer some common questions here.
+The `readdir-enhanced` streaming API follows the Node.js streaming API. A lot of questions around the streaming API can be answered by reading the [Node.js documentation.](https://nodejs.org/api/stream.html). However, we've tried to answer the most common questions here.
 
 ### Stream Events
 
-All events in the Node.js streaming API are supported by `readdir-enhanced`. These events include "end", "close", "drain", "error", plus more. [More information available in the Node.js documentation.](https://nodejs.org/api/stream.html#stream_class_stream_readable)
+All events in the Node.js streaming API are supported by `readdir-enhanced`. These events include "end", "close", "drain", "error", plus more. [An exhaustive list of events is available in the Node.js documentation.](https://nodejs.org/api/stream.html#stream_class_stream_readable)
 
 #### Detect when the Stream has finished
 
-Using these Stream Events, we can detect when the stream has finished reading files.
+Using these events, we can detect when the stream has finished reading files.
 
 ```javascript
 var readdir = require('readdir-enhanced');
 
-// EventEmitter API
+// Build the stream using the Streaming API
 var stream = readdir.stream('my/directory')
   .on('data', function(path) { ... });
 
+// Listen to the end event to detect the end of the stream
 stream.on('end', function() {
   console.log('Stream finished!');
 });
