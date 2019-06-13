@@ -1,7 +1,7 @@
 "use strict";
 
-const forEachApi = require("../fixtures/for-each-api");
-const dir = require("../fixtures/dir");
+const forEachApi = require("../utils/for-each-api");
+const dir = require("../utils/dir");
 const expect = require("chai").expect;
 const fs = require("fs");
 const path = require("path");

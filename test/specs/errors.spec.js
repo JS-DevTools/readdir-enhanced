@@ -1,6 +1,6 @@
 "use strict";
 
-const forEachApi = require("../fixtures/for-each-api");
+const forEachApi = require("../utils/for-each-api");
 const expect = require("chai").expect;
 
 describe("error handling", () => {

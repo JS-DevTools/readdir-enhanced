@@ -1,7 +1,7 @@
 "use strict";
 
 const readdir = require("../../");
-const dir = require("../fixtures/dir");
+const dir = require("../utils/dir");
 const expect = require("chai").expect;
 const fs = require("fs");
 

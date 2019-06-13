@@ -1,6 +1,6 @@
 "use strict";
 
-const readdir = require("../../");
+const readdir = require("../../lib");
 
 module.exports = forEachApi;
 
