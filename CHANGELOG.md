@@ -3,6 +3,21 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v3.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v3.0.0) (2019-06-13)
+
+#### Breaking Changes
+
+- Dropped support for Node 6
+
+- Updated all code to ES6+ syntax (async/await, template literals, arrow functions, etc.)
+
+#### Other Changes
+
+- Added [TypeScript definitions](lib/index.d.ts)
+
+[Full Changelog](https://github.com/JS-DevTools/readdir-enhanced/compare/v2.2.4...v3.0.0)
+
+
 ## [v2.2.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v2.2.0) (2018-01-09)
 
 - Refactored the codebase to use ES6 syntax (Node v4.x compatible)
