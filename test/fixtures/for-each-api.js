@@ -9,7 +9,7 @@ module.exports = forEachApi;
  */
 function forEachApi (tests) {
   describe("Synchronous API", () => {
-    tests.forEach(test => {
+    for (let test of tests) {
       testApi(test, "sync", done => {
         try {
           let data = readdir.sync.apply(null, test.args);
@@ -19,11 +19,11 @@ function forEachApi (tests) {
           done(error);
         }
       });
-    });
+    }
   });
 
   describe("Asynchronous API (callback/Promise)", () => {
-    tests.forEach(test => {
+    for (let test of tests) {
       testApi(test, "async", done => {
         readdir.async.apply(null, test.args)
           .then(
@@ -35,11 +35,11 @@ function forEachApi (tests) {
             }
           );
       });
-    });
+    }
   });
 
   describe("Asynchronous API (Stream/EventEmitter)", () => {
-    tests.forEach(test => {
+    for (let test of tests) {
       testApi(test, "stream", done => {
         let stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
 
@@ -69,7 +69,7 @@ function forEachApi (tests) {
           done(errors, data, files, dirs, symlinks);
         });
       });
-    });
+    }
   });
 }
 

@@ -500,7 +500,7 @@ if (path.sep !== "/") {
 }
 
 function changePathSeparatorsRecursive (obj) {
-  Object.keys(obj).forEach(key => {
+  for (let key of Object.keys(obj)) {
     let value = obj[key];
     if (Array.isArray(value)) {
       obj[key] = value.map(changePathSeparators);
@@ -508,7 +508,7 @@ function changePathSeparatorsRecursive (obj) {
     else if (typeof value === "object") {
       changePathSeparatorsRecursive(value);
     }
-  });
+  }
 }
 
 function changePathSeparators (p) {

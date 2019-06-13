@@ -82,10 +82,10 @@ describe("default behavior", () => {
       args: ["test/dir"],
       assert (error, data) {
         expect(error).to.be.null;
-        data.forEach(item => {
+        for (let item of data) {
           expect(item).not.to.contain("/");
           expect(item).not.to.contain("\\");
-        });
+        }
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(0);

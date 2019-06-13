@@ -103,13 +103,13 @@ describe("options.fs", () => {
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.match(/Cannot read property '\w+' of null/);
+        expect(error.message).to.match(/null is not an array/);
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
-        expect(errors[0].message).to.match(/Cannot read property '\w+' of null/);
+        expect(errors[0].message).to.match(/null is not an array/);
         expect(data).to.have.lengthOf(0);
         expect(files).to.have.lengthOf(0);
         expect(dirs).to.have.lengthOf(0);
@@ -129,13 +129,13 @@ describe("options.fs", () => {
       assert (error, data) {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal("array.forEach is not a function");
+        expect(error.message).to.equal("12345 is not an array");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
         expect(errors).to.have.lengthOf(1);
-        expect(errors[0].message).to.equal("array.forEach is not a function");
+        expect(errors[0].message).to.equal("12345 is not an array");
         expect(data).to.have.lengthOf(0);
         expect(files).to.have.lengthOf(0);
         expect(dirs).to.have.lengthOf(0);

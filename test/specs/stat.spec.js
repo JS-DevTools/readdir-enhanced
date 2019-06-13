@@ -62,7 +62,7 @@ describe("fs.Stats", () => {
       expect(paths).to.have.same.members(expected);
 
       // Each item should be a valid fs.Stats object
-      data.forEach(stat => {
+      for (let stat of data) {
         expect(stat).to.be.an("object");
         expect(stat).to.be.an.instanceOf(fs.Stats);
         expect(stat.mode).to.be.a("number");
@@ -73,7 +73,7 @@ describe("fs.Stats", () => {
         expect(stat.mtime).to.be.an.instanceOf(Date);
         expect(stat.ctime).to.be.an.instanceOf(Date);
         expect(stat.path).to.be.a("string");
-      });
+      }
 
       done();
     }

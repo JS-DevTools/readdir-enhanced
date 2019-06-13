@@ -245,9 +245,9 @@ describe("Stream API", () => {
       try {
         // Make sure the correct number of errors were thrown
         expect(errors).to.have.lengthOf(expectedErrors);
-        errors.forEach(error => {
+        for (let error of errors) {
           expect(error.message).to.equal("Epic Fail!!!");
-        });
+        }
 
         // All of the events should have still been emitted, despite the errors
         expect(data).to.have.same.members(expected);
