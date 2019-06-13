@@ -34,23 +34,23 @@
     "test:typescript": "tsc --noEmit --strict --lib esnext test/specs/typescript-definition.spec.ts",
     "coverage": "nyc --reporter=text --reporter=lcov mocha",
     "upgrade": "npm-check -u",
-    "bump": "bump --prompt --tag --push --all",
+    "bump": "bump --tag --push --all",
     "release": "npm run upgrade && npm test && npm run bump"
   },
   "devDependencies": {
     "@types/node": "^12.0.8",
     "chai": "^4.2.0",
     "coveralls": "^3.0.2",
-    "del": "^3.0.0",
+    "del": "^4.1.1",
     "eslint": "^5.10.0",
-    "eslint-config-modular": "^5.0.1",
+    "eslint-config-modular": "^7.0.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.4",
     "npm-check": "^5.9.0",
-    "nyc": "^13.1.0",
+    "nyc": "^14.1.1",
     "through2": "^3.0.0",
     "typescript": "^3.5.1",
-    "version-bump-prompt": "^4.2.2"
+    "version-bump-prompt": "^5.0.2"
   },
   "dependencies": {
     "call-me-maybe": "^1.0.1",
