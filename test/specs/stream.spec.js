@@ -162,7 +162,12 @@ describe("Stream API", () => {
         }
       })
       .on("end", () => {
-        if (nodeVersion >= 10) {
+        if (nodeVersion >= 12) {
+          // In Node >= 12, the "readable" event fires twice,
+          // and stream.read() only returns null twice
+          expect(nullCount).to.equal(2);
+        }
+        else if (nodeVersion >= 10) {
           // In Node >= 10, the "readable" event only fires once,
           // and stream.read() only returns null once
           expect(nullCount).to.equal(1);
