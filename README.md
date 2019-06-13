@@ -30,11 +30,11 @@ aliases: `readdir.stream`, `readdir.readdirStream`<br>
 The streaming API reads the starting directory asynchronously and returns the results in real-time as they are read. The results can be [piped](https://nodejs.org/api/stream.html#stream_readable_pipe_destination_options) to other Node.js streams, or you can listen for specific events via the [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter) interface. (see example below)
 
 ```javascript
-var readdir = require('readdir-enhanced');
-var through2 = require('through2');
+const readdir = require('readdir-enhanced');
+const through2 = require('through2');
 
 // Synchronous API
-var files = readdir.sync('my/directory');
+let files = readdir.sync('my/directory');
 
 // Callback API
 readdir.async('my/directory', function(err, files) { ... });
@@ -43,6 +43,9 @@ readdir.async('my/directory', function(err, files) { ... });
 readdir.async('my/directory')
   .then(function(files) { ... })
   .catch(function(err) { ... });
+
+// Async/Await API
+let files = await readdir.async('my/directory');
 
 // EventEmitter API
 readdir.stream('my/directory')
@@ -53,7 +56,7 @@ readdir.stream('my/directory')
   .on('error', function(err) { ... });
 
 // Streaming API
-var stream = readdir.stream('my/directory')
+let stream = readdir.stream('my/directory')
   .pipe(through2.obj(function(data, enc, next) {
     console.log(data);
     this.push(data);
@@ -75,10 +78,10 @@ All events in the Node.js streaming API are supported by `readdir-enhanced`. The
 Using these events, we can detect when the stream has finished reading files.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Build the stream using the Streaming API
-var stream = readdir.stream('my/directory')
+let stream = readdir.stream('my/directory')
   .on('data', function(path) { ... });
 
 // Listen to the end event to detect the end of the stream
@@ -113,7 +116,7 @@ By default, `readdir-enhanced` will only return the top-level contents of the st
 The `deep` option can be set to `true` to traverse the entire directory structure.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 readdir('my/directory', {deep: true}, function(err, files) {
   console.log(files);
@@ -130,7 +133,7 @@ readdir('my/directory', {deep: true}, function(err, files) {
 The `deep` option can be set to a number to only traverse that many levels deep.  For example, calling `readdir('my/directory', {deep: 2})` will return `subdir1/file.txt` and `subdir1/subdir2/file.txt`, but it _won't_ return `subdir1/subdir2/subdir3/file.txt`.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 readdir('my/directory', {deep: 2}, function(err, files) {
   console.log(files);
@@ -148,7 +151,7 @@ For simple use-cases, you can use a [regular expression](https://developer.mozil
 > **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Only crawl the "lib" and "bin" subdirectories
 // (notice that the "node_modules" subdirectory does NOT get crawled)
@@ -169,7 +172,7 @@ For more advanced recursion, you can set the `deep` option to a function that ac
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the function has additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Crawl all subdirectories, except "node_modules"
 function ignoreNodeModules (stats) {
@@ -198,7 +201,7 @@ For simple use-cases, you can use a [regular expression](https://developer.mozil
 > **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Find all .txt files
 readdir('my/directory', {filter: '*.txt'});
@@ -216,7 +219,7 @@ For more advanced filtering, you can specify a filter function that accepts an [
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the filter function has additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Only return file names containing an underscore
 function myFilter(stats) {
@@ -238,11 +241,11 @@ readdir('my/directory', {filter: myFilter}, function(err, files) {
 By default all `readdir-enhanced` functions return paths that are relative to the starting directory. But you can use the `basePath` option to customize this.  The `basePath` will be prepended to all of the returned paths.  One common use-case for this is to set `basePath` to the absolute path of the starting directory, so that all of the returned paths will be absolute.
 
 ```javascript
-var readdir = require('readdir-enhanced');
-var path = require('path');
+const readdir = require('readdir-enhanced');
+const path = require('path');
 
 // Get absolute paths
-var absPath = path.resolve('my/dir');
+let absPath = path.resolve('my/dir');
 readdir('my/directory', {basePath: absPath}, function(err, files) {
   console.log(files);
   // => /absolute/path/to/my/directory/file1.txt
@@ -265,7 +268,7 @@ readdir('my/directory', {basePath: 'my/directory'}, function(err, files) {
 By default, `readdir-enhanced` uses the correct path separator for your OS (`\` on Windows, `/` on Linux & MacOS). But you can set the `sep` option to any separator character(s) that you want to use instead.  This is usually used to ensure consistent path separators across different OSes.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Always use Windows path separators
 readdir('my/directory', {sep: '\\', deep: true}, function(err, files) {
@@ -284,13 +287,13 @@ readdir('my/directory', {sep: '\\', deep: true}, function(err, files) {
 By default, `readdir-enhanced` uses the default [Node.js FileSystem module](https://nodejs.org/api/fs.html) for methods like `fs.stat`, `fs.readdir` and `fs.lstat`. But in some situations, you can want to use your own FS methods (FTP, SSH, remote drive and etc). So you can provide your own implementation of FS methods by setting `options.fs` or specific methods, such as `options.fs.stat`.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 function myCustomReaddirMethod(dir, callback) {
   callback(null, ['__myFile.txt']);
 }
 
-var options = {
+let options = {
   fs: {
     readdir: myCustomReaddirMethod
   }
@@ -312,11 +315,11 @@ All of the `readdir-enhanced` functions listed above return an array of strings 
 To get `fs.Stats` objects instead of strings, just add the word "Stat" to the function name.  As with the normal functions, each one is aliased (e.g. `readdir.async.stat` is the same as `readdir.readdirAsyncStat`), so you can use whichever naming style you prefer.
 
 ```javascript
-var readdir = require('readdir-enhanced');
+const readdir = require('readdir-enhanced');
 
 // Synchronous API
-var stats = readdir.sync.stat('my/directory');
-var stats = readdir.readdirSyncStat('my/directory');
+let stats = readdir.sync.stat('my/directory');
+let stats = readdir.readdirSyncStat('my/directory');
 
 // Async API
 readdir.async.stat('my/directory', function(err, stats) { ... });
@@ -343,14 +346,14 @@ Backward Compatible
 `readdir-enhanced` is fully backward-compatible with Node.js' built-in `fs.readdir()` and `fs.readdirSync()` functions, so you can use it as a drop-in replacement in existing projects without affecting existing functionality, while still being able to use the enhanced features as needed.
 
 ```javascript
-var readdir = require('readdir-enhanced');
-var readdirSync = readdir.sync;
+const readdir = require('readdir-enhanced');
+let readdirSync = readdir.sync;
 
 // Use it just like Node's built-in fs.readdir function
 readdir('my/directory', function(err, files) { ... });
 
 // Use it just like Node's built-in fs.readdirSync function
-var files = readdirSync('my/directory');
+let files = readdirSync('my/directory');
 ```
 
 
