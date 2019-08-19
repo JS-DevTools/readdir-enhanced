@@ -3,6 +3,15 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v4.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v4.0.0) (2019-08-19)
+
+#### Breaking Changes
+
+- Removed [code](https://github.com/JS-DevTools/readdir-enhanced/commit/a35044d3399697d47ff20aee6f59bb48c355986d) that was stripping the drive letters from Windows paths when using glob filters.
+
+[Full Changelog](https://github.com/JS-DevTools/readdir-enhanced/compare/v3.0.1...v4.0.0)
+
+
 ## [v3.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v3.0.0) (2019-06-13)
 
 #### Breaking Changes
