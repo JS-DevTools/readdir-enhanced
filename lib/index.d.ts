@@ -3,7 +3,7 @@ import fs = require("fs");
 /// <reference types="node" />
 
 declare namespace readdir {
-  type FilterFunction = (stat: Stats) => boolean;
+  type FilterFunction = (stat: Stats) => unknown;
   type Callback<T> = (err: NodeJS.ErrnoException | null, result: T) => void;
   type PathsArrayCallback = Callback<string[]>;
   type StatsArrayCallback = Callback<Stats[]>;
