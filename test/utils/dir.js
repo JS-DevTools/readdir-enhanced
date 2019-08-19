@@ -1,12 +1,9 @@
 "use strict";
 
 const path = require("path");
-let isWindows = /^win/.test(process.platform);
 
 // This fake basePath is used to make sure Windows paths are handled properly.
-// The drive letter ("C:") is omitted when testing on POSIX systems,
-// because it gets interpreted as a path segment
-let windowsBasePath = (isWindows ? "C:" : "") + "\\Windows\\Users\\Desktop";
+let windowsBasePath = "C:\\Windows\\Users\\Desktop";
 
 let dir = module.exports = {
   windowsBasePath,

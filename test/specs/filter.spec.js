@@ -183,7 +183,7 @@ describe("options.filter", () => {
         deep: true,
         basePath: dir.windowsBasePath,
         sep: "\\",
-        filter: "/Windows/**/subdir/*/*.txt",
+        filter: "C:/Windows/**/subdir/*/*.txt",
       }],
       assert (error, data) {
         expect(error).to.be.null;
