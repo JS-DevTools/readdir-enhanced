@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "call-me-maybe": "^1.0.1",
-    "glob-to-regexp": "^0.4.0"
+    "file-path-filter": "^2.1.0"
   },
   "engines": {
     "node": ">=6"
