@@ -41,16 +41,16 @@
     "@types/node": "^12.7.2",
     "chai": "^4.2.0",
     "coveralls": "^3.0.6",
-    "del": "^5.0.0",
-    "eslint": "^6.2.0",
-    "eslint-config-modular": "^7.0.0",
+    "del": "^5.1.0",
+    "eslint": "^6.2.2",
+    "eslint-config-modular": "^7.0.1",
     "mkdirp": "^0.5.1",
     "mocha": "^6.2.0",
     "npm-check": "^5.9.0",
     "nyc": "^14.1.1",
     "through2": "^3.0.0",
     "typescript": "^3.5.3",
-    "version-bump-prompt": "^5.0.4"
+    "version-bump-prompt": "^5.0.5"
   },
   "dependencies": {
     "call-me-maybe": "^1.0.1",
