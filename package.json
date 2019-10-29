@@ -1,62 +1,69 @@
 {
-  "name": "readdir-enhanced",
-  "version": "4.0.3",
-  "description": "fs.readdir with sync, async, and streaming APIs + filtering, recursion, absolute paths, etc.",
+  "name": "file-path-filter",
+  "version": "2.2.2",
+  "description": "Filters file paths using globs, regular expressions, or custom criteria",
   "keywords": [
-    "fs",
-    "readdir",
-    "stream",
-    "event",
-    "recursive",
-    "deep",
     "filter",
-    "absolute"
+    "find",
+    "file",
+    "path",
+    "regex",
+    "regexp",
+    "glob",
+    "include",
+    "exclude"
   ],
   "author": {
     "name": "James Messinger",
     "url": "https://jamesmessinger.com"
   },
-  "homepage": "https://jstools.dev/readdir-enhanced",
+  "license": "MIT",
+  "homepage": "https://jstools.dev/file-path-filter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JS-DevTools/readdir-enhanced.git"
+    "url": "https://github.com/JS-DevTools/file-path-filter.git"
   },
-  "license": "MIT",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "types": "lib/index.d.ts",
   "files": [
     "lib"
   ],
   "scripts": {
-    "lint": "eslint lib test",
-    "test": "npm run test:node && npm run test:typescript && npm run lint",
-    "test:node": "mocha",
-    "test:typescript": "tsc --noEmit --strict --lib esnext test/specs/typescript-definition.spec.ts",
-    "coverage": "nyc --reporter=text --reporter=lcov node_modules/mocha/bin/mocha",
+    "clean": "shx rm -rf .nyc_output coverage lib",
+    "lint": "npm run lint:typescript && npm run lint:javascript",
+    "lint:typescript": "tslint -p tsconfig.json",
+    "lint:javascript": "eslint test",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "mocha && npm run lint",
+    "coverage": "nyc node_modules/mocha/bin/mocha",
     "upgrade": "npm-check -u && npm audit fix",
     "bump": "bump --tag --push --all",
-    "release": "npm run upgrade && npm test && npm run bump"
+    "release": "npm run upgrade && npm run clean && npm run build && npm test && npm run bump"
+  },
+  "engines": {
+    "node": ">=8"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.4",
+    "@types/glob-to-regexp": "^0.4.0",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.11.7",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
-    "del": "^5.1.0",
     "eslint": "^6.6.0",
     "eslint-config-modular": "^7.0.1",
-    "mkdirp": "^0.5.1",
     "mocha": "^6.2.2",
     "npm-check": "^5.9.0",
     "nyc": "^14.1.1",
-    "through2": "^3.0.0",
+    "shx": "^0.3.2",
+    "tslint": "^5.20.0",
+    "tslint-modular": "^1.6.0",
     "typescript": "^3.6.4",
+    "typescript-tslint-plugin": "^0.5.4",
     "version-bump-prompt": "^5.0.5"
   },
   "dependencies": {
-    "call-me-maybe": "^1.0.1",
-    "file-path-filter": "^2.2.2"
-  },
-  "engines": {
-    "node": ">=6"
+    "glob-to-regexp": "^0.4.1"
   }
 }
