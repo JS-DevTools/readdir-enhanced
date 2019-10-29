@@ -1,27 +1,26 @@
 {
-  "name": "file-path-filter",
-  "version": "2.2.2",
-  "description": "Filters file paths using globs, regular expressions, or custom criteria",
+  "name": "readdir-enhanced",
+  "version": "4.0.3",
+  "description": "fs.readdir with sync, async, and streaming APIs + filtering, recursion, absolute paths, etc.",
   "keywords": [
+    "fs",
+    "readdir",
+    "stream",
+    "event",
+    "recursive",
+    "deep",
     "filter",
-    "find",
-    "file",
-    "path",
-    "regex",
-    "regexp",
-    "glob",
-    "include",
-    "exclude"
+    "absolute"
   ],
   "author": {
     "name": "James Messinger",
     "url": "https://jamesmessinger.com"
   },
   "license": "MIT",
-  "homepage": "https://jstools.dev/file-path-filter",
+  "homepage": "https://jstools.dev/readdir-enhanced",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JS-DevTools/file-path-filter.git"
+    "url": "https://github.com/JS-DevTools/readdir-enhanced.git"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -35,7 +34,9 @@
     "lint:javascript": "eslint test",
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "mocha && npm run lint",
+    "test": "npm run test:node && npm run test:typescript && npm run lint",
+    "test:node": "mocha",
+    "test:typescript": "tsc --noEmit --strict --lib esnext test/specs/typescript-definition.spec.ts",
     "coverage": "nyc node_modules/mocha/bin/mocha",
     "upgrade": "npm-check -u && npm audit fix",
     "bump": "bump --tag --push --all",
@@ -46,11 +47,13 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.4",
-    "@types/glob-to-regexp": "^0.4.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.11.7",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
+    "del": "^5.1.0",
+    "mkdirp": "^0.5.1",
+    "through2": "^3.0.0",
     "eslint": "^6.6.0",
     "eslint-config-modular": "^7.0.1",
     "mocha": "^6.2.2",
@@ -64,6 +67,6 @@
     "version-bump-prompt": "^5.0.5"
   },
   "dependencies": {
-    "glob-to-regexp": "^0.4.1"
+    "file-path-filter": "^2.2.2"
   }
 }
