@@ -2,7 +2,6 @@
 
 module.exports = readdirAsync;
 
-const maybe = require("call-me-maybe");
 const DirectoryReader = require("../directory-reader");
 
 let asyncFacade = {
@@ -44,4 +43,16 @@ function readdirAsync (dir, options, callback, internalOptions) {
       resolve(results);
     });
   })));
+}
+
+function maybe (cb, promise) {
+  if (cb) {
+    promise.then(
+      (result) => cb(null, result),
+      (err) => cb(err)
+    );
+  }
+  else {
+    return promise;
+  }
 }
