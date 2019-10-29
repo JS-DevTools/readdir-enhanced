@@ -1,15 +1,16 @@
-"use strict";
-
-module.exports = asyncForEach;
+import { Iterator } from "../facade";
+import { Callback } from "../types";
 
 /**
  * Simultaneously processes all items in the given array.
  *
- * @param {array} array - The array to iterate over
- * @param {function} iterator - The function to call for each item in the array
- * @param {function} done - The function to call when all iterators have completed
+ * @param array - The array to iterate over
+ * @param iterator - The function to call for each item in the array
+ * @param done - The function to call when all iterators have completed
+ *
+ * @internal
  */
-function asyncForEach (array, iterator, done) {
+export function asyncForEach<T>(array: T[], iterator: Iterator<T>, done: Callback<void>): void {
   if (!Array.isArray(array)) {
     throw new TypeError(`${array} is not an array`);
   }
@@ -27,7 +28,7 @@ function asyncForEach (array, iterator, done) {
     iterator(item, callback);
   }
 
-  function callback () {
+  function callback() {
     if (--pending === 0) {
       done();
     }

@@ -13,7 +13,7 @@ module.exports = stat;
  * @param {string} path - The path to return stats for
  * @param {function} callback
  */
-function stat (fs, path, callback) {
+function stat(fs, path, callback) {
   let isSymLink = false;
 
   call.safe(fs.lstat, path, (err, lstats) => {
@@ -51,7 +51,7 @@ function stat (fs, path, callback) {
  * @param {object} lstats - The stats of the symlink
  * @param {function} callback
  */
-function symlinkStat (fs, path, lstats, callback) {
+function symlinkStat(fs, path, lstats, callback) {
   call.safe(fs.stat, path, (err, stats) => {
     if (err) {
       // The symlink is broken, so return the stats for the link itself

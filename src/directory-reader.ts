@@ -1,24 +1,24 @@
-"use strict";
-
-const Readable = require("stream").Readable;
-const EventEmitter = require("events").EventEmitter;
-const path = require("path");
-const normalizeOptions = require("./normalize-options");
-const stat = require("./stat");
-const call = require("./call");
+import { EventEmitter } from "events";
+import * as path from "path";
+import { Readable } from "stream";
+import { call } from "./call";
+import { normalizeOptions } from "./normalize-options";
+import { stat } from "./stat";
 
 /**
  * Asynchronously reads the contents of a directory and streams the results
  * via a {@link stream.Readable}.
+ *
+ * @internal
  */
-class DirectoryReader {
+export class DirectoryReader {
   /**
    * @param {string} dir - The absolute or relative directory path to read
    * @param {object} [options] - User-specified options, if any (see {@link normalizeOptions})
    * @param {object} internalOptions - Internal options that aren't part of the public API
    * @class
    */
-  constructor (dir, options, internalOptions) {
+  public constructor(dir, options, internalOptions) {
     this.options = options = normalizeOptions(options, internalOptions);
 
     // Indicates whether we should keep reading
@@ -61,7 +61,7 @@ class DirectoryReader {
   /**
    * Reads the next directory in the queue
    */
-  readNextDirectory () {
+  public readNextDirectory() {
     let facade = this.options.facade;
     let dir = this.queue.shift();
     this.pending++;
@@ -97,7 +97,7 @@ class DirectoryReader {
    * NOTE: This does not necessarily mean that the reader is finished, since there may still
    * be other directories queued or pending.
    */
-  finishedReadingDirectory () {
+  public finishedReadingDirectory() {
     this.pending--;
 
     if (this.shouldRead) {
@@ -114,7 +114,7 @@ class DirectoryReader {
    * Determines whether the reader has finished processing all items in all directories.
    * If so, then the "end" event is fired (via {@Readable#push})
    */
-  checkForEOF () {
+  public checkForEOF() {
     if (this.buffer.length === 0 &&   // The stuff we've already read
     this.pending === 0 &&             // The stuff we're currently reading
     this.queue.length === 0) {        // The stuff we haven't read yet
@@ -135,7 +135,7 @@ class DirectoryReader {
    * @param {string} item - The name of the item (name only, no path)
    * @param {function} done - A callback function that is called after the item has been processed
    */
-  processItem (dir, item, done) {
+  public processItem(dir, item, done) {
     let stream = this.stream;
     let options = this.options;
 
@@ -218,7 +218,7 @@ class DirectoryReader {
    *
    * @param {object} chunk
    */
-  pushOrBuffer (chunk) {
+  public pushOrBuffer(chunk) {
     // Add the chunk to the buffer
     this.buffer.push(chunk);
 
@@ -235,7 +235,7 @@ class DirectoryReader {
    * In addition, the "file", "directory", and/or "symlink" events may be fired,
    * depending on the type of properties of the chunk.
    */
-  pushFromBuffer () {
+  public pushFromBuffer() {
     let stream = this.stream;
     let chunk = this.buffer.shift();
 
@@ -261,7 +261,7 @@ class DirectoryReader {
    * @param {boolean} maxDepthReached - Whether we've already crawled the user-specified depth
    * @returns {boolean}
    */
-  shouldRecurse (stats, maxDepthReached) {
+  public shouldRecurse(stats, maxDepthReached) {
     let options = this.options;
 
     if (maxDepthReached) {
@@ -298,7 +298,7 @@ class DirectoryReader {
    * @param {fs.Stats} stats - The item's {@link fs.Stats} object, or an object with just a `path` property
    * @returns {boolean}
    */
-  filter (stats) {
+  public filter(stats) {
     let options = this.options;
 
     if (options.filterFn) {
@@ -326,7 +326,7 @@ class DirectoryReader {
    * @param {string} eventName
    * @param {*} data
    */
-  emit (eventName, data) {
+  public emit(eventName, data) {
     let stream = this.stream;
 
     try {
@@ -344,5 +344,3 @@ class DirectoryReader {
     }
   }
 }
-
-module.exports = DirectoryReader;

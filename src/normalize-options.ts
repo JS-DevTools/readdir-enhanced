@@ -1,55 +1,56 @@
-"use strict";
-
-const path = require("path");
-const { createFilter } = require("file-path-filter");
-
-module.exports = normalizeOptions;
+import { createFilter } from "file-path-filter";
+import * as path from "path";
+import { Facade } from "./facade";
+import { FilterFunction, Options, Stats } from "./types";
 
 /**
- * @typedef {Object} FSFacade
- * @property {fs.readdir} readdir
- * @property {fs.stat} stat
- * @property {fs.lstat} lstat
+ * Internal options that are provided by the different implementations
+ * @internal
  */
+interface InternalOptions {
+  /**
+   * Synchronous or asynchronous facades for various methods, including for the Node.js File System module
+   */
+  facade: Facade;
+
+  /**
+   * Indicates whether the reader should emit "file", "directory", and "symlink" events.
+   */
+  emit: boolean;
+
+  /**
+   * Indicates whether the reader should emit {@link fs.Stats} objects instead of path strings
+   */
+  stats: boolean;
+}
+
+/**
+ * Normalized and sanitized options.
+ * @internal
+ */
+interface NormalizedOptions {
+  recurseDepth: number;
+  recurseFn?: FilterFunction;
+  recurseFnNeedsStats: boolean;
+  filterFn?: FilterFunction;
+  filterFnNeedsStats: boolean;
+  sep: string;
+  basePath: string;
+  facade: Facade;
+  emit: boolean;
+  stats: boolean;
+}
 
 /**
  * Validates and normalizes the options argument
  *
- * @param {object} [options] - User-specified options, if any
- * @param {object} internalOptions - Internal options that aren't part of the public API
+ * @param [options] - User-specified options, if any
+ * @param internalOptions - Internal options that aren't part of the public API
  *
- * @param {number|boolean|function} [options.deep]
- * The number of directories to recursively traverse. Any falsy value or negative number will
- * default to zero, so only the top-level contents will be returned. Set to `true` or `Infinity`
- * to traverse all subdirectories.  Or provide a function that accepts a {@link fs.Stats} object
- * and returns a truthy value if the directory's contents should be crawled.
- *
- * @param {function|string|RegExp} [options.filter]
- * A function that accepts a {@link fs.Stats} object and returns a truthy value if the data should
- * be returned.  Or a RegExp or glob string pattern, to filter by file name.
- *
- * @param {string} [options.sep]
- * The path separator to use. By default, the OS-specific separator will be used, but this can be
- * set to a specific value to ensure consistency across platforms.
- *
- * @param {string} [options.basePath]
- * The base path to prepend to each result. If empty, then all results will be relative to `dir`.
- *
- * @param {FSFacade} [options.fs]
- * Synchronous or asynchronous facades for Node.js File System module
- *
- * @param {object} [internalOptions.facade]
- * Synchronous or asynchronous facades for various methods, including for the Node.js File System module
- *
- * @param {boolean} [internalOptions.emit]
- * Indicates whether the reader should emit "file", "directory", and "symlink" events
- *
- * @param {boolean} [internalOptions.stats]
- * Indicates whether the reader should emit {@link fs.Stats} objects instead of path strings
- *
- * @returns {object}
+ * @internal
  */
-function normalizeOptions (options, internalOptions) {
+// tslint:disable-next-line: cyclomatic-complexity
+export function normalizeOptions(options: Options | undefined, internalOptions: InternalOptions): NormalizedOptions {
   if (options === null || options === undefined) {
     options = {};
   }
@@ -127,7 +128,7 @@ function normalizeOptions (options, internalOptions) {
   }
 
   // Determine which facade methods to use
-  let facade;
+  let facade: Facade;
   if (options.fs === null || options.fs === undefined) {
     // The user didn't provide their own facades, so use our internal ones
     facade = internalOptions.facade;
@@ -158,6 +159,6 @@ function normalizeOptions (options, internalOptions) {
 /**
  * Maps our modified fs.Stats objects to file paths
  */
-function map (stats) {
+function map(stats: Stats) {
   return stats.path;
 }

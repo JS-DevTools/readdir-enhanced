@@ -1,8 +1,6 @@
-"use strict";
-
-const readdirSync = require("./sync");
-const readdirAsync = require("./async");
-const readdirStream = require("./stream");
+import { readdirAsync } from "./async";
+import { readdirStream } from "./stream";
+import { readdirSync } from "./sync";
 
 module.exports = exports = readdirAsyncPath;
 exports.readdir = exports.readdirAsync = exports.async = readdirAsyncPath;
@@ -19,7 +17,7 @@ exports.readdirSyncStat = exports.sync.stat = readdirSyncStat;
  * @param {object} [options]
  * @returns {string[]}
  */
-function readdirSyncPath (dir, options) {
+function readdirSyncPath(dir, options) {
   return readdirSync(dir, options, {});
 }
 
@@ -30,7 +28,7 @@ function readdirSyncPath (dir, options) {
  * @param {object} [options]
  * @returns {fs.Stats[]}
  */
-function readdirSyncStat (dir, options) {
+function readdirSyncStat(dir, options) {
   return readdirSync(dir, options, { stats: true });
 }
 
@@ -43,7 +41,7 @@ function readdirSyncStat (dir, options) {
  * @param {function} [callback]
  * @returns {Promise<string[]>}
  */
-function readdirAsyncPath (dir, options, callback) {
+function readdirAsyncPath(dir, options, callback) {
   return readdirAsync(dir, options, callback, {});
 }
 
@@ -56,7 +54,7 @@ function readdirAsyncPath (dir, options, callback) {
  * @param {function} [callback]
  * @returns {Promise<fs.Stats[]>}
  */
-function readdirAsyncStat (dir, options, callback) {
+function readdirAsyncStat(dir, options, callback) {
   return readdirAsync(dir, options, callback, { stats: true });
 }
 
@@ -68,7 +66,7 @@ function readdirAsyncStat (dir, options, callback) {
  * @param {object} [options]
  * @returns {stream.Readable}
  */
-function readdirStreamPath (dir, options) {
+function readdirStreamPath(dir, options) {
   return readdirStream(dir, options, {});
 }
 
@@ -80,6 +78,6 @@ function readdirStreamPath (dir, options) {
  * @param {object} [options]
  * @returns {stream.Readable}
  */
-function readdirStreamStat (dir, options) {
+function readdirStreamStat(dir, options) {
   return readdirStream(dir, options, { stats: true });
 }

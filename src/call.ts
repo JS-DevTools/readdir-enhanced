@@ -1,48 +1,50 @@
-"use strict";
+import { Callback } from "./types";
 
-let call = module.exports = {
-  safe: safeCall,
-  once: callOnce,
-};
+/**
+ * A function that accepts an input value and returns an output value via a callback.
+ * @internal
+ */
+export type Fn<I, O> = (input: I, callback: Callback<O>) => void;
+
 
 /**
  * Calls a function with the given arguments, and ensures that the error-first callback is _always_
  * invoked exactly once, even if the function throws an error.
  *
- * @param {function} fn - The function to invoke
- * @param {...*} args - The arguments to pass to the function. The final argument must be a callback function.
+ * @param fn - The function to invoke
+ * @param args - The arguments to pass to the function. The final argument must be a callback function.
+ *
+ * @internal
  */
-function safeCall (fn, args) {
-  // Get the function arguments as an array
-  args = Array.prototype.slice.call(arguments, 1);
-
+export function safeCall<I, O>(fn: Fn<I, O>, input: I, callback: Callback<O>): void {
   // Replace the callback function with a wrapper that ensures it will only be called once
-  let callback = call.once(args.pop());
-  args.push(callback);
+  callback = callOnce(callback);
 
   try {
-    fn.apply(null, args);
+    fn.call(undefined, input, callback);
   }
   catch (err) {
-    callback(err);
+    callback(err as Error);
   }
 }
+
 
 /**
  * Returns a wrapper function that ensures the given callback function is only called once.
  * Subsequent calls are ignored, unless the first argument is an Error, in which case the
  * error is thrown.
  *
- * @param {function} fn - The function that should only be called once
- * @returns {function}
+ * @param callback - The function that should only be called once
+ *
+ * @internal
  */
-function callOnce (fn) {
+export function callOnce<T>(callback: Callback<T>): Callback<T> {
   let fulfilled = false;
 
-  return function onceWrapper (err) {
+  return function onceWrapper(this: unknown, err: Error | undefined, result: T) {
     if (!fulfilled) {
       fulfilled = true;
-      return fn.apply(this, arguments);
+      callback.call(this, err, result);
     }
     else if (err) {
       // The callback has already been called, but now an error has occurred

@@ -1,13 +1,8 @@
-"use strict";
+import * as fs from "fs";
+import { DirectoryReader } from "../directory-reader";
+import { asyncForEach } from "./for-each";
 
-module.exports = readdirAsync;
-
-const DirectoryReader = require("../directory-reader");
-
-let asyncFacade = {
-  fs: require("fs"),
-  forEach: require("./for-each"),
-};
+let asyncFacade = { fs, forEach: asyncForEach };
 
 /**
  * Returns the buffered output from an asynchronous {@link DirectoryReader},
@@ -18,7 +13,7 @@ let asyncFacade = {
  * @param {function} [callback]
  * @param {object} internalOptions
  */
-function readdirAsync (dir, options, callback, internalOptions) {
+export function readdirAsync(dir: string, options, callback, internalOptions) {
   if (typeof options === "function") {
     callback = options;
     options = undefined;
@@ -32,11 +27,11 @@ function readdirAsync (dir, options, callback, internalOptions) {
     let reader = new DirectoryReader(dir, options, internalOptions);
     let stream = reader.stream;
 
-    stream.on("error", err => {
+    stream.on("error", (err) => {
       reject(err);
       stream.pause();
     });
-    stream.on("data", result => {
+    stream.on("data", (result) => {
       results.push(result);
     });
     stream.on("end", () => {
@@ -45,7 +40,7 @@ function readdirAsync (dir, options, callback, internalOptions) {
   })));
 }
 
-function maybe (cb, promise) {
+function maybe(cb, promise) {
   if (cb) {
     promise.then(
       (result) => cb(null, result),
