@@ -1,8 +1,8 @@
-import * as fs from "fs";
 import { DirectoryReader } from "../directory-reader";
 import { Behavior } from "../types-internal";
 import { Options, Stats } from "../types-public";
 import { syncForEach as forEach } from "./for-each";
+import { syncFS as fs } from "./fs";
 
 const syncFacade = { fs, forEach };
 
