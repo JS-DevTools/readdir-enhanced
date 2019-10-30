@@ -19,6 +19,11 @@ export interface ReaddirAsync {
   /**
    * Aynchronous `readdir()` that returns an array of path strings via a callback.
    */
+  (dir: string, callback: Callback<string[]>): void;
+
+  /**
+   * Aynchronous `readdir()` that returns an array of path strings via a callback.
+   */
   (dir: string, options: Options | undefined, callback: Callback<string[]>): void;
 
   stat: {
@@ -26,6 +31,11 @@ export interface ReaddirAsync {
      * Asynchronous `readdir()` that returns an array of `Stats` objects.
      */
     (dir: string, options?: Options): Promise<Stats[]>;
+
+    /**
+     * Asynchronous `readdir()` that returns an array of `Stats` objects via a callback.
+     */
+    (dir: string, callback: Callback<Stats[]>): void;
 
     /**
      * Asynchronous `readdir()` that returns an array of `Stats` objects via a callback.
@@ -43,9 +53,10 @@ export { async };
  * Results are an array of path strings.
  */
 export function readdirAsync(dir: string, options?: Options): Promise<string[]>;
+export function readdirAsync(dir: string, callback: Callback<string[]>): void;
 export function readdirAsync(dir: string, options: Options | undefined, callback: Callback<string[]>): void;
-export function readdirAsync(dir: string, options: Options | undefined, callback?: Callback<string[]>): Promise<string[]> | void {
-  return readdirAsyncInternal(dir, options, callback, {});
+export function readdirAsync(dir: string, options: Options | Callback<string[]> | undefined, callback?: Callback<string[]>): Promise<string[]> | void {
+  return readdirAsyncInternal(dir, options as Options, callback, {});
 }
 
 /**
@@ -53,9 +64,10 @@ export function readdirAsync(dir: string, options: Options | undefined, callback
  * Results are an array of `Stats` objects.
  */
 export function readdirAsyncStat(dir: string, options?: Options): Promise<Stats[]>;
+export function readdirAsyncStat(dir: string, callback: Callback<Stats[]>): void;
 export function readdirAsyncStat(dir: string, options: Options | undefined, callback: Callback<Stats[]>): void;
-export function readdirAsyncStat(dir: string, options: Options | undefined, callback?: Callback<Stats[]>): Promise<Stats[]> | void {
-  return readdirAsyncInternal(dir, options, callback, { stats: true });
+export function readdirAsyncStat(dir: string, options: Options | Callback<Stats[]> | undefined, callback?: Callback<Stats[]>): Promise<Stats[]> | void {
+  return readdirAsyncInternal(dir, options as Options, callback, { stats: true });
 }
 
 /**
