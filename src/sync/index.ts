@@ -1,17 +1,48 @@
 import * as fs from "fs";
 import { DirectoryReader } from "../directory-reader";
 import { Behavior } from "../types-internal";
-import { Options } from "../types-public";
+import { Options, Stats } from "../types-public";
 import { syncForEach as forEach } from "./for-each";
 
 const syncFacade = { fs, forEach };
 
 /**
- * Returns the buffered output from a synchronous `DirectoryReader`.
- *
- * @internal
+ * Enhanced `fs.readdir()` synchronous interface.
  */
-export function readdirSync<T>(dir: string, options: Options | undefined, behavior: Behavior): T[] {
+export interface ReaddirSync {
+  /**
+   * Synchronous `readdir()` that returns an array of string paths.
+   */
+  (dir: string, options?: Options): string[];
+
+  /**
+   * Synchronous `readdir()` that returns results as an array of `Stats` objects
+   */
+  stat(dir: string, options?: Options): Stats[];
+}
+
+const sync = readdirSync as ReaddirSync;
+sync.stat = readdirSyncStat;
+export { sync };
+
+/**
+ * Synchronous `readdir()` that returns an array of string paths.
+ */
+export function readdirSync(dir: string, options?: Options): string[] {
+  return readdirSyncInternal(dir, options, {});
+}
+
+/**
+ * Synchronous `readdir()` that returns results as an array of `Stats` objects
+ */
+export function readdirSyncStat(dir: string, options?: Options): Stats[] {
+  return readdirSyncInternal(dir, options, { stats: true });
+}
+
+/**
+ * Returns the buffered output from a synchronous `DirectoryReader`.
+ */
+function readdirSyncInternal<T>(dir: string, options: Options | undefined, behavior: Behavior): T[] {
   let reader = new DirectoryReader(dir, options, behavior, syncFacade);
   let stream = reader.stream;
 
