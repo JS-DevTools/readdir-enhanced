@@ -4,13 +4,13 @@ import readdir, { readdirAsync, readdirAsyncStat, readdirStream, readdirStreamSt
 const root = "path/to/some/directory";
 const options = {};
 const pathsCallback = (err: Error | null, paths: string[]) => undefined;
-const statsCallback = (err: Error | null, stats: readdir.Stats[]) => undefined;
-const writableStream = {} as NodeJS.WritableStream;
+const statsCallback = (err: Error | null, stats: Stats[]) => undefined;
+const writableStream = {} as NodeJS.WritableStream;  // tslint:disable-line: no-object-literal-type-assertion
 const pathHandler = (path: string) => undefined;
 const pathsHandler = (paths: string[]) => undefined;
-const statsHandler = (stats: readdir.Stats[]) => undefined;
+const statsHandler = (stats: Stats[]) => undefined;
 const errorHandler = (err: Error) => undefined;
-const statsFilter = (stats: readdir.Stats) => true;
+const statsFilter = (stats: Stats) => true;
 
 // Synchronous API
 readdir.sync(root);
