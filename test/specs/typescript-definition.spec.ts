@@ -1,6 +1,5 @@
-import readdir = require("../..");
-const { readdirSync, readdirAsync, readdirStream } = readdir;
-const { readdirSyncStat, readdirAsyncStat, readdirStreamStat } = readdir;
+// tslint:disable-next-line: match-default-export-name
+import readdir, { readdirAsync, readdirAsyncStat, readdirStream, readdirStreamStat, readdirSync, readdirSyncStat, Stats } from "../../";
 
 const root = "path/to/some/directory";
 const options = {};
