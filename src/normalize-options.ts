@@ -1,34 +1,13 @@
 import { createFilter } from "file-path-filter";
 import * as path from "path";
-import { Facade } from "./facade";
-import { FilterFunction, Options, Stats } from "./types";
-
-/**
- * Internal options that are provided by the different implementations
- * @internal
- */
-interface InternalOptions {
-  /**
-   * Synchronous or asynchronous facades for various methods, including for the Node.js File System module
-   */
-  facade: Facade;
-
-  /**
-   * Indicates whether the reader should emit "file", "directory", and "symlink" events.
-   */
-  emit: boolean;
-
-  /**
-   * Indicates whether the reader should emit {@link fs.Stats} objects instead of path strings
-   */
-  stats: boolean;
-}
+import { Behavior, Facade } from "./types-internal";
+import { FilterFunction, Options, Stats } from "./types-public";
 
 /**
  * Normalized and sanitized options.
  * @internal
  */
-interface NormalizedOptions {
+export interface NormalizedOptions {
   recurseDepth: number;
   recurseFn?: FilterFunction;
   recurseFnNeedsStats: boolean;
@@ -45,12 +24,13 @@ interface NormalizedOptions {
  * Validates and normalizes the options argument
  *
  * @param [options] - User-specified options, if any
- * @param internalOptions - Internal options that aren't part of the public API
+ * @param behavior - Internal options that aren't part of the public API
+ * @param facade - sync or async function implementations
  *
  * @internal
  */
 // tslint:disable-next-line: cyclomatic-complexity
-export function normalizeOptions(options: Options | undefined, internalOptions: InternalOptions): NormalizedOptions {
+export function normalizeOptions(options: Options | undefined, behavior: Behavior, facade: Facade): NormalizedOptions {
   if (options === null || options === undefined) {
     options = {};
   }
@@ -128,15 +108,13 @@ export function normalizeOptions(options: Options | undefined, internalOptions: 
   }
 
   // Determine which facade methods to use
-  let facade: Facade;
   if (options.fs === null || options.fs === undefined) {
     // The user didn't provide their own facades, so use our internal ones
-    facade = internalOptions.facade;
   }
   else if (typeof options.fs === "object") {
     // Merge the internal facade methods with the user-provided `fs` facades
-    facade = Object.assign({}, internalOptions.facade);
-    facade.fs = Object.assign({}, internalOptions.facade.fs, options.fs);
+    facade = Object.assign({}, facade);
+    facade.fs = Object.assign({}, facade.fs, options.fs);
   }
   else {
     throw new TypeError("options.fs must be an object");
@@ -151,8 +129,8 @@ export function normalizeOptions(options: Options | undefined, internalOptions: 
     sep,
     basePath,
     facade,
-    emit: !!internalOptions.emit,
-    stats: !!internalOptions.stats,
+    emit: !!behavior.emit,
+    stats: !!behavior.stats,
   };
 }
 
