@@ -24,7 +24,7 @@ export function safeCall<I, O>(fn: Fn<I, O>, input: I, callback: Callback<O>): v
     fn.call(undefined, input, callback);
   }
   catch (err) {
-    callback(err as Error);
+    callback(err as Error, undefined as unknown as O);
   }
 }
 

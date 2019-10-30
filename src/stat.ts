@@ -18,7 +18,7 @@ export function stat(fs: FileSystem, path: string, callback: Callback<Stats>): v
   safeCall(fs.lstat, path, (err: Error | null, lstats: Stats) => {
     if (err) {
       // fs.lstat threw an eror
-      return callback(err);
+      return callback(err, undefined as unknown as Stats);
     }
 
     try {
@@ -27,7 +27,7 @@ export function stat(fs: FileSystem, path: string, callback: Callback<Stats>): v
     catch (err2) {
       // lstats.isSymbolicLink() threw an error
       // (probably because fs.lstat returned an invalid result)
-      return callback(err2 as Error);
+      return callback(err2 as Error, undefined as unknown as Stats);
     }
 
     if (isSymLink) {
@@ -64,7 +64,7 @@ function symlinkStat(fs: FileSystem, path: string, lstats: Stats, callback: Call
     catch (err2) {
       // Setting stats.isSymbolicLink threw an error
       // (probably because fs.stat returned an invalid result)
-      return callback(err2 as Error);
+      return callback(err2 as Error, undefined as unknown as Stats);
     }
 
     callback(null, stats);

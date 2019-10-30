@@ -86,17 +86,7 @@ export type FilterFunction = (stat: Stats) => unknown;
 /**
  * An error-first callback function.
  */
-export interface Callback<T> {
-  /**
-   * Successful result
-   */
-  (err: null, result: T): void;
-
-  /**
-   * Error result
-   */
-  (err: Error, result?: T): void;
-}
+export type Callback<T> = (err: Error | null, result: T) => void;
 
 /**
  * The events that can be emitted by the stream interface.

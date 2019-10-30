@@ -102,7 +102,7 @@ dir: string, options: Options | undefined, callback: Callback<T[]> | undefined, 
   if (callback) {
     promise.then(
       (results: T[]) => callback!(null, results),
-      (err: Error) => callback!(err)
+      (err: Error) => callback!(err, undefined as unknown as T[])
     );
   }
   else {

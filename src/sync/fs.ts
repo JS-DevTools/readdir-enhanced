@@ -21,7 +21,7 @@ export const syncFS: FileSystem = {
       callback(null, items);
     }
     catch (err) {
-      callback(err as Error);
+      callback(err as Error, undefined as unknown as string[]);
     }
   },
 
@@ -38,7 +38,7 @@ export const syncFS: FileSystem = {
       callback(null, stats);
     }
     catch (err) {
-      callback(err as Error);
+      callback(err as Error, undefined as unknown as fs.Stats);
     }
   },
 
@@ -55,7 +55,7 @@ export const syncFS: FileSystem = {
       callback(null, stats);
     }
     catch (err) {
-      callback(err as Error);
+      callback(err as Error, undefined as unknown as fs.Stats);
     }
   },
 };
