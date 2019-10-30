@@ -38,7 +38,7 @@ export interface Options {
    *
    * Defaults to the Node "fs" module.
    */
-  fs?: FileSystem;
+  fs?: Partial<FileSystem>;
 }
 
 /**
@@ -48,17 +48,17 @@ export interface FileSystem {
   /**
    * Returns the names of files in a directory.
    */
-  readdir?(path: string, callback: Callback<string[]>): void;
+  readdir(path: string, callback: Callback<string[]>): void;
 
   /**
    * Returns filesystem information about a directory entry.
    */
-  stat?(path: string, callback: Callback<fs.Stats>): void;
+  stat(path: string, callback: Callback<fs.Stats>): void;
 
   /**
    * Returns filesystem information about a symlink.
    */
-  lstat?(path: string, callback: Callback<fs.Stats>): void;
+  lstat(path: string, callback: Callback<fs.Stats>): void;
 }
 
 /**
@@ -86,4 +86,19 @@ export type FilterFunction = (stat: Stats) => unknown;
 /**
  * An error-first callback function.
  */
-export type Callback<T> = (err?: Error, result?: T) => void;
+export interface Callback<T> {
+  /**
+   * Successful result
+   */
+  (err: null, result: T): void;
+
+  /**
+   * Error result
+   */
+  (err: Error, result?: T): void;
+}
+
+/**
+ * The events that can be emitted by the stream interface.
+ */
+export type EventName = "error" | "file" | "directory" | "symlink";

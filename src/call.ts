@@ -1,4 +1,4 @@
-import { Callback } from "./types";
+import { Callback } from "./types-public";
 
 /**
  * A function that accepts an input value and returns an output value via a callback.
@@ -41,10 +41,10 @@ export function safeCall<I, O>(fn: Fn<I, O>, input: I, callback: Callback<O>): v
 export function callOnce<T>(callback: Callback<T>): Callback<T> {
   let fulfilled = false;
 
-  return function onceWrapper(this: unknown, err: Error | undefined, result: T) {
+  return function onceWrapper(this: unknown, err: Error | null, result: T) {
     if (!fulfilled) {
       fulfilled = true;
-      callback.call(this, err, result);
+      callback.call(this, err as Error, result);
     }
     else if (err) {
       // The callback has already been called, but now an error has occurred

@@ -1,5 +1,4 @@
-import { Iterator } from "../facade";
-import { Callback } from "../types";
+import { Iterator, VoidCallback } from "../types-internal";
 
 /**
  * Simultaneously processes all items in the given array.
@@ -10,7 +9,7 @@ import { Callback } from "../types";
  *
  * @internal
  */
-export function asyncForEach<T>(array: T[], iterator: Iterator<T>, done: Callback<void>): void {
+export function asyncForEach<T>(array: T[], iterator: Iterator<T>, done: VoidCallback): void {
   if (!Array.isArray(array)) {
     throw new TypeError(`${array} is not an array`);
   }
