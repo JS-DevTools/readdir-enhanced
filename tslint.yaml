@@ -6,3 +6,7 @@ extends:
   - tslint-modular/best-practices
   - tslint-modular/style
   - tslint-modular/node
+
+rules:
+  no-void-expression: false
+  no-null-keyword: false
