@@ -7,7 +7,7 @@ describe("exports", () => {
     it("should export the `readdirSyncPath` function as `readdirSync`", done => {
       const readdir = require("../../");
       expect(readdir.readdirSync).to.be.a("function");
-      expect(readdir.readdirSync.name).to.equal("readdirSyncPath");
+      expect(readdir.readdirSync.name).to.equal("readdirSync");
       done();
     });
 
@@ -37,7 +37,7 @@ describe("exports", () => {
     it("should export the `readdirAsyncPath` function by default", done => {
       const readdir = require("../../");
       expect(readdir).to.be.a("function");
-      expect(readdir.name).to.equal("readdirAsyncPath");
+      expect(readdir.name).to.equal("readdirAsync");
       done();
     });
 
@@ -74,7 +74,7 @@ describe("exports", () => {
     it("should export the `readdirStreamPath` function as `readdirStream`", done => {
       const readdir = require("../../");
       expect(readdir.readdirStream).to.be.a("function");
-      expect(readdir.readdirStream.name).to.equal("readdirStreamPath");
+      expect(readdir.readdirStream.name).to.equal("readdirStream");
       done();
     });
 
