@@ -1,9 +1,23 @@
-import { EventEmitter } from "events";
 import * as path from "path";
 import { Readable } from "stream";
-import { call } from "./call";
-import { normalizeOptions } from "./normalize-options";
+import { safeCall } from "./call";
+import { NormalizedOptions, normalizeOptions } from "./normalize-options";
 import { stat } from "./stat";
+import { Behavior, Facade, VoidCallback } from "./types-internal";
+import { EventName, Options, Stats } from "./types-public";
+
+interface Directory {
+  path: string;
+  basePath: string;
+  depth: number;
+}
+
+interface Chunk {
+  data: Stats | string;
+  file?: boolean;
+  directory?: boolean;
+  symlink?: boolean;
+}
 
 /**
  * Asynchronously reads the contents of a directory and streams the results
@@ -12,14 +26,21 @@ import { stat } from "./stat";
  * @internal
  */
 export class DirectoryReader {
+  public stream: Readable;
+  private options: NormalizedOptions;
+  private shouldRead: boolean;
+  private pending: number;
+  private buffer: Chunk[];
+  private queue: Directory[];
+
   /**
-   * @param {string} dir - The absolute or relative directory path to read
-   * @param {object} [options] - User-specified options, if any (see {@link normalizeOptions})
-   * @param {object} internalOptions - Internal options that aren't part of the public API
-   * @class
+   * @param dir - The absolute or relative directory path to read
+   * @param [options] - User-specified options, if any (see {@link normalizeOptions})
+   * @param behavior - Internal options that aren't part of the public API
+   * @param facade - sync or async function implementations
    */
-  public constructor(dir, options, internalOptions) {
-    this.options = options = normalizeOptions(options, internalOptions);
+  public constructor(dir: string, options: Options | undefined, behavior: Behavior, facade: Facade) {
+    this.options = normalizeOptions(options, behavior, facade);
 
     // Indicates whether we should keep reading
     // This is set false if stream.Readable.push() returns false.
@@ -29,7 +50,7 @@ export class DirectoryReader {
     // (initialized with the top-level directory)
     this.queue = [{
       path: dir,
-      basePath: options.basePath,
+      basePath: this.options.basePath,
       depth: 0
     }];
 
@@ -61,13 +82,13 @@ export class DirectoryReader {
   /**
    * Reads the next directory in the queue
    */
-  public readNextDirectory() {
+  private readNextDirectory() {
     let facade = this.options.facade;
-    let dir = this.queue.shift();
+    let dir = this.queue.shift()!;
     this.pending++;
 
     // Read the directory listing
-    call.safe(facade.fs.readdir, dir.path, (err, items) => {
+    safeCall(facade.fs.readdir, dir.path, (err: Error | null, items: string[]) => {
       if (err) {
         // fs.readdir threw an error
         this.emit("error", err);
@@ -97,7 +118,7 @@ export class DirectoryReader {
    * NOTE: This does not necessarily mean that the reader is finished, since there may still
    * be other directories queued or pending.
    */
-  public finishedReadingDirectory() {
+  private finishedReadingDirectory() {
     this.pending--;
 
     if (this.shouldRead) {
@@ -114,12 +135,12 @@ export class DirectoryReader {
    * Determines whether the reader has finished processing all items in all directories.
    * If so, then the "end" event is fired (via {@Readable#push})
    */
-  public checkForEOF() {
+  private checkForEOF() {
     if (this.buffer.length === 0 &&   // The stuff we've already read
     this.pending === 0 &&             // The stuff we're currently reading
     this.queue.length === 0) {        // The stuff we haven't read yet
       // There's no more stuff!
-      this.stream.push(null);
+      this.stream.push(null);         // tslint:disable-line: no-null-keyword
     }
   }
 
@@ -131,11 +152,11 @@ export class DirectoryReader {
    *
    * If the item meets the filter criteria, then it will be emitted to the reader's stream.
    *
-   * @param {object} dir - A directory object from the queue
-   * @param {string} item - The name of the item (name only, no path)
-   * @param {function} done - A callback function that is called after the item has been processed
+   * @param dir - A directory object from the queue
+   * @param item - The name of the item (name only, no path)
+   * @param done - A callback function that is called after the item has been processed
    */
-  public processItem(dir, item, done) {
+  private processItem(dir: Directory, item: string, done: VoidCallback) {
     let stream = this.stream;
     let options = this.options;
 
@@ -153,20 +174,20 @@ export class DirectoryReader {
       options.stats ||                                    // the user wants fs.Stats objects returned
       options.recurseFnNeedsStats ||                      // we need fs.Stats for the recurse function
       options.filterFnNeedsStats ||                       // we need fs.Stats for the filter function
-      EventEmitter.listenerCount(stream, "file") ||       // we need the fs.Stats to know if it's a file
-      EventEmitter.listenerCount(stream, "directory") ||  // we need the fs.Stats to know if it's a directory
-      EventEmitter.listenerCount(stream, "symlink");      // we need the fs.Stats to know if it's a symlink
+      stream.listenerCount("file") ||                     // we need the fs.Stats to know if it's a file
+      stream.listenerCount("directory") ||                // we need the fs.Stats to know if it's a directory
+      stream.listenerCount("symlink");                    // we need the fs.Stats to know if it's a symlink
 
     // If we don't need stats, then exit early
     if (!needStats) {
-      if (this.filter({ path: itemPath })) {
+      if (this.filter({ path: itemPath } as unknown as Stats)) {
         this.pushOrBuffer({ data: itemPath });
       }
       return done();
     }
 
     // Get the fs.Stats object for this path
-    stat(options.facade.fs, fullPath, (err, stats) => {
+    stat(options.facade.fs, fullPath, (err: Error | null, stats: Stats) => {
       if (err) {
         // fs.stat threw an error
         this.emit("error", err);
@@ -215,10 +236,8 @@ export class DirectoryReader {
   /**
    * Pushes the given chunk of data to the stream, or adds it to the buffer,
    * depending on the state of the stream.
-   *
-   * @param {object} chunk
    */
-  public pushOrBuffer(chunk) {
+  private pushOrBuffer(chunk: Chunk) {
     // Add the chunk to the buffer
     this.buffer.push(chunk);
 
@@ -235,9 +254,9 @@ export class DirectoryReader {
    * In addition, the "file", "directory", and/or "symlink" events may be fired,
    * depending on the type of properties of the chunk.
    */
-  public pushFromBuffer() {
+  private pushFromBuffer() {
     let stream = this.stream;
-    let chunk = this.buffer.shift();
+    let chunk = this.buffer.shift()!;
 
     // Stream the data
     try {
@@ -257,11 +276,10 @@ export class DirectoryReader {
    * Determines whether the given directory meets the user-specified recursion criteria.
    * If the user didn't specify recursion criteria, then this function will default to true.
    *
-   * @param {fs.Stats} stats - The directory's {@link fs.Stats} object
-   * @param {boolean} maxDepthReached - Whether we've already crawled the user-specified depth
-   * @returns {boolean}
+   * @param stats - The directory's {@link fs.Stats} object
+   * @param maxDepthReached - Whether we've already crawled the user-specified depth
    */
-  public shouldRecurse(stats, maxDepthReached) {
+  private shouldRecurse(stats: Stats, maxDepthReached: boolean): boolean | undefined {
     let options = this.options;
 
     if (maxDepthReached) {
@@ -275,7 +293,7 @@ export class DirectoryReader {
     else if (options.recurseFn) {
       try {
         // Run the user-specified recursion criteria
-        return options.recurseFn.call(null, stats);
+        return !!options.recurseFn.call(undefined, stats);
       }
       catch (err) {
         // An error occurred in the user's code.
@@ -295,16 +313,15 @@ export class DirectoryReader {
    * Determines whether the given item meets the user-specified filter criteria.
    * If the user didn't specify a filter, then this function will always return true.
    *
-   * @param {fs.Stats} stats - The item's {@link fs.Stats} object, or an object with just a `path` property
-   * @returns {boolean}
+   * @param stats - The item's {@link fs.Stats} object, or an object with just a `path` property
    */
-  public filter(stats) {
+  private filter(stats: Stats): boolean | undefined {
     let options = this.options;
 
     if (options.filterFn) {
       try {
         // Run the user-specified filter function
-        return options.filterFn.call(null, stats);
+        return !!options.filterFn.call(undefined, stats);
       }
       catch (err) {
         // An error occurred in the user's code.
@@ -322,11 +339,8 @@ export class DirectoryReader {
   /**
    * Emits an event.  If one of the event listeners throws an error,
    * then an "error" event is emitted.
-   *
-   * @param {string} eventName
-   * @param {*} data
    */
-  public emit(eventName, data) {
+  private emit(eventName: EventName, data: unknown): void {
     let stream = this.stream;
 
     try {
