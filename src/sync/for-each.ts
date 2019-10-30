@@ -1,15 +1,15 @@
-"use strict";
-
-module.exports = syncForEach;
+import { Iterator, VoidCallback } from "../types-internal";
 
 /**
  * A facade that allows {@link Array.forEach} to be called as though it were asynchronous.
  *
- * @param {array} array - The array to iterate over
- * @param {function} iterator - The function to call for each item in the array
- * @param {function} done - The function to call when all iterators have completed
+ * @param array - The array to iterate over
+ * @param iterator - The function to call for each item in the array
+ * @param done - The function to call when all iterators have completed
+ *
+ * @internal
  */
-function syncForEach (array, iterator, done) {
+export function syncForEach<T>(array: T[], iterator: Iterator<T>, done: VoidCallback): void {
   if (!Array.isArray(array)) {
     throw new TypeError(`${array} is not an array`);
   }

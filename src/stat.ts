@@ -1,22 +1,21 @@
-"use strict";
-
-const call = require("./call");
-
-module.exports = stat;
+import { Stats } from "fs";
+import { safeCall } from "./call";
+import { Callback, FileSystem } from "./types-public";
 
 /**
  * Retrieves the {@link fs.Stats} for the given path. If the path is a symbolic link,
  * then the Stats of the symlink's target are returned instead.  If the symlink is broken,
  * then the Stats of the symlink itself are returned.
  *
- * @param {object} fs - Synchronous or Asynchronouse facade for the "fs" module
- * @param {string} path - The path to return stats for
- * @param {function} callback
+ * @param fs - Synchronous or Asynchronouse facade for the "fs" module
+ * @param path - The path to return stats for
+ *
+ * @internal
  */
-function stat(fs, path, callback) {
+export function stat(fs: FileSystem, path: string, callback: Callback<Stats>): void {
   let isSymLink = false;
 
-  call.safe(fs.lstat, path, (err, lstats) => {
+  safeCall(fs.lstat, path, (err: Error | null, lstats: Stats) => {
     if (err) {
       // fs.lstat threw an eror
       return callback(err);
@@ -28,7 +27,7 @@ function stat(fs, path, callback) {
     catch (err2) {
       // lstats.isSymbolicLink() threw an error
       // (probably because fs.lstat returned an invalid result)
-      return callback(err2);
+      return callback(err2 as Error);
     }
 
     if (isSymLink) {
@@ -46,13 +45,12 @@ function stat(fs, path, callback) {
  * Retrieves the {@link fs.Stats} for the target of the given symlink.
  * If the symlink is broken, then the Stats of the symlink itself are returned.
  *
- * @param {object} fs - Synchronous or Asynchronouse facade for the "fs" module
- * @param {string} path - The path of the symlink to return stats for
- * @param {object} lstats - The stats of the symlink
- * @param {function} callback
+ * @param fs - Synchronous or Asynchronouse facade for the "fs" module
+ * @param path - The path of the symlink to return stats for
+ * @param lstats - The stats of the symlink
  */
-function symlinkStat(fs, path, lstats, callback) {
-  call.safe(fs.stat, path, (err, stats) => {
+function symlinkStat(fs: FileSystem, path: string, lstats: Stats, callback: Callback<Stats>): void {
+  safeCall(fs.stat, path, (err: Error | null, stats: Stats) => {
     if (err) {
       // The symlink is broken, so return the stats for the link itself
       return callback(null, lstats);
@@ -66,7 +64,7 @@ function symlinkStat(fs, path, lstats, callback) {
     catch (err2) {
       // Setting stats.isSymbolicLink threw an error
       // (probably because fs.stat returned an invalid result)
-      return callback(err2);
+      return callback(err2 as Error);
     }
 
     callback(null, stats);
