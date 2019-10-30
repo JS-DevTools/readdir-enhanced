@@ -29,7 +29,7 @@ export interface Behavior {
   emit?: boolean;
 
   /**
-   * Indicates whether the reader should emit {@link fs.Stats} objects instead of path strings
+   * Indicates whether the reader should emit `Stats` objects instead of path strings
    */
   stats?: boolean;
 }

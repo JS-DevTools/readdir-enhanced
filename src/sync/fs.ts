@@ -9,8 +9,8 @@ import { Callback, FileSystem } from "../types-public";
  */
 export const syncFS: FileSystem = {
   /**
-   * A facade around {@link fs.readdirSync} that allows it to be called
-   * the same way as {@link fs.readdir}.
+   * A facade around `fs.readdirSync()` that allows it to be called
+   * the same way as `fs.readdir()`.
    */
   readdir(dir: string, callback: Callback<string[]>): void {
     // Make sure the callback is only called once
@@ -26,8 +26,8 @@ export const syncFS: FileSystem = {
   },
 
   /**
-   * A facade around {@link fs.statSync} that allows it to be called
-   * the same way as {@link fs.stat}.
+   * A facade around `fs.statSync()` that allows it to be called
+   * the same way as `fs.stat()`.
    */
   stat(path: string, callback: Callback<fs.Stats>): void {
     // Make sure the callback is only called once
@@ -43,8 +43,8 @@ export const syncFS: FileSystem = {
   },
 
   /**
-   * A facade around {@link fs.lstatSync} that allows it to be called
-   * the same way as {@link fs.lstat}.
+   * A facade around `fs.lstatSync()` that allows it to be called
+   * the same way as `fs.lstat()`.
    */
   lstat(path: string, callback: Callback<fs.Stats>): void {
     // Make sure the callback is only called once
@@ -58,4 +58,4 @@ export const syncFS: FileSystem = {
       callback(err as Error);
     }
   },
-}
+};

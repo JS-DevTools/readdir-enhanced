@@ -7,13 +7,13 @@ import { asyncForEach as forEach } from "./for-each";
 const asyncFacade = { fs, forEach };
 
 /**
- * Returns the buffered output from an asynchronous {@link DirectoryReader},
- * via an error-first callback or a {@link Promise}.
+ * Returns the buffered output from an asynchronous `DirectoryReader`,
+ * via an error-first callback or a `Promise`.
  *
  * @internal
  */
 export function readdirAsync<T>(
-dir: string, options: Options | undefined, callback: Callback<T[]>, behavior: Behavior)
+dir: string, options: Options | undefined, callback: Callback<T[]> | undefined, behavior: Behavior)
 : Promise<T[]> | void {
   if (typeof options === "function") {
     callback = options;
@@ -39,8 +39,8 @@ dir: string, options: Options | undefined, callback: Callback<T[]>, behavior: Be
 
   if (callback) {
     promise.then(
-      (results: T[]) => callback(null, results),
-      (err: Error) => callback(err)
+      (results: T[]) => callback!(null, results),
+      (err: Error) => callback!(err)
     );
   }
   else {

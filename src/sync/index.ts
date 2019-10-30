@@ -7,7 +7,7 @@ import { syncForEach as forEach } from "./for-each";
 const syncFacade = { fs, forEach };
 
 /**
- * Returns the buffered output from a synchronous {@link DirectoryReader}.
+ * Returns the buffered output from a synchronous `DirectoryReader`.
  *
  * @internal
  */

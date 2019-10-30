@@ -3,7 +3,7 @@ import { safeCall } from "./call";
 import { Callback, FileSystem } from "./types-public";
 
 /**
- * Retrieves the {@link fs.Stats} for the given path. If the path is a symbolic link,
+ * Retrieves the `Stats` for the given path. If the path is a symbolic link,
  * then the Stats of the symlink's target are returned instead.  If the symlink is broken,
  * then the Stats of the symlink itself are returned.
  *
@@ -42,7 +42,7 @@ export function stat(fs: FileSystem, path: string, callback: Callback<Stats>): v
 }
 
 /**
- * Retrieves the {@link fs.Stats} for the target of the given symlink.
+ * Retrieves the `Stats` for the target of the given symlink.
  * If the symlink is broken, then the Stats of the symlink itself are returned.
  *
  * @param fs - Synchronous or Asynchronouse facade for the "fs" module

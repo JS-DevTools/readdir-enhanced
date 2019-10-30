@@ -1,7 +1,7 @@
 import { Iterator, VoidCallback } from "../types-internal";
 
 /**
- * A facade that allows {@link Array.forEach} to be called as though it were asynchronous.
+ * A facade that allows `Array.forEach()` to be called as though it were asynchronous.
  *
  * @param array - The array to iterate over
  * @param iterator - The function to call for each item in the array

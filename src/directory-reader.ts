@@ -21,7 +21,7 @@ interface Chunk {
 
 /**
  * Asynchronously reads the contents of a directory and streams the results
- * via a {@link stream.Readable}.
+ * via a `ReadableStream`.
  *
  * @internal
  */
@@ -35,7 +35,7 @@ export class DirectoryReader {
 
   /**
    * @param dir - The absolute or relative directory path to read
-   * @param [options] - User-specified options, if any (see {@link normalizeOptions})
+   * @param [options] - User-specified options, if any (see `normalizeOptions()`)
    * @param behavior - Internal options that aren't part of the public API
    * @param facade - sync or async function implementations
    */
@@ -250,7 +250,7 @@ export class DirectoryReader {
 
   /**
    * Immediately pushes the next chunk in the buffer to the reader's stream.
-   * The "data" event will always be fired (via {@link Readable#push}).
+   * The "data" event will always be fired (via `Readable.push()`).
    * In addition, the "file", "directory", and/or "symlink" events may be fired,
    * depending on the type of properties of the chunk.
    */
@@ -276,7 +276,7 @@ export class DirectoryReader {
    * Determines whether the given directory meets the user-specified recursion criteria.
    * If the user didn't specify recursion criteria, then this function will default to true.
    *
-   * @param stats - The directory's {@link fs.Stats} object
+   * @param stats - The directory's `Stats` object
    * @param maxDepthReached - Whether we've already crawled the user-specified depth
    */
   private shouldRecurse(stats: Stats, maxDepthReached: boolean): boolean | undefined {
@@ -313,7 +313,7 @@ export class DirectoryReader {
    * Determines whether the given item meets the user-specified filter criteria.
    * If the user didn't specify a filter, then this function will always return true.
    *
-   * @param stats - The item's {@link fs.Stats} object, or an object with just a `path` property
+   * @param stats - The item's `Stats` object, or an object with just a `path` property
    */
   private filter(stats: Stats): boolean | undefined {
     let options = this.options;

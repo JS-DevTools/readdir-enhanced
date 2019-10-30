@@ -8,7 +8,7 @@ import { Options } from "../types-public";
 const streamFacade = { fs, forEach };
 
 /**
- * Returns the {@link stream.Readable} of an asynchronous {@link DirectoryReader}.
+ * Returns the `ReadableStream` of an asynchronous `DirectoryReader`.
  *
  * @internal
  */
