@@ -22,7 +22,7 @@ describe("fs.Stats", () => {
     });
   });
 
-  describe("Asynchronous API (Stream/EventEmitter)", () => {
+  describe("Stream/EventEmitter API", () => {
     it("should return stats instead of paths", done => {
       let error, data = [], files = [], dirs = [], symlinks = [];
       let stream = readdir.stream.stat("test/dir");
@@ -49,6 +49,22 @@ describe("fs.Stats", () => {
 
         function errorHandler (e) { error = error || e; }
       });
+    });
+  });
+
+  describe("Iterator API", () => {
+    it("should return stats instead of paths", done => {
+      Promise.resolve()
+        .then(async () => {
+          let data = [];
+
+          for await (let stat of readdir.iterator.stat("test/dir")) {
+            data.push(stat);
+          }
+
+          assertStats(data, dir.shallow.data, done);
+        })
+        .catch(done);
     });
   });
 

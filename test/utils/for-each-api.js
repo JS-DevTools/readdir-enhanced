@@ -80,13 +80,31 @@ function forEachApi (tests) {
       });
     }
   });
+
+  describe("Iterator API", () => {
+    for (let test of tests) {
+      testApi(test, "iterator", async (done) => {
+        try {
+          let data = [];
+          for await (let datum of readdir.iterator.apply(null, test.args)) {
+            data.push(datum);
+          }
+
+          done(null, data);
+        }
+        catch (error) {
+          done(error);
+        }
+      });
+    }
+  });
 }
 
 /**
  * Runs a single test against a single readdir-enhanced API.
  *
  * @param {object} test - An object containing test info, parameters, and assertions
- * @param {string} apiName - The name of the API being tested ("sync", "async", or "stream")
+ * @param {string} apiName - The name of the API being tested ("sync", "async", "stream", or "iterator")
  * @param {function} api - A function that calls the readdir-enhanced API and returns its results
  */
 function testApi (test, apiName, api) {

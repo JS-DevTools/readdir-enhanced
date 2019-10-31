@@ -1,5 +1,5 @@
-// tslint:disable: match-default-export-name completed-docs
-import readdir, { readdirAsync, readdirAsyncStat, readdirStream, readdirStreamStat, readdirSync, readdirSyncStat, Stats } from "../../";
+// tslint:disable: match-default-export-name completed-docs no-async-without-await
+import readdir, { readdirAsync, readdirAsyncStat, readdirIterator, readdirIteratorStat, readdirStream, readdirStreamStat, readdirSync, readdirSyncStat, Stats } from "../../";
 
 const root = "path/to/some/directory";
 const options = {};
@@ -76,55 +76,77 @@ export function testStreamingApi() {
   readdirStreamStat(root, options).pipe(writableStream);
 }
 
-export function testDeepOption() {
+export async function testIteratorApi() {
+  for await (let path of readdir.iterator(root)) { path = ""; }
+  for await (let path of readdirIterator(root)) { path = ""; }
+  for await (let path of readdir.iterator(root, options)) { path = ""; }
+  for await (let path of readdirIterator(root, options)) { path = ""; }
+
+  for await (let stats of readdir.iterator.stat(root)) { stats.path = ""; }
+  for await (let stats of readdirIteratorStat(root)) { stats.path = ""; }
+  for await (let stats of readdir.iterator.stat(root, options)) { stats.path = ""; }
+  for await (let stats of readdirIteratorStat(root, options)) { stats.path = ""; }
+}
+
+export async function testDeepOption() {
   readdirSync(root, { deep: true });
   readdirAsync(root, { deep: true }, pathsCallback);
   readdirStream(root, { deep: true }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: true })) { path = ""; }
 
   readdirSync(root, { deep: 5 });
   readdirAsync(root, { deep: 5 }, pathsCallback);
   readdirStream(root, { deep: 5 }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: 5 })) { path = ""; }
 
   readdirSync(root, { deep: "subdir/**"});
   readdirAsync(root, { deep: "subdir/**"}, pathsCallback);
   readdirStream(root, { deep: "subdir/**"}).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: "subdir/**"})) { path = ""; }
 
   readdirSync(root, { deep: /subdir|subdir2/});
   readdirAsync(root, { deep: /subdir|subdir2/}, pathsCallback);
   readdirStream(root, { deep: /subdir|subdir2/}).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: /subdir|subdir2/})) { path = ""; }
 
   readdirSync(root, { deep: statsFilter });
   readdirAsync(root, { deep: statsFilter }, pathsCallback);
   readdirStream(root, { deep: statsFilter }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: statsFilter })) { path = ""; }
 }
 
-export function testFilterOption() {
+export async function testFilterOption() {
   readdirSync(root, { filter: "*.txt" });
   readdirAsync(root, { filter: "*.txt" }, pathsCallback);
   readdirStream(root, { filter: "*.txt" }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { filter: "*.txt" })) { path = ""; }
 
   readdirSync(root, { filter: /\.txt$/ });
   readdirAsync(root, { filter: /\.txt$/ }, pathsCallback);
   readdirStream(root, { filter: /\.txt$/ }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { filter: /\.txt$/ })) { path = ""; }
 
   readdirSync(root, { filter: statsFilter });
   readdirAsync(root, { filter: statsFilter }, pathsCallback);
   readdirStream(root, { filter: statsFilter }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { filter: statsFilter })) { path = ""; }
 }
 
-export function testBasePathOption() {
+export async function testBasePathOption() {
   readdirSync(root, { basePath: "/base/path" });
   readdirAsync(root, { basePath: "/base/path" }, pathsCallback);
   readdirStream(root, { basePath: "/base/path" }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { basePath: "/base/path" })) { path = ""; }
 }
 
-export function testSepOption() {
+export async function testSepOption() {
   readdirSync(root, { sep: "/" });
   readdirAsync(root, { sep: "/" }, pathsCallback);
   readdirStream(root, { sep: "/" }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { sep: "/" })) { path = ""; }
 }
 
-export function testFSOption() {
+export async function testFSOption() {
   const customFS = {
     readdir(dir: string, cb: (err: Error | null, names: string[]) => void): void {
       cb(null, [dir]);
@@ -134,4 +156,5 @@ export function testFSOption() {
   readdirSync(root, { fs: customFS });
   readdirAsync(root, { fs: customFS }, pathsCallback);
   readdirStream(root, { fs: customFS }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { fs: customFS })) { path = ""; }
 }
