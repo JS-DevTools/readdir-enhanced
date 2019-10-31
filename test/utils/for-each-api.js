@@ -22,7 +22,7 @@ function forEachApi (tests) {
     }
   });
 
-  describe("Asynchronous API (callback/Promise)", () => {
+  describe("Asynchronous API (Promise)", () => {
     for (let test of tests) {
       testApi(test, "async", done => {
         readdir.async.apply(null, test.args)
@@ -38,7 +38,16 @@ function forEachApi (tests) {
     }
   });
 
-  describe("Asynchronous API (Stream/EventEmitter)", () => {
+  describe("Asynchronous API (Callback)", () => {
+    for (let test of tests) {
+      testApi(test, "async", done => {
+        let args = test.args.length === 0 ? [undefined, done] : [...test.args, done];
+        readdir.async.apply(null, args);
+      });
+    }
+  });
+
+  describe("Stream/EventEmitter API", () => {
     for (let test of tests) {
       testApi(test, "stream", done => {
         let stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
