@@ -12,26 +12,14 @@ Enhanced `fs.readdir()`
 
 
 
-Pick Your API
------------------
-`readdir-enhanced` has multiple APIs, so you can pick whichever one you prefer.  There are three main APIs:
 Features
 ----------------------------------
 - Fully [**backward-compatible**](#backward-compatible) drop-in replacement for [`fs.readdir()`](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [`fs.readdirSync()`](https://nodejs.org/api/fs.html#fs_fs_readdirsync_path_options)
 
-- **Synchronous API**<br>
-aliases: `readdir.sync`, `readdir.readdirSync`<br>
-Blocks the thread until all directory contents are read, and then returns all the results.
 - Can [crawl sub-directories](#deep) - you can even control which ones
 
-- **Async API**<br>
-aliases: `readdir`, `readdir.async`, `readdir.readdirAsync`<br>
-Reads the starting directory contents asynchronously and buffers all the results until all contents have been read. Supports callback or Promise syntax (see example below).
 - Supports [filtering results](#filter) using globs, regular expressions, or custom logic
 
-- **Streaming API**<br>
-aliases: `readdir.stream`, `readdir.readdirStream`<br>
-The streaming API reads the starting directory asynchronously and returns the results in real-time as they are read. The results can be [piped](https://nodejs.org/api/stream.html#stream_readable_pipe_destination_options) to other Node.js streams, or you can listen for specific events via the [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter) interface. (see example below)
 - Can return [absolute paths](#basepath)
 
 - Can return [`fs.Stats` objects](#stats) rather than just paths
@@ -78,6 +66,24 @@ let stream = readdir.stream('my/directory')
   });
 ```
 
+
+
+Pick Your API
+----------------------------------
+`readdir-enhanced` has multiple APIs, so you can pick whichever one you prefer. Here are some things to consider about each API:
+
+|Function|Returns|Syntax|[Blocks the thread?](#blocking-the-thread)|[Buffers results?](#buffered-results)|
+|---|---|---|---|---|
+|`readdirSync()`<br>`readdir.sync()`|Array|Synchronous|yes|yes|
+|`readdir()`<br>`readdir.async()`<br>`readdirAsync()`|[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)|[`async/await`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)<br>[`Promise.then()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)<br>[callback](https://nodejs.org/en/knowledge/getting-started/control-flow/what-are-callbacks/)|no|yes|
+|`readdir.iterator()`<br>`readdirIterator()`|[Iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)|[`for await...of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of)|no|no|
+|`readdir.stream()`<br>`readdirStream()`|[Readable Stream](https://nodejs.org/api/stream.html#stream_readable_streams)|[`stream.on("data")`](https://nodejs.org/api/stream.html#stream_event_data)<br>[`stream.read()`](https://nodejs.org/api/stream.html#stream_readable_read_size)<br>[`stream.pipe()`](https://nodejs.org/api/stream.html#stream_readable_pipe_destination_options)|no|no|
+
+### Blocking the Thread
+The synchronous API blocks the thread until all results have been read. Only use this if you know the directory does not contain many items, or if your program needs the results before it can do anything else.
+
+### Buffered Results
+Some APIs buffer the results, which means you get all the results at once (as an array). This can be more convenient to work with, but it can also consume a significant amount of memory, depending on how many results there are. The non-buffered APIs return each result to you one-by-one, which means you can start processing the results even while the directory is still being read.
 
 <a id="options"></a>
 Enhanced Features
