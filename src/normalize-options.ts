@@ -1,6 +1,6 @@
 import { createFilter } from "file-path-filter";
 import * as path from "path";
-import { Behavior, Facade } from "./types-internal";
+import { Facade } from "./types-internal";
 import { FilterFunction, Options, Stats } from "./types-public";
 
 /**
@@ -24,13 +24,13 @@ export interface NormalizedOptions {
  * Validates and normalizes the options argument
  *
  * @param [options] - User-specified options, if any
- * @param behavior - Internal options that aren't part of the public API
  * @param facade - sync or async function implementations
+ * @param emit - Indicates whether the reader should emit "file", "directory", and "symlink" events.
  *
  * @internal
  */
 // tslint:disable-next-line: cyclomatic-complexity
-export function normalizeOptions(options: Options | undefined, behavior: Behavior, facade: Facade): NormalizedOptions {
+export function normalizeOptions(options: Options | undefined, facade: Facade, emit: boolean): NormalizedOptions {
   if (options === null || options === undefined) {
     options = {};
   }
@@ -45,6 +45,8 @@ export function normalizeOptions(options: Options | undefined, behavior: Behavio
   else if (typeof sep !== "string") {
     throw new TypeError("options.sep must be a string");
   }
+
+  let stats = Boolean(options.stats || options.withFileTypes);
 
   let recurseDepth, recurseFn, recurseFnNeedsStats = false, deep = options.deep;
   if (deep === null || deep === undefined) {
@@ -126,11 +128,11 @@ export function normalizeOptions(options: Options | undefined, behavior: Behavio
     recurseFnNeedsStats,
     filterFn,
     filterFnNeedsStats,
+    stats,
     sep,
     basePath,
     facade,
-    emit: !!behavior.emit,
-    stats: !!behavior.stats,
+    emit,
   };
 }
 

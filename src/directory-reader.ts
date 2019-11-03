@@ -3,7 +3,7 @@ import { Readable } from "stream";
 import { safeCall } from "./call";
 import { NormalizedOptions, normalizeOptions } from "./normalize-options";
 import { stat } from "./stat";
-import { Behavior, Facade, VoidCallback } from "./types-internal";
+import { Facade, VoidCallback } from "./types-internal";
 import { EventName, Options, Stats } from "./types-public";
 
 interface Directory {
@@ -36,11 +36,11 @@ export class DirectoryReader {
   /**
    * @param dir - The absolute or relative directory path to read
    * @param [options] - User-specified options, if any (see `normalizeOptions()`)
-   * @param behavior - Internal options that aren't part of the public API
    * @param facade - sync or async function implementations
+   * @param emit - Indicates whether the reader should emit "file", "directory", and "symlink" events.
    */
-  public constructor(dir: string, options: Options | undefined, behavior: Behavior, facade: Facade) {
-    this.options = normalizeOptions(options, behavior, facade);
+  public constructor(dir: string, options: Options | undefined, facade: Facade, emit = false) {
+    this.options = normalizeOptions(options, facade, emit);
 
     // Indicates whether we should keep reading
     // This is set false if stream.Readable.push() returns false.
