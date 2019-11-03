@@ -1,37 +1,32 @@
 // tslint:disable: no-default-export no-unsafe-any
-import { async, readdirAsync, ReaddirAsync } from "./async";
-import { iterator, ReaddirIterator } from "./iterator";
-import { ReaddirStream, stream } from "./stream";
-import { ReaddirSync, sync } from "./sync";
+import { readdirAsync } from "./async";
+import { readdirIterator } from "./iterator";
+import { readdirStream } from "./stream";
+import { readdirSync } from "./sync";
 
 /**
- * A backward-compatible drop-in replacement for Node's built-in `fs.readdir()` function that adds
- * support for additional features like filtering, recursion, absolute paths, and streaming.
+ * Enhanced `fs.readdir()`
  */
-export interface Readdir extends ReaddirAsync {
-  sync: ReaddirSync;
-  async: ReaddirAsync;
-  stream: ReaddirStream;
-  iterator: ReaddirIterator;
-}
-
-// Export type definitions
-export * from "./types-public";
-
-// Export the sync, async, streaming, and iterator interfaces
-export { async, ReaddirAsync, readdirAsync, readdirAsyncStat } from "./async";
-export { ReaddirIterator, readdirIterator, readdirIteratorStat, iterator } from "./iterator";
-export { ReaddirStream, readdirStream, readdirStreamStat, stream } from "./stream";
-export { ReaddirSync, readdirSync, readdirSyncStat, sync } from "./sync";
+export type Readdir = typeof readdirAsync & {
+  sync: typeof readdirSync;
+  async: typeof readdirAsync;
+  stream: typeof readdirStream;
+  iterator: typeof readdirIterator;
+};
 
 const readdir = readdirAsync as Readdir;
-readdir.sync = sync;
-readdir.async = async;
-readdir.stream = stream;
-readdir.iterator = iterator;
+readdir.sync = readdirSync;
+readdir.async = readdirAsync;
+readdir.stream = readdirStream;
+readdir.iterator = readdirIterator;
 
 export { readdir };
 export default readdir;
+export * from "./types-public";
+export { readdirSync } from "./sync";
+export { readdirAsync } from "./async";
+export { readdirIterator } from "./iterator";
+export { readdirStream } from "./stream";
 
 // CommonJS default export hack
 if (typeof module === "object" && typeof module.exports === "object") {

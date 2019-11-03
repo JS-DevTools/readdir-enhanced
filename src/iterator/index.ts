@@ -1,35 +1,9 @@
 import * as fs from "fs";
 import { asyncForEach as forEach } from "../async/for-each";
 import { DirectoryReader } from "../directory-reader";
-import { Behavior } from "../types-internal";
 import { Options, Stats } from "../types-public";
 
 const iteratorFacade = { fs, forEach };
-
-/**
- * Enhanced `fs.readdir()` async iterator interface.
- */
-export interface ReaddirIterator {
-  /**
-   * Aynchronous `readdir()` that returns an `AsyncIterableIterator` (an object that implements
-   * both the `AsyncIterable` and `AsyncIterator` interfaces) that yields path strings.
-   *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
-   */
-  (dir: string, options?: Options): AsyncIterableIterator<string>;
-
-  /**
-   * Aynchronous `readdir()` that returns an `AsyncIterableIterator` (an object that implements
-   * both the `AsyncIterable` and `AsyncIterator` interfaces) that yields `Stats` objects.
-   *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
-   */
-  stat(dir: string, options?: Options): AsyncIterableIterator<Stats>;
-}
-
-const iterator = readdirIterator as ReaddirIterator;
-iterator.stat = readdirIteratorStat;
-export { iterator };
 
 /**
  * Aynchronous `readdir()` that returns an `AsyncIterableIterator` (an object that implements
@@ -37,9 +11,7 @@ export { iterator };
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
  */
-export function readdirIterator(dir: string, options?: Options): AsyncIterableIterator<string> {
-  return readdirIteratorInternal(dir, options, {});
-}
+export function readdirIterator(dir: string, options?: Options & { stats?: false }): AsyncIterableIterator<string>;
 
 /**
  * Aynchronous `readdir()` that returns an `AsyncIterableIterator` (an object that implements
@@ -47,16 +19,10 @@ export function readdirIterator(dir: string, options?: Options): AsyncIterableIt
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
  */
-export function readdirIteratorStat(dir: string, options?: Options): AsyncIterableIterator<Stats> {
-  return readdirIteratorInternal(dir, options, { stats: true });
-}
+export function readdirIterator(dir: string, options: Options & { stats: true }): AsyncIterableIterator<Stats>;
 
-/**
- * Yields each chunk of an asynchronous `DirectoryReader`.
- */
-function readdirIteratorInternal<T>(dir: string, options: Options | undefined, behavior: Behavior)
-: AsyncIterableIterator<T> {
-  let reader = new DirectoryReader(dir, options, behavior, iteratorFacade);
+export function readdirIterator<T>(dir: string, options?: Options): AsyncIterableIterator<T> {
+  let reader = new DirectoryReader(dir, options, iteratorFacade);
   let stream = reader.stream;
 
   let error: Error | undefined;
