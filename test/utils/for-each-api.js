@@ -1,6 +1,6 @@
 "use strict";
 
-const readdir = require("../../lib");
+const readdir = require("../../");
 
 module.exports = forEachApi;
 
@@ -22,7 +22,7 @@ function forEachApi (tests) {
     }
   });
 
-  describe("Asynchronous API (callback/Promise)", () => {
+  describe("Promise API", () => {
     for (let test of tests) {
       testApi(test, "async", done => {
         readdir.async.apply(null, test.args)
@@ -38,7 +38,16 @@ function forEachApi (tests) {
     }
   });
 
-  describe("Asynchronous API (Stream/EventEmitter)", () => {
+  describe("Callback API", () => {
+    for (let test of tests) {
+      testApi(test, "async", done => {
+        let args = test.args.length === 0 ? [undefined, done] : [...test.args, done];
+        readdir.async.apply(null, args);
+      });
+    }
+  });
+
+  describe("Stream/EventEmitter API", () => {
     for (let test of tests) {
       testApi(test, "stream", done => {
         let stream, errors = [], data = [], files = [], dirs = [], symlinks = [];
@@ -71,13 +80,31 @@ function forEachApi (tests) {
       });
     }
   });
+
+  describe("Iterator API", () => {
+    for (let test of tests) {
+      testApi(test, "iterator", async (done) => {
+        try {
+          let data = [];
+          for await (let datum of readdir.iterator.apply(null, test.args)) {
+            data.push(datum);
+          }
+
+          done(null, data);
+        }
+        catch (error) {
+          done(error);
+        }
+      });
+    }
+  });
 }
 
 /**
  * Runs a single test against a single readdir-enhanced API.
  *
  * @param {object} test - An object containing test info, parameters, and assertions
- * @param {string} apiName - The name of the API being tested ("sync", "async", or "stream")
+ * @param {string} apiName - The name of the API being tested ("sync", "async", "stream", or "iterator")
  * @param {function} api - A function that calls the readdir-enhanced API and returns its results
  */
 function testApi (test, apiName, api) {

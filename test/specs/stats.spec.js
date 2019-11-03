@@ -1,6 +1,6 @@
 "use strict";
 
-const readdir = require("../../lib");
+const readdir = require("../../");
 const dir = require("../utils/dir");
 const expect = require("chai").expect;
 const fs = require("fs");
@@ -22,7 +22,7 @@ describe("options.stats", () => {
     });
   });
 
-  describe("Asynchronous API (Stream/EventEmitter)", () => {
+  describe("Stream/EventEmitter API", () => {
     it("should return stats instead of paths", done => {
       let error, data = [], files = [], dirs = [], symlinks = [];
       let stream = readdir.stream("test/dir", { stats: true });
@@ -49,6 +49,22 @@ describe("options.stats", () => {
 
         function errorHandler (e) { error = error || e; }
       });
+    });
+  });
+
+  describe("Iterator API", () => {
+    it("should return stats instead of paths", done => {
+      Promise.resolve()
+        .then(async () => {
+          let data = [];
+
+          for await (let stat of readdir.iterator("test/dir", { stats: true })) {
+            data.push(stat);
+          }
+
+          assertStats(data, dir.shallow.data, done);
+        })
+        .catch(done);
     });
   });
 
