@@ -22,7 +22,7 @@ describe("fs.Stats", () => {
     });
   });
 
-  describe("Stream/EventEmitter API", () => {
+  describe("Asynchronous API (Stream/EventEmitter)", () => {
     it("should return stats instead of paths", done => {
       let error, data = [], files = [], dirs = [], symlinks = [];
       let stream = readdir.stream.stat("test/dir");
