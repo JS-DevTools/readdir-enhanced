@@ -92,15 +92,17 @@ Some APIs buffer the results, which means you get all the results at once (as an
 
 <a id="options"></a>
 Enhanced Features
------------------
+----------------------------------
 `readdir-enhanced` adds several features to the built-in `fs.readdir()` function.  All of the enhanced features are opt-in, which makes `readdir-enhanced` [fully backward compatible by default](#backward-compatible).  You can enable any of the features by passing-in an `options` argument as the second parameter.
 
 
+
 <a id="deep"></a>
-### Recursion
+Crawl Subdirectories
+----------------------------------
 By default, `readdir-enhanced` will only return the top-level contents of the starting directory. But you can set the `deep` option to recursively traverse the subdirectories and return their contents as well.
 
-#### Crawl ALL subdirectories
+### Crawl ALL subdirectories
 
 The `deep` option can be set to `true` to traverse the entire directory structure.
 
@@ -118,8 +120,8 @@ readdir("my/directory", {deep: true}, (err, files) => {
 });
 ```
 
-#### Crawl to a specific depth
-The `deep` option can be set to a number to only traverse that many levels deep.  For example, calling `readdir('my/directory', {deep: 2})` will return `subdir1/file.txt` and `subdir1/subdir2/file.txt`, but it _won't_ return `subdir1/subdir2/subdir3/file.txt`.
+### Crawl to a specific depth
+The `deep` option can be set to a number to only traverse that many levels deep.  For example, calling `readdir("my/directory", {deep: 2})` will return `subdir1/file.txt` and `subdir1/subdir2/file.txt`, but it _won't_ return `subdir1/subdir2/subdir3/file.txt`.
 
 ```javascript
 import readdir from "readdir-enhanced";
@@ -134,7 +136,7 @@ readdir("my/directory", {deep: 2}, (err, files) => {
 });
 ```
 
-#### Crawl subdirectories by name
+### Crawl subdirectories by name
 For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to crawl only the directories whose path matches the pattern.  The path is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 > **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
@@ -155,7 +157,7 @@ readdir("my/directory", {deep: /lib|bin/}, (err, files) => {
 });
 ```
 
-#### Custom recursion logic
+### Custom recursion logic
 For more advanced recursion, you can set the `deep` option to a function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the starting directory should be crawled.
 
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the function has additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
@@ -180,11 +182,13 @@ readdir("my/directory", {deep: ignoreNodeModules}, (err, files) => {
 ```
 
 
+
 <a id="filter"></a>
-### Filtering
+Filtering
+----------------------------------
 The `filter` option lets you limit the results based on any criteria you want.
 
-#### Filter by name
+### Filter by name
 For simple use-cases, you can use a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) or a [glob pattern](https://github.com/isaacs/node-glob#glob-primer) to filter items by their path.  The path is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath).
 
 > **NOTE:** Glob patterns [_always_ use forward-slashes](https://github.com/isaacs/node-glob#windows), even on Windows. This _does not_ apply to regular expressions though. Regular expressions should use the appropraite path separator for the environment. Or, you can match both types of separators using `[\\/]`.
@@ -202,7 +206,7 @@ readdir("my/directory", {filter: "**/package.json", deep: true});
 readdir("my/directory", {filter: /\d+/});
 ```
 
-#### Custom filtering logic
+### Custom filtering logic
 For more advanced filtering, you can specify a filter function that accepts an [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object and returns a truthy value if the item should be included in the results.
 
 > **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) object that's passed to the filter function has additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
@@ -226,7 +230,8 @@ readdir("my/directory", {filter: myFilter}, (err, files) => {
 
 
 <a id="basepath"></a>
-### Base Path
+Base Path
+----------------------------------
 By default all `readdir-enhanced` functions return paths that are relative to the starting directory. But you can use the `basePath` option to customize this.  The `basePath` will be prepended to all of the returned paths.  One common use-case for this is to set `basePath` to the absolute path of the starting directory, so that all of the returned paths will be absolute.
 
 ```javascript
@@ -252,8 +257,10 @@ readdir("my/directory", {basePath: "my/directory"}, (err, files) => {
 ```
 
 
+
 <a id="sep"></a>
-### Path Separator
+Path Separator
+----------------------------------
 By default, `readdir-enhanced` uses the correct path separator for your OS (`\` on Windows, `/` on Linux & MacOS). But you can set the `sep` option to any separator character(s) that you want to use instead.  This is usually used to ensure consistent path separators across different OSes.
 
 ```javascript
@@ -271,8 +278,11 @@ readdir("my/directory", {sep: "\\", deep: true}, (err, files) => {
 });
 ```
 
+
+
 <a id="fs"></a>
-### Custom FS methods
+Custom FS methods
+----------------------------------
 By default, `readdir-enhanced` uses the default [Node.js FileSystem module](https://nodejs.org/api/fs.html) for methods like `fs.stat`, `fs.readdir` and `fs.lstat`. But in some situations, you can want to use your own FS methods (FTP, SSH, remote drive and etc). So you can provide your own implementation of FS methods by setting `options.fs` or specific methods, such as `options.fs.stat`.
 
 ```javascript
@@ -331,7 +341,7 @@ readdir.readdirStreamStat('my/directory')
 
 <a id="backward-compatible"></a>
 Backward Compatible
---------------------
+-------------------------------------
 `readdir-enhanced` is fully backward-compatible with Node.js' built-in `fs.readdir()` and `fs.readdirSync()` functions, so you can use it as a drop-in replacement in existing projects without affecting existing functionality, while still being able to use the enhanced features as needed.
 
 ```javascript
@@ -345,8 +355,9 @@ let files = readdirSync("my/directory");
 ```
 
 
+
 A Note on Streams
------------------
+----------------------------------
 The `readdir-enhanced` streaming API follows the Node.js streaming API. A lot of questions around the streaming API can be answered by reading the [Node.js documentation.](https://nodejs.org/api/stream.html). However, we've tried to answer the most common questions here.
 
 ### Stream Events
