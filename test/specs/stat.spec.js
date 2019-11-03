@@ -52,22 +52,6 @@ describe("fs.Stats", () => {
     });
   });
 
-  describe("Iterator API", () => {
-    it("should return stats instead of paths", done => {
-      Promise.resolve()
-        .then(async () => {
-          let data = [];
-
-          for await (let stat of readdir.iterator.stat("test/dir")) {
-            data.push(stat);
-          }
-
-          assertStats(data, dir.shallow.data, done);
-        })
-        .catch(done);
-    });
-  });
-
   function assertStats (data, expected, done) {
     try {
       // Should return an array of the correct length
