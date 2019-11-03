@@ -248,6 +248,26 @@ readdir("my/directory", {filter: myFilter}, (err, files) => {
 ```
 
 
+
+<a id="stats"></a>
+Get `fs.Stats` objects instead of strings
+------------------------------------------------------------
+All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  Setting the `stats` option returns an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of path strings.  The `fs.Stats` object contains all sorts of useful information, such as the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
+
+> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
+
+```javascript
+import readdir from "readdir-enhanced";
+
+readdir("my/directory", { stats: true }, (err, stats) => {
+  for (let stat of stats) {
+    console.log(`${stat.path} was created at ${stat.birthtime}`);
+  }
+});
+```
+
+
+
 <a id="basepath"></a>
 Base Path
 ----------------------------------
@@ -323,40 +343,7 @@ readdir("my/directory", options, (err, files) => {
 });
 ```
 
-<a id="stats"></a>
-Get `fs.Stats` objects instead of strings
-------------------------
-All of the `readdir-enhanced` functions listed above return an array of strings (paths). But in some situations, the path isn't enough information.  So, `readdir-enhanced` provides alternative versions of each function, which return an array of [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects instead of strings.  The `fs.Stats` object contains all sorts of useful information, such as the size, the creation date/time, and helper methods such as `isFile()`, `isDirectory()`, `isSymbolicLink()`, etc.
 
-> **NOTE:** The [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats) objects that are returned also have additional `path` and `depth` properties. The `path` is relative to the starting directory by default, but you can customize this via [`options.basePath`](#basepath). The `depth` is the number of subdirectories beneath the base path (see [`options.deep`](#deep)).
-
-To get `fs.Stats` objects instead of strings, just add the word "Stat" to the function name.  As with the normal functions, each one is aliased (e.g. `readdir.async.stat` is the same as `readdir.readdirAsyncStat`), so you can use whichever naming style you prefer.
-
-```javascript
-const readdir = require('readdir-enhanced');
-
-// Synchronous API
-let stats = readdir.sync.stat('my/directory');
-let stats = readdir.readdirSyncStat('my/directory');
-
-// Async API
-readdir.async.stat('my/directory', function(err, stats) { ... });
-readdir.readdirAsyncStat('my/directory', function(err, stats) { ... });
-
-// Streaming API
-readdir.stream.stat('my/directory')
-  .on('data', function(stat) { ... })
-  .on('file', function(stat) { ... })
-  .on('directory', function(stat) { ... })
-  .on('symlink', function(stat) { ... });
-
-readdir.readdirStreamStat('my/directory')
-  .on('data', function(stat) { ... })
-  .on('file', function(stat) { ... })
-  .on('directory', function(stat) { ... })
-  .on('symlink', function(stat) { ... });
-
-```
 
 <a id="backward-compatible"></a>
 Backward Compatible
