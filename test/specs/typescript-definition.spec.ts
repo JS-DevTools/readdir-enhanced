@@ -1,5 +1,5 @@
 // tslint:disable: match-default-export-name completed-docs no-async-without-await
-import readdir, { readdirAsync, readdirAsyncStat, readdirIterator, readdirIteratorStat, readdirStream, readdirStreamStat, readdirSync, readdirSyncStat, Stats } from "../../";
+import readdir, { readdirAsync, readdirIterator, readdirStream, readdirSync, Stats } from "../../";
 
 const root = "path/to/some/directory";
 const options = {};
@@ -13,15 +13,11 @@ const errorHandler = (err: Error) => undefined;
 const statsFilter = (stats: Stats) => true;
 
 export function testSyncApi() {
-  readdir.sync(root);
-  readdirSync(root);
-  readdir.sync(root, options);
-  readdirSync(root, options);
-
-  readdir.sync.stat(root);
-  readdirSyncStat(root);
-  readdir.sync.stat(root, options);
-  readdirSyncStat(root, options);
+  let paths: string[];
+  paths = readdir.sync(root);
+  paths = readdirSync(root);
+  paths = readdir.sync(root, options);
+  paths = readdirSync(root, options);
 }
 
 export function testCallbackApi() {
@@ -31,11 +27,6 @@ export function testCallbackApi() {
   readdir(root, options, pathsCallback);
   readdir.async(root, options, pathsCallback);
   readdirAsync(root, options, pathsCallback);
-
-  readdir.async.stat(root, statsCallback);
-  readdirAsyncStat(root, statsCallback);
-  readdir.async.stat(root, options, statsCallback);
-  readdirAsyncStat(root, options, statsCallback);
 }
 
 export function testPromiseApi() {
@@ -45,11 +36,6 @@ export function testPromiseApi() {
   readdir(root, options).then(pathsHandler).catch(errorHandler);
   readdir.async(root, options).then(pathsHandler).catch(errorHandler);
   readdirAsync(root, options).then(pathsHandler).catch(errorHandler);
-
-  readdir.async.stat(root).then(statsHandler).catch(errorHandler);
-  readdirAsyncStat(root).then(statsHandler).catch(errorHandler);
-  readdir.async.stat(root, options).then(statsHandler).catch(errorHandler);
-  readdirAsyncStat(root, options).then(statsHandler).catch(errorHandler);
 }
 
 export function testEventEmitterApi() {
@@ -57,11 +43,6 @@ export function testEventEmitterApi() {
   readdirStream(root).on("data", pathHandler).on("error", errorHandler);
   readdir.stream(root, options).on("data", pathHandler).on("error", errorHandler);
   readdirStream(root, options).on("data", pathHandler).on("error", errorHandler);
-
-  readdir.stream.stat(root).on("data", statsHandler).on("error", errorHandler);
-  readdirStreamStat(root).on("data", statsHandler).on("error", errorHandler);
-  readdir.stream.stat(root, options).on("data", statsHandler).on("error", errorHandler);
-  readdirStreamStat(root, options).on("data", statsHandler).on("error", errorHandler);
 }
 
 export function testStreamingApi() {
@@ -69,11 +50,6 @@ export function testStreamingApi() {
   readdirStream(root).pipe(writableStream);
   readdir.stream(root, options).pipe(writableStream);
   readdirStream(root, options).pipe(writableStream);
-
-  readdir.stream.stat(root).pipe(writableStream);
-  readdirStreamStat(root).pipe(writableStream);
-  readdir.stream.stat(root, options).pipe(writableStream);
-  readdirStreamStat(root, options).pipe(writableStream);
 }
 
 export async function testIteratorApi() {
@@ -81,11 +57,6 @@ export async function testIteratorApi() {
   for await (let path of readdirIterator(root)) { path = ""; }
   for await (let path of readdir.iterator(root, options)) { path = ""; }
   for await (let path of readdirIterator(root, options)) { path = ""; }
-
-  for await (let stats of readdir.iterator.stat(root)) { stats.path = ""; }
-  for await (let stats of readdirIteratorStat(root)) { stats.path = ""; }
-  for await (let stats of readdir.iterator.stat(root, options)) { stats.path = ""; }
-  for await (let stats of readdirIteratorStat(root, options)) { stats.path = ""; }
 }
 
 export async function testDeepOption() {
@@ -130,6 +101,27 @@ export async function testFilterOption() {
   readdirAsync(root, { filter: statsFilter }, pathsCallback);
   readdirStream(root, { filter: statsFilter }).on("data", pathHandler);
   for await (let path of readdirIterator(root, { filter: statsFilter })) { path = ""; }
+}
+
+export async function testStatsOption() {
+  let stats: Stats[];
+  stats = readdir.sync(root, { stats: true });
+  stats = readdirSync(root, { stats: true });
+
+  readdir.async(root, { stats: true }, statsCallback);
+  readdirAsync(root, { stats: true }, statsCallback);
+
+  readdir.async(root, { stats: true }).then(statsHandler).catch(errorHandler);
+  readdirAsync(root, { stats: true }).then(statsHandler).catch(errorHandler);
+
+  readdir.stream(root, { stats: true }).on("data", statsHandler).on("error", errorHandler);
+  readdirStream(root, { stats: true }).on("data", statsHandler).on("error", errorHandler);
+
+  readdir.stream(root, { stats: true }).pipe(writableStream);
+  readdirStream(root, { stats: true }).pipe(writableStream);
+
+  for await (let stat of readdir.iterator(root, { stats: true })) { stat.path = ""; }
+  for await (let stat of readdirIterator(root, { stats: true })) { stat.path = ""; }
 }
 
 export async function testBasePathOption() {
