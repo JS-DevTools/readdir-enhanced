@@ -20,6 +20,19 @@ export interface Options {
   deep?: boolean | number | string | RegExp | FilterFunction;
 
   /**
+   * Return `Stats` objects instead of just path strings.
+   *
+   * Defaults to `false`.
+   */
+  stats?: boolean;
+
+  /**
+   * Alias for the `stats` option. This property is supported for compatibility with the Node.js
+   * built-in `fs.readdir()` function.
+   */
+  withFileTypes?: boolean;
+
+  /**
    * The path separator to use.
    *
    * Defaults to "\" on Windows and "/" on other platforms.

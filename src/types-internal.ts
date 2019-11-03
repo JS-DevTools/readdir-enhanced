@@ -20,21 +20,6 @@ export interface Facade {
 }
 
 /**
- * Behavior options, which vary for each interface (sync, async, stream, etc.)
- */
-export interface Behavior {
-  /**
-   * Indicates whether the reader should emit "file", "directory", and "symlink" events.
-   */
-  emit?: boolean;
-
-  /**
-   * Indicates whether the reader should emit `Stats` objects instead of path strings
-   */
-  stats?: boolean;
-}
-
-/**
  * A function that is called for each item in the array
  * @internal
  */

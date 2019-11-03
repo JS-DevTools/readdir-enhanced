@@ -1,21 +1,21 @@
 "use strict";
 
-const readdir = require("../../");
+const readdir = require("../../lib");
 const dir = require("../utils/dir");
 const expect = require("chai").expect;
 const fs = require("fs");
 
-describe("fs.Stats", () => {
+describe("options.stats", () => {
   describe("Synchronous API", () => {
     it("should return stats instead of paths", done => {
-      let data = readdir.sync.stat("test/dir");
+      let data = readdir.sync("test/dir", { stats: true });
       assertStats(data, dir.shallow.data, done);
     });
   });
 
   describe("Asynchronous API (callback/Promise)", () => {
     it("should return stats instead of paths", done => {
-      readdir.async.stat("test/dir", (err, data) => {
+      readdir.async("test/dir", { stats: true }, (err, data) => {
         expect(err).to.be.null;
         assertStats(data, dir.shallow.data, done);
       });
@@ -25,7 +25,7 @@ describe("fs.Stats", () => {
   describe("Asynchronous API (Stream/EventEmitter)", () => {
     it("should return stats instead of paths", done => {
       let error, data = [], files = [], dirs = [], symlinks = [];
-      let stream = readdir.stream.stat("test/dir");
+      let stream = readdir.stream("test/dir", { stats: true });
 
       stream.on("error", done);
       stream.on("data", dataInfo => {

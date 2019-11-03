@@ -1,5 +1,4 @@
 import { DirectoryReader } from "../directory-reader";
-import { Behavior } from "../types-internal";
 import { Options, Stats } from "../types-public";
 import { syncForEach as forEach } from "./for-each";
 import { syncFS as fs } from "./fs";
@@ -7,46 +6,21 @@ import { syncFS as fs } from "./fs";
 const syncFacade = { fs, forEach };
 
 /**
- * Enhanced `fs.readdir()` synchronous interface.
+ * A backward-compatible drop-in replacement for Node's built-in `fs.readdirSync()` function
+ * that adds support for additional features like filtering, recursion, absolute paths, etc.
  */
-export interface ReaddirSync {
-  /**
-   * Synchronous `readdir()` that returns an array of string paths.
-   */
-  (dir: string, options?: Options): string[];
-
-  /**
-   * Synchronous `readdir()` that returns results as an array of `Stats` objects
-   */
-  stat(dir: string, options?: Options): Stats[];
-}
-
-const sync = readdirSync as ReaddirSync;
-sync.stat = readdirSyncStat;
-export { sync };
-
-/**
- * Synchronous `readdir()` that returns an array of string paths.
- */
-export function readdirSync(dir: string, options?: Options): string[] {
-  return readdirSyncInternal(dir, options, {});
-}
+export function readdirSync(dir: string, options?: Options & { stats?: false }): string[];
 
 /**
  * Synchronous `readdir()` that returns results as an array of `Stats` objects
  */
-export function readdirSyncStat(dir: string, options?: Options): Stats[] {
-  return readdirSyncInternal(dir, options, { stats: true });
-}
+export function readdirSync(dir: string, options: Options & { stats: true }): Stats[];
 
-/**
- * Returns the buffered output from a synchronous `DirectoryReader`.
- */
-function readdirSyncInternal<T>(dir: string, options: Options | undefined, behavior: Behavior): T[] {
-  let reader = new DirectoryReader(dir, options, behavior, syncFacade);
+export function readdirSync<T>(dir: string, options?: Options): T[] {
+  let reader = new DirectoryReader(dir, options, syncFacade);
   let stream = reader.stream;
 
-  let results = [];
+  let results: T[] = [];
   let data: T = stream.read() as T;
   while (data !== null) {
     results.push(data);

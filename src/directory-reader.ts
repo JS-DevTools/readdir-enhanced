@@ -3,7 +3,7 @@ import { Readable } from "stream";
 import { safeCall } from "./call";
 import { NormalizedOptions, normalizeOptions } from "./normalize-options";
 import { stat } from "./stat";
-import { Behavior, Facade, VoidCallback } from "./types-internal";
+import { Facade, VoidCallback } from "./types-internal";
 import { EventName, Options, Stats } from "./types-public";
 
 interface Directory {
@@ -36,11 +36,11 @@ export class DirectoryReader {
   /**
    * @param dir - The absolute or relative directory path to read
    * @param [options] - User-specified options, if any (see `normalizeOptions()`)
-   * @param behavior - Internal options that aren't part of the public API
    * @param facade - sync or async function implementations
+   * @param emit - Indicates whether the reader should emit "file", "directory", and "symlink" events.
    */
-  public constructor(dir: string, options: Options | undefined, behavior: Behavior, facade: Facade) {
-    this.options = normalizeOptions(options, behavior, facade);
+  public constructor(dir: string, options: Options | undefined, facade: Facade, emit = false) {
+    this.options = normalizeOptions(options, facade, emit);
 
     // Indicates whether we should keep reading
     // This is set false if stream.Readable.push() returns false.
@@ -83,7 +83,7 @@ export class DirectoryReader {
    * Reads the next directory in the queue
    */
   private readNextDirectory() {
-    let facade = this.options.facade;
+    let { facade } = this.options;
     let dir = this.queue.shift()!;
     this.pending++;
 
@@ -266,10 +266,12 @@ export class DirectoryReader {
       this.emit("error", err);
     }
 
-    // Also emit specific events, based on the type of chunk
-    chunk.file && this.emit("file", chunk.data);
-    chunk.symlink && this.emit("symlink", chunk.data);
-    chunk.directory && this.emit("directory", chunk.data);
+    if (this.options.emit) {
+      // Also emit specific events, based on the type of chunk
+      chunk.file && this.emit("file", chunk.data);
+      chunk.symlink && this.emit("symlink", chunk.data);
+      chunk.directory && this.emit("directory", chunk.data);
+    }
   }
 
   /**
@@ -280,7 +282,7 @@ export class DirectoryReader {
    * @param maxDepthReached - Whether we've already crawled the user-specified depth
    */
   private shouldRecurse(stats: Stats, maxDepthReached: boolean): boolean | undefined {
-    let options = this.options;
+    let { recurseFn } = this.options;
 
     if (maxDepthReached) {
       // We've already crawled to the maximum depth. So no more recursion.
@@ -290,10 +292,10 @@ export class DirectoryReader {
       // It's not a directory. So don't try to crawl it.
       return false;
     }
-    else if (options.recurseFn) {
+    else if (recurseFn) {
       try {
         // Run the user-specified recursion criteria
-        return !!options.recurseFn.call(undefined, stats);
+        return !!recurseFn.call(undefined, stats);
       }
       catch (err) {
         // An error occurred in the user's code.
@@ -316,12 +318,12 @@ export class DirectoryReader {
    * @param stats - The item's `Stats` object, or an object with just a `path` property
    */
   private filter(stats: Stats): boolean | undefined {
-    let options = this.options;
+    let { filterFn } = this.options;
 
-    if (options.filterFn) {
+    if (filterFn) {
       try {
         // Run the user-specified filter function
-        return !!options.filterFn.call(undefined, stats);
+        return !!filterFn.call(undefined, stats);
       }
       catch (err) {
         // An error occurred in the user's code.

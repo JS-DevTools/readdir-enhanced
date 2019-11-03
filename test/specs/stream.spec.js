@@ -74,7 +74,7 @@ describe("Stream API", () => {
   it('should be able to pipe fs.Stats to other streams in "object mode"', done => {
     let allData = [];
 
-    readdir.stream.stat("test/dir")
+    readdir.stream("test/dir", { stats: true })
       .pipe(through2({ objectMode: true }, (data, enc, next) => {
         try {
           // The data is an fs.Stats object
