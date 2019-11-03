@@ -24,16 +24,28 @@ export function readdirIterator(dir: string, options: Options & { stats: true })
 export function readdirIterator<T>(dir: string, options?: Options): AsyncIterableIterator<T> {
   let reader = new DirectoryReader(dir, options, iteratorFacade);
   let stream = reader.stream;
-
+  let pendingValues: T[] = [];
+  let pendingNext: Promise<IteratorResult<T>> | undefined;
+  let resolvePendingNext: ((result: IteratorResult<T>) => void) | undefined;
+  let rejectPendingNext: ((error: Error) => void) | undefined;
   let error: Error | undefined;
-  stream.on("error", (err: Error) => {
+  let readable = false;
+  let done = false;
+
+  stream.on("error", function streamError(err: Error) {
     error = err;
     stream.pause();
+    fulfillPendingNextIfPossible();
   });
 
-  let done = false;
-  stream.on("end", () => {
+  stream.on("end", function streamEnd() {
     done = true;
+    fulfillPendingNextIfPossible();
+  });
+
+  stream.on("readable", function streamReadable() {
+    readable = true;
+    fulfillPendingNextIfPossible();
   });
 
   return {
@@ -43,40 +55,70 @@ export function readdirIterator<T>(dir: string, options?: Options): AsyncIterabl
 
     // tslint:disable-next-line: promise-function-async
     next() {
-      return new Promise((resolve, reject) => {
-        shortCircuit() || stream.on("readable", readNextResult);
+      if (!pendingNext) {
+        pendingNext = new Promise((resolve, reject) => {
+          resolvePendingNext = resolve;
+          rejectPendingNext = reject;
+        });
+      }
 
-        function shortCircuit() {
-          if (error) {
-            reject(error);
-            return true;
-          }
-          else if (done) {
-            resolve({ done, value: undefined });
-            return true;
-          }
-        }
-
-        function readNextResult() {
-          try {
-            if (shortCircuit()) {
-              return;
-            }
-
-            let value = stream.read() as T | null;
-            stream.off("readable", readNextResult);
-
-            if (value === null) {
-              done = true;
-            }
-
-            shortCircuit() || resolve({ value: value! });
-          }
-          catch (err) {
-            reject(err as Error);
-          }
-        }
-      });
-    },
+      // tslint:disable-next-line: no-floating-promises
+      Promise.resolve().then(fulfillPendingNextIfPossible);
+      return pendingNext;
+    }
   };
+
+  function fulfillPendingNextIfPossible() {
+    let fulfill, result;
+
+    if (resolvePendingNext && rejectPendingNext) {
+      if (error) {
+        fulfill = rejectPendingNext;
+        result = error;
+      }
+      else {
+        let value = getNextValue();
+
+        if (value) {
+          fulfill = resolvePendingNext;
+          result = { value };
+        }
+        else if (done) {
+          fulfill = resolvePendingNext;
+          result = { done, value };
+        }
+      }
+
+      if (fulfill) {
+        // NOTE: It's important to clear these BEEFORE fulfilling the Promise;
+        // otherwise a sporadic race condition can occur.
+        pendingNext = resolvePendingNext = rejectPendingNext = undefined;
+
+        // @ts-ignore
+        fulfill(result);
+      }
+    }
+  }
+
+  function getNextValue(): T | undefined {
+    let value = pendingValues.shift();
+    if (value) {
+      return value;
+    }
+    else if (readable) {
+      readable = false;
+
+      while (true) {
+        value = stream.read() as T | undefined;
+        if (value) {
+          pendingValues.push(value);
+        }
+        else {
+          break;
+        }
+      }
+
+      return pendingValues.shift();
+    }
+  }
 }
