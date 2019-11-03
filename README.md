@@ -90,6 +90,25 @@ The synchronous API blocks the thread until all results have been read. Only use
 ### Buffered Results
 Some APIs buffer the results, which means you get all the results at once (as an array). This can be more convenient to work with, but it can also consume a significant amount of memory, depending on how many results there are. The non-buffered APIs return each result to you one-by-one, which means you can start processing the results even while the directory is still being read.
 
+
+
+Alias Exports
+----------------------------------
+The [example above](#example) imported the `readdir` default export and used its properties, such as `readdir.sync` or `readdir.async` to call specific APIs. For convenience, each of the different APIs is exported as a named function that you can import directly.
+
+- `readdir.sync()` is also exported as `readdirSync()`
+- `readdir.async()` is also exported as `readdirAsync()`
+- `readdir.iterator()` is also exported as `readdirIterator()`
+- `readdir.stream()` is also exported as `readdirStream()`
+
+Here's how to import named exports rather than the default export:
+
+```javascript
+import { readdirSync, readdirAsync, readdirIterator, readdirStream } from "readdir-enhanced";
+```
+
+
+
 <a id="options"></a>
 Enhanced Features
 ----------------------------------
