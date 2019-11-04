@@ -24,7 +24,7 @@ Features
 
 - Can return [`fs.Stats` objects](#stats) rather than just paths
 
-- Exposes additional APIs: [Promise, Stream, EventEmitter, and Iterator](#pick-your-api).
+- Exposes additional APIs: [Promise, Stream, EventEmitter, and Async Iterator](#pick-your-api).
 
 
 
@@ -49,7 +49,7 @@ readdir.async("my/directory")
 // Async/Await API
 let files = await readdir.async("my/directory");
 
-// Iterator API
+// Async Iterator API
 for await (let item of readdir.iterator("my/directory")) {
   ...
 }
