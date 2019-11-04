@@ -4,6 +4,23 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+[v5.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v5.0.0) (2019-11-03)
+----------------------------------------------------------------------------------------------------
+
+#### Breaking Changes
+
+- Previously there were alternative versions of each function that returned [`fs.Stats` objects](https://nodejs.org/api/fs.html#fs_class_fs_stats) rather than path strings.  These functions have been replaced by [the `stats` option](README.md#stats).
+
+#### Other Changes
+
+- Completely rewritten in TypeScript
+
+- Added an [async iterable interface](README.md#pick-your-api) so you can now crawl directories using convenient [`for await...of` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of). This is faster and more efficient that the normal sync or async interfaces, since it doesn't require buffering all results in memory.
+
+
+[Full Changelog](https://github.com/JS-DevTools/readdir-enhanced/compare/v4.0.3...v5.0.0)
+
+
 [v4.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v4.0.0) (2019-08-19)
 ----------------------------------------------------------------------------------------------------
 #### Breaking Changes
