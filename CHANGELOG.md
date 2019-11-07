@@ -4,6 +4,14 @@ All notable changes will be documented in this file.
 `readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
 
 
+[v5.1.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v5.1.0) (2019-11-07)
+----------------------------------------------------------------------------------------------------
+
+- The [`filter` option](README.md#filter) can now be set to a boolean to include/exclude everything.
+
+[Full Changelog](https://github.com/JS-DevTools/readdir-enhanced/compare/v5.0.1...v5.1.0)
+
+
 [v5.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v5.0.0) (2019-11-03)
 ----------------------------------------------------------------------------------------------------
 
