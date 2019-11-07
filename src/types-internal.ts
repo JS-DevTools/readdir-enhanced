@@ -1,4 +1,3 @@
-import { VoidCallback } from "./types-internal";
 import { FileSystem } from "./types-public";
 
 
