@@ -87,6 +87,16 @@ export async function testDeepOption() {
 }
 
 export async function testFilterOption() {
+  readdirSync(root, { filter: true });
+  readdirAsync(root, { filter: true }, pathsCallback);
+  readdirStream(root, { filter: true }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { filter: true })) { path = ""; }
+
+  readdirSync(root, { filter: false });
+  readdirAsync(root, { filter: false }, pathsCallback);
+  readdirStream(root, { filter: false }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { filter: false })) { path = ""; }
+
   readdirSync(root, { filter: "*.txt" });
   readdirAsync(root, { filter: "*.txt" }, pathsCallback);
   readdirStream(root, { filter: "*.txt" }).on("data", pathHandler);

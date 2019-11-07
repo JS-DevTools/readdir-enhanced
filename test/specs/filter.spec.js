@@ -106,6 +106,40 @@ describe("options.filter", () => {
       },
     },
     {
+      it: "should return everything if the filter is true",
+      args: ["test/dir", {
+        filter: true,
+      }],
+      assert (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.same.members(dir.shallow.data);
+      },
+      streamAssert (errors, data, files, dirs, symlinks) {
+        expect(errors).to.have.lengthOf(0);
+        expect(data).to.have.same.members(dir.shallow.data);
+        expect(files).to.have.same.members(dir.shallow.files);
+        expect(dirs).to.have.same.members(dir.shallow.dirs);
+        expect(symlinks).to.have.same.members(dir.shallow.symlinks);
+      },
+    },
+    {
+      it: "should return nothing if the filter is false",
+      args: ["test/dir", {
+        filter: false,
+      }],
+      assert (error, data) {
+        expect(error).to.be.null;
+        expect(data).to.have.lengthOf(0);
+      },
+      streamAssert (errors, data, files, dirs, symlinks) {
+        expect(errors).to.have.lengthOf(0);
+        expect(data).to.have.lengthOf(0);
+        expect(files).to.have.lengthOf(0);
+        expect(dirs).to.have.lengthOf(0);
+        expect(symlinks).to.have.lengthOf(0);
+      },
+    },
+    {
       it: "should filter by a regular expression",
       args: ["test/dir", {
         filter: /.*empt[^aeiou]/,

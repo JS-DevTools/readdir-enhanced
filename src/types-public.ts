@@ -9,7 +9,7 @@ export interface Options {
    *
    * Defaults to returning all files.
    */
-  filter?: string | RegExp | FilterFunction;
+  filter?: boolean | string | RegExp | FilterFunction;
 
   /**
    * The depth to crawl. Can be `true` to crawl indefinitely, a number to crawl only to that

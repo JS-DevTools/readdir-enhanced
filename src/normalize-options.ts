@@ -87,11 +87,14 @@ export function normalizeOptions(options: Options | undefined, facade: Facade, e
       filterFnNeedsStats = true;
       filterFn = filter;
     }
-    else if (filter instanceof RegExp || (typeof filter === "string" && filter.length > 0)) {
+    else if (
+      filter instanceof RegExp ||
+      typeof filter === "boolean" ||
+      (typeof filter === "string" && filter.length > 0)) {
       filterFn = createFilter({ map, sep }, filter);
     }
     else {
-      throw new TypeError("options.filter must be a function, regular expression, or glob pattern");
+      throw new TypeError("options.filter must be a boolean, function, regular expression, or glob pattern");
     }
   }
 

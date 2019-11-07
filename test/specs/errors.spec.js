@@ -123,7 +123,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal(
-          "options.filter must be a function, regular expression, or glob pattern");
+          "options.filter must be a boolean, function, regular expression, or glob pattern");
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
