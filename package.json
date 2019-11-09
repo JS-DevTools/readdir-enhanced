@@ -1,6 +1,6 @@
 {
   "name": "readdir-enhanced",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "fs.readdir with sync, async, streaming, and async iterator APIs + filtering, recursion, absolute paths, etc.",
   "keywords": [
     "fs",
@@ -56,7 +56,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.6",
+    "@types/node": "^12.12.7",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
     "del": "^5.1.0",
