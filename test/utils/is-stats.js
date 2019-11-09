@@ -14,7 +14,6 @@ function isStats (stats) {
   expect(stats.atimeMs).to.be.a("number").above(0);
   expect(stats.birthtime).to.be.an.instanceOf(Date);
   expect(stats.birthtimeMs).to.be.a("number").above(0);
-  expect(stats.blksize).to.be.a("number").at.least(0);
   expect(stats.blocks).to.be.a("number").at.least(0);
   expect(stats.ctime).to.be.an.instanceOf(Date);
   expect(stats.ctimeMs).to.be.a("number").above(0);
