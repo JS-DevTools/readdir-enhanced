@@ -2,8 +2,8 @@
 
 const readdir = require("../../");
 const dir = require("../utils/dir");
+const isStats = require("../utils/is-stats");
 const { expect } = require("chai");
-const fs = require("fs");
 
 describe("options.stats", () => {
   describe("Synchronous API", () => {
@@ -79,16 +79,7 @@ describe("options.stats", () => {
 
       // Each item should be a valid fs.Stats object
       for (let stat of data) {
-        expect(stat).to.be.an("object");
-        expect(stat).to.be.an.instanceOf(fs.Stats);
-        expect(stat.mode).to.be.a("number");
-        expect(stat.uid).to.be.a("number");
-        expect(stat.gid).to.be.a("number");
-        expect(stat.size).to.be.a("number");
-        expect(stat.atime).to.be.an.instanceOf(Date);
-        expect(stat.mtime).to.be.an.instanceOf(Date);
-        expect(stat.ctime).to.be.an.instanceOf(Date);
-        expect(stat.path).to.be.a("string");
+        expect(stat).to.satisfy(isStats);
       }
 
       done();
