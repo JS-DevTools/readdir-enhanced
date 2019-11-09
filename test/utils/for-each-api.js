@@ -40,7 +40,7 @@ function forEachApi (tests) {
 
   describe("Callback API", () => {
     for (let test of tests) {
-      testApi(test, "async", done => {
+      testApi(test, "callback", done => {
         let args = test.args.length === 0 ? [undefined, done] : [...test.args, done];
         readdir.async.apply(null, args);
       });
@@ -81,7 +81,7 @@ function forEachApi (tests) {
     }
   });
 
-  describe("Iterator API", () => {
+  describe("Iterator API (for await...of)", () => {
     for (let test of tests) {
       testApi(test, "iterator", async (done) => {
         try {
@@ -98,13 +98,71 @@ function forEachApi (tests) {
       });
     }
   });
+
+  describe("Iterator API (await iterator.next())", () => {
+    for (let test of tests) {
+      testApi(test, "await next", async (done) => {
+        try {
+          let iterator = readdir.iterator.apply(null, test.args);
+          let data = [];
+
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            let result = await iterator.next();
+
+            if (result.done) {
+              break;
+            }
+            else {
+              data.push(result.value);
+            }
+          }
+
+          done(null, data);
+        }
+        catch (error) {
+          done(error);
+        }
+      });
+    }
+  });
+
+  describe("Iterator API (iterator.next() without await)", () => {
+    for (let test of tests) {
+      testApi(test, "next", async (done) => {
+        try {
+          let iterator = readdir.iterator.apply(null, test.args);
+          let promises = [];
+
+          for (let i = 0; i < 50; i++) {
+            let promise = iterator.next();
+            promises.push(promise);
+          }
+
+          let results = await Promise.all(promises);
+          let data = [];
+
+          for (let result of results) {
+            if (!result.done) {
+              data.push(result.value);
+            }
+          }
+
+          done(null, data);
+        }
+        catch (error) {
+          done(error);
+        }
+      });
+    }
+  });
 }
 
 /**
  * Runs a single test against a single readdir-enhanced API.
  *
  * @param {object} test - An object containing test info, parameters, and assertions
- * @param {string} apiName - The name of the API being tested ("sync", "async", "stream", or "iterator")
+ * @param {string} apiName - The name of the API being tested ("sync", "async", "stream", etc.)
  * @param {function} api - A function that calls the readdir-enhanced API and returns its results
  */
 function testApi (test, apiName, api) {
