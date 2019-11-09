@@ -2,6 +2,7 @@ import * as fs from "fs";
 import { asyncForEach as forEach } from "../async/for-each";
 import { DirectoryReader } from "../directory-reader";
 import { Options, Stats } from "../types-public";
+import { Pending, pending } from "./pending";
 
 const iteratorFacade = { fs, forEach };
 
@@ -25,9 +26,7 @@ export function readdirIterator<T>(dir: string, options?: Options): AsyncIterabl
   let reader = new DirectoryReader(dir, options, iteratorFacade);
   let stream = reader.stream;
   let pendingValues: T[] = [];
-  let pendingNext: Promise<IteratorResult<T>> | undefined;
-  let resolvePendingNext: ((result: IteratorResult<T>) => void) | undefined;
-  let rejectPendingNext: ((error: Error) => void) | undefined;
+  let pendingReads: Array<Pending<IteratorResult<T>>> = [];
   let error: Error | undefined;
   let readable = false;
   let done = false;
@@ -35,17 +34,17 @@ export function readdirIterator<T>(dir: string, options?: Options): AsyncIterabl
   stream.on("error", function streamError(err: Error) {
     error = err;
     stream.pause();
-    fulfillPendingNextIfPossible();
+    fulfillPendingReads();
   });
 
   stream.on("end", function streamEnd() {
     done = true;
-    fulfillPendingNextIfPossible();
+    fulfillPendingReads();
   });
 
   stream.on("readable", function streamReadable() {
     readable = true;
-    fulfillPendingNextIfPossible();
+    fulfillPendingReads();
   });
 
   return {
@@ -55,47 +54,38 @@ export function readdirIterator<T>(dir: string, options?: Options): AsyncIterabl
 
     // tslint:disable-next-line: promise-function-async
     next() {
-      if (!pendingNext) {
-        pendingNext = new Promise((resolve, reject) => {
-          resolvePendingNext = resolve;
-          rejectPendingNext = reject;
-        });
-      }
+      let pendingRead = pending<IteratorResult<T>>();
+      pendingReads.push(pendingRead);
 
       // tslint:disable-next-line: no-floating-promises
-      Promise.resolve().then(fulfillPendingNextIfPossible);
-      return pendingNext;
+      Promise.resolve().then(fulfillPendingReads);
+
+      return pendingRead.promise;
     }
   };
 
-  function fulfillPendingNextIfPossible() {
-    let fulfill, result;
-
-    if (resolvePendingNext && rejectPendingNext) {
-      if (error) {
-        fulfill = rejectPendingNext;
-        result = error;
+  function fulfillPendingReads() {
+    if (error) {
+      while (pendingReads.length > 0) {
+        let pendingRead = pendingReads.shift()!;
+        pendingRead.reject(error);
       }
-      else {
+    }
+    else if (pendingReads.length > 0) {
+      while (pendingReads.length > 0) {
+        let pendingRead = pendingReads.shift()!;
         let value = getNextValue();
 
         if (value) {
-          fulfill = resolvePendingNext;
-          result = { value };
+          pendingRead.resolve({ value });
         }
         else if (done) {
-          fulfill = resolvePendingNext;
-          result = { done, value };
+          pendingRead.resolve({ done, value });
         }
-      }
-
-      if (fulfill) {
-        // NOTE: It's important to clear these BEEFORE fulfilling the Promise;
-        // otherwise a sporadic race condition can occur.
-        pendingNext = resolvePendingNext = rejectPendingNext = undefined;
-
-        // @ts-ignore
-        fulfill(result);
+        else {
+          pendingReads.unshift(pendingRead);
+          break;
+        }
       }
     }
   }
