@@ -2,7 +2,7 @@
 
 const readdir = require("../../");
 const dir = require("../utils/dir");
-const expect = require("chai").expect;
+const { expect } = require("chai");
 const fs = require("fs");
 
 describe("options.stats", () => {

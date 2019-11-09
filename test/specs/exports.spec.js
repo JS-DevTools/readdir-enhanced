@@ -1,7 +1,7 @@
 "use strict";
 
 const { default: defaultExport, readdir, readdirSync, readdirAsync, readdirIterator, readdirStream } = require("../../");
-const expect = require("chai").expect;
+const { expect } = require("chai");
 
 describe("exports", () => {
   describe("Synchronous API", () => {

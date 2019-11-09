@@ -2,7 +2,7 @@
 
 const forEachApi = require("../utils/for-each-api");
 const dir = require("../utils/dir");
-const expect = require("chai").expect;
+const { expect } = require("chai");
 
 describe("options.filter", () => {
   forEachApi([
