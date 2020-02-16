@@ -10,7 +10,7 @@ describe("error handling", () => {
       args: [],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.match(/path must be a string|The "path" argument must be one of type string, Buffer, or URL/);
+        expect(error.message).to.match(/must be a string|must be one of type string|must be of type string/);
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -26,7 +26,7 @@ describe("error handling", () => {
       args: [55555],
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.match(/path must be a string|The "path" argument must be one of type string, Buffer, or URL/);
+        expect(error.message).to.match(/must be a string|must be one of type string|must be of type string/);
         expect(data).to.be.undefined;
       },
       streamAssert (errors, data, files, dirs, symlinks) {
