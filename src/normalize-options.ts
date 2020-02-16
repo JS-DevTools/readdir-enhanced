@@ -1,4 +1,4 @@
-import { createFilter } from "file-path-filter";
+import { createFilter } from "@jsdevtools/file-path-filter";
 import * as path from "path";
 import { Facade } from "./types-internal";
 import { FilterFunction, Options, Stats } from "./types-public";

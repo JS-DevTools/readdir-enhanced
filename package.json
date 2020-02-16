@@ -75,6 +75,6 @@
     "typescript-tslint-plugin": "^0.5.5"
   },
   "dependencies": {
-    "file-path-filter": "^2.2.2"
+    "@jsdevtools/file-path-filter": "^3.0.0"
   }
 }
