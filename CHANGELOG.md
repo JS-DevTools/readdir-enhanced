@@ -4,6 +4,16 @@ All notable changes will be documented in this file.
 Readdir Enhanced adheres to [Semantic Versioning](http://semver.org/).
 
 
+[v6.0.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v6.0.0) (2020-02-17)
+----------------------------------------------------------------------------------------------------
+
+- Moved Readdir Enhanced to the [@JSDevTools scope](https://www.npmjs.com/org/jsdevtools) on NPM
+
+- The "readdir-enhanced" NPM package is now just a wrapper around the scoped "@jsdevtools/readdir-enhanced" package
+
+[Full Changelog](https://github.com/JS-DevTools/readdir-enhanced/compare/v5.1.1...v6.0.0)
+
+
 [v5.1.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v5.1.0) (2019-11-07)
 ----------------------------------------------------------------------------------------------------
 
