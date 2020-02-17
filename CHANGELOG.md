@@ -1,7 +1,7 @@
 Change Log
 ====================================================================================================
 All notable changes will be documented in this file.
-`readdir-enhanced` adheres to [Semantic Versioning](http://semver.org/).
+Readdir Enhanced adheres to [Semantic Versioning](http://semver.org/).
 
 
 [v5.1.0](https://github.com/JS-DevTools/readdir-enhanced/tree/v5.1.0) (2019-11-07)
