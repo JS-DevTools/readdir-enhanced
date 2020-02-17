@@ -61,7 +61,6 @@
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.1",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.9",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
     "mkdirp": "^1.0.3",
