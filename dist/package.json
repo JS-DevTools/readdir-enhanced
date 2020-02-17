@@ -1,0 +1,45 @@
+{
+  "name": "readdir-enhanced",
+  "version": "X.X.X",
+  "description": "fs.readdir with sync, async, streaming, and async iterator APIs + filtering, recursion, absolute paths, etc.",
+  "keywords": [
+    "fs",
+    "readdir",
+    "async",
+    "promise",
+    "iterator",
+    "generator",
+    "async-iterator",
+    "stream",
+    "event",
+    "event-emitter",
+    "recursive",
+    "deep",
+    "walk",
+    "crawl",
+    "filter",
+    "absolute"
+  ],
+  "author": {
+    "name": "James Messinger",
+    "url": "https://jamesmessinger.com"
+  },
+  "license": "MIT",
+  "homepage": "https://jstools.dev/readdir-enhanced",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JS-DevTools/readdir-enhanced.git"
+  },
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "@jsdevtools/readdir-enhanced": "X.X.X"
+  }
+}
