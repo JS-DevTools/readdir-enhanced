@@ -7,8 +7,8 @@ Enhanced `fs.readdir()`
 [![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
 [![Dependencies](https://david-dm.org/JS-DevTools/readdir-enhanced.svg)](https://david-dm.org/JS-DevTools/readdir-enhanced)
 
-[![npm](https://img.shields.io/npm/v/readdir-enhanced.svg?maxAge=43200)](https://www.npmjs.com/package/readdir-enhanced)
-[![License](https://img.shields.io/npm/l/readdir-enhanced.svg?maxAge=2592000)](LICENSE)
+[![npm](https://img.shields.io/npm/v/@jsdevtools/readdir-enhanced.svg?maxAge=43200)](https://www.npmjs.com/package/@jsdevtools/readdir-enhanced)
+[![License](https://img.shields.io/npm/l/@jsdevtools/readdir-enhanced.svg?maxAge=2592000)](LICENSE)
 
 
 
