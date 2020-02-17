@@ -1,8 +1,8 @@
 Enhanced `fs.readdir()`
 =======================
 
-[![Cross-Platform Compatibility](https://jstools.dev/img/badges/os-badges.svg)](https://travis-ci.com/JS-DevTools/readdir-enhanced)
-[![Build Status](https://api.travis-ci.com/JS-DevTools/readdir-enhanced.svg?branch=master)](https://travis-ci.com/JS-DevTools/readdir-enhanced)
+[![Cross-Platform Compatibility](https://jstools.dev/img/badges/os-badges.svg)](https://github.com/JS-DevTools/readdir-enhanced/blob/master/.github/workflows/CI-CD.yaml)
+[![Build Status](https://github.com/JS-DevTools/readdir-enhanced/workflows/CI-CD/badge.svg)](https://github.com/JS-DevTools/readdir-enhanced/blob/master/.github/workflows/CI-CD.yaml)
 
 [![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
 [![Dependencies](https://david-dm.org/JS-DevTools/readdir-enhanced.svg)](https://david-dm.org/JS-DevTools/readdir-enhanced)
