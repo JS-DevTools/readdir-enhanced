@@ -1,6 +1,5 @@
 "use strict";
 
-const mkdirp = require("mkdirp");
 const del = require("del");
 const path = require("path");
 const fs = require("fs");
@@ -9,9 +8,9 @@ before(() => {
   console.log("Initializing test directory");
 
   // create some empty dirs (cannot check-in empty dirs to git)
-  mkdirp.sync("test/dir/.dotdir");
-  mkdirp.sync("test/dir/empty");
-  mkdirp.sync("test/dir/subdir/.dotdir/empty");
+  fs.mkdirSync("test/dir/.dotdir", { recursive: true });
+  fs.mkdirSync("test/dir/empty", { recursive: true });
+  fs.mkdirSync("test/dir/subdir/.dotdir/empty", { recursive: true });
 
   // create symlinks (checking symlinks into git is problematic cross-platform)
   symlink("test/dir/file.txt", "test/dir/file-symlink.txt", "file");
