@@ -9,7 +9,7 @@ Enhanced `fs.readdir()`
 
 [![npm](https://img.shields.io/npm/v/@jsdevtools/readdir-enhanced.svg)](https://www.npmjs.com/package/@jsdevtools/readdir-enhanced)
 [![License](https://img.shields.io/npm/l/@jsdevtools/readdir-enhanced.svg)](LICENSE)
-[![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen)](https://plant.treeware.earth/JS-DevTools/XXXXXXXXXXXXXXXXXXXXXXXXX)
+[![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen)](https://plant.treeware.earth/JS-DevTools/readdir-enhanced)
 
 
 
@@ -421,6 +421,8 @@ To build the project locally on your computer:
 License
 --------------------------
 Readdir Enhanced is 100% free and open-source, under the [MIT license](LICENSE). Use it however you want.
+
+This package is [Treeware](http://treeware.earth). If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/JS-DevTools/readdir-enhanced) to thank us for our work. By contributing to the Treeware forest you’ll be creating employment for local families and restoring wildlife habitats.
 
 
 
