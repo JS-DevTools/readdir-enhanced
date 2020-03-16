@@ -1,6 +1,6 @@
 {
   "name": "@jsdevtools/readdir-enhanced",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "fs.readdir with sync, async, streaming, and async iterator APIs + filtering, recursion, absolute paths, etc.",
   "keywords": [
     "fs",
