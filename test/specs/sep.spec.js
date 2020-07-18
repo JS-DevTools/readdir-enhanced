@@ -11,7 +11,7 @@ describe("options.sep", () => {
       it: "should have no effect if `options.deep` is not set",
       args: ["test/dir", { sep: "_" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -26,7 +26,7 @@ describe("options.sep", () => {
       it: 'should return POSIX paths if sep === "/"',
       args: ["test/dir", { deep: true, sep: "/" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.deep.data, "/");
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -41,7 +41,7 @@ describe("options.sep", () => {
       it: 'should return Windows paths if sep === "\\"',
       args: ["test/dir", { deep: true, sep: "\\" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.deep.data, "\\");
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -56,7 +56,7 @@ describe("options.sep", () => {
       it: "should allow sep to be an empty string",
       args: ["test/dir", { deep: true, sep: "" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.deep.data, "");
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -71,7 +71,7 @@ describe("options.sep", () => {
       it: "should allow sep to be multiple characters",
       args: ["test/dir", { deep: true, sep: "-----" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.deep.data, "-----");
       },
       streamAssert (errors, data, files, dirs, symlinks) {

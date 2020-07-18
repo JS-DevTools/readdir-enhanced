@@ -12,7 +12,7 @@ describe("options.fs", () => {
       it: "should have no effect if `options.fs` is null",
       args: ["test/dir", { fs: null }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -27,7 +27,7 @@ describe("options.fs", () => {
       it: "should have no effect if `options.fs` is empty",
       args: ["test/dir", { fs: {}}],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -53,7 +53,7 @@ describe("options.fs", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.txt.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -78,7 +78,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.code).to.equal("ENOENT");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -104,7 +104,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/null is not an array/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -130,7 +130,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal("12345 is not an array");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -163,7 +163,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal("Boooooom!");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -202,7 +202,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal("Boooooom!");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -240,7 +240,7 @@ describe("options.fs", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(this.omitSymlinkDirs(dir.deep.data));
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -279,7 +279,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot \w+ property 'isSymbolicLink' of null/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -310,7 +310,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot .* property 'isSymbolicLink'/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -345,7 +345,7 @@ describe("options.fs", () => {
       }],
       assert (error, data) {
         // An error in fs.stat is handled internally, so no error is thrown
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -376,7 +376,7 @@ describe("options.fs", () => {
       }],
       assert (error, data) {
         // An error in fs.stat is handled internally, so no error is thrown
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -409,7 +409,7 @@ describe("options.fs", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -434,7 +434,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/Cannot \w+ property 'isSymbolicLink' of null/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -460,7 +460,7 @@ describe("options.fs", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/lstats.isSymbolicLink is not a function/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately
@@ -492,7 +492,7 @@ describe("options.fs", () => {
       assert (error, data) {
         // An error in fs.lstat is handled internally, so no error is thrown
         expect(error).to.be.an.instanceOf(Error);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -527,7 +527,7 @@ describe("options.fs", () => {
       assert (error, data) {
         // An error in fs.lstat is handled internally, so no error is thrown
         expect(error).to.be.an.instanceOf(Error);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);

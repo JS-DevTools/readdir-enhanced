@@ -4,7 +4,7 @@ import { Callback } from "./types-public";
  * A function that accepts an input value and returns an output value via a callback.
  * @internal
  */
-export type Fn<I, O> = (input: I, callback: Callback<O>) => void;
+export type Fn<TInput, TOutput> = (input: TInput, callback: Callback<TOutput>) => void;
 
 
 /**
@@ -16,15 +16,15 @@ export type Fn<I, O> = (input: I, callback: Callback<O>) => void;
  *
  * @internal
  */
-export function safeCall<I, O>(fn: Fn<I, O>, input: I, callback: Callback<O>): void {
+export function safeCall<TInput, TOutput>(fn: Fn<TInput, TOutput>, input: TInput, callback: Callback<TOutput>): void {
   // Replace the callback function with a wrapper that ensures it will only be called once
   callback = callOnce(callback);
 
   try {
-    fn.call(undefined, input, callback);
+    fn(input, callback);
   }
   catch (err) {
-    callback(err as Error, undefined as unknown as O);
+    callback(err as Error, undefined as unknown as TOutput);
   }
 }
 

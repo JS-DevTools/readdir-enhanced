@@ -11,7 +11,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/must be a string|must be one of type string|must be of type string/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -27,7 +27,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.match(/must be a string|must be one of type string|must be of type string/);
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -43,7 +43,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal("options must be an object");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -59,7 +59,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal("options.deep must be a boolean, number, function, regular expression, or glob pattern");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -75,7 +75,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal("options.deep must be a positive number");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -91,7 +91,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal("options.deep must be a positive number");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -107,7 +107,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal("options.deep must be an integer");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -124,7 +124,7 @@ describe("error handling", () => {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal(
           "options.filter must be a boolean, function, regular expression, or glob pattern");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -140,7 +140,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal("options.sep must be a string");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -156,7 +156,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal("options.basePath must be a string");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -172,7 +172,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.code).to.equal("ENOENT");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -188,7 +188,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.code).to.equal("ENOTDIR");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -204,7 +204,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.code).to.equal("ENOENT");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);
@@ -220,7 +220,7 @@ describe("error handling", () => {
       assert (error, data) {
         expect(error).to.be.an.instanceOf(TypeError);
         expect(error.message).to.equal("options.fs must be an object");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         expect(errors).to.have.lengthOf(1);

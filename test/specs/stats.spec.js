@@ -16,7 +16,7 @@ describe("options.stats", () => {
   describe("Asynchronous API (callback/Promise)", () => {
     it("should return stats instead of paths", done => {
       readdir.async("test/dir", { stats: true }, (err, data) => {
-        expect(err).to.be.null;
+        expect(err).to.equal(null);
         assertStats(data, dir.shallow.data, done);
       });
     });

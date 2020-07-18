@@ -13,7 +13,7 @@ describe("options.basePath", () => {
       it: 'should return relative paths if basePath === "" (empty string)',
       args: ["test/dir", { basePath: "" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -28,7 +28,7 @@ describe("options.basePath", () => {
       it: 'should return relative paths if basePath === "."',
       args: ["test/dir", { basePath: "." }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.shallow.data, ".");
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -43,7 +43,7 @@ describe("options.basePath", () => {
       it: "should return absolute paths if basePath === absolute path",
       args: ["test/dir", { basePath: testDirAbsPath }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.shallow.data, testDirAbsPath);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -58,7 +58,7 @@ describe("options.basePath", () => {
       it: "should return relative paths to process.cwd() if basePath === path",
       args: ["test/dir", { basePath: "test/dir" }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         assertPathsMatch(data, dir.shallow.data, "test/dir");
       },
       streamAssert (errors, data, files, dirs, symlinks) {

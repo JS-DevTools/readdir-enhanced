@@ -140,7 +140,7 @@ export class DirectoryReader {
     this.pending === 0 &&             // The stuff we're currently reading
     this.queue.length === 0) {        // The stuff we haven't read yet
       // There's no more stuff!
-      this.stream.push(null);         // tslint:disable-line: no-null-keyword
+      this.stream.push(null);
     }
   }
 
@@ -295,7 +295,7 @@ export class DirectoryReader {
     else if (recurseFn) {
       try {
         // Run the user-specified recursion criteria
-        return !!recurseFn.call(undefined, stats);
+        return !!recurseFn(stats);
       }
       catch (err) {
         // An error occurred in the user's code.
@@ -323,7 +323,7 @@ export class DirectoryReader {
     if (filterFn) {
       try {
         // Run the user-specified filter function
-        return !!filterFn.call(undefined, stats);
+        return !!filterFn(stats);
       }
       catch (err) {
         // An error occurred in the user's code.

@@ -29,7 +29,6 @@ export interface NormalizedOptions {
  *
  * @internal
  */
-// tslint:disable-next-line: cyclomatic-complexity
 export function normalizeOptions(options: Options | undefined, facade: Facade, emit: boolean): NormalizedOptions {
   if (options === null || options === undefined) {
     options = {};

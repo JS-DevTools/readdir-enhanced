@@ -108,7 +108,7 @@ describe("Stream API", () => {
         allData.push(data);
 
         // The stream should not be paused
-        expect(stream.isPaused()).to.be.false;
+        expect(stream.isPaused()).to.equal(false);
 
         if (allData.length === 3) {
           // Pause for one second
@@ -116,7 +116,7 @@ describe("Stream API", () => {
           setTimeout(() => {
             try {
               // The stream should still be paused
-              expect(stream.isPaused()).to.be.true;
+              expect(stream.isPaused()).to.equal(true);
 
               // The array should still only contain 3 items
               expect(allData).to.have.lengthOf(3);
@@ -154,7 +154,7 @@ describe("Stream API", () => {
           }
           else {
             // The data should be a string (the file name)
-            expect(data).to.be.a("string").and.not.empty;
+            expect(data).to.be.a("string").with.length.of.at.least(1);
             allData.push(data);
 
             data = stream.read();
@@ -195,11 +195,11 @@ describe("Stream API", () => {
 
     stream
       .on("file", filename => {
-        expect(filename).to.be.a("string").and.not.empty;
+        expect(filename).to.be.a("string").with.length.of.at.least(1);
         allFiles.push(filename);
       })
       .on("directory", subdir => {
-        expect(subdir).to.be.a("string").and.not.empty;
+        expect(subdir).to.be.a("string").with.length.of.at.least(1);
         allSubdirs.push(subdir);
       })
       .on("end", () => {

@@ -14,7 +14,7 @@ describe("options.filter", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(["empty", "empty.txt"]);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -34,7 +34,7 @@ describe("options.filter", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.empties.deep.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -54,7 +54,7 @@ describe("options.filter", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.deep.files);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -74,7 +74,7 @@ describe("options.filter", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.deep.dirs);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -94,7 +94,7 @@ describe("options.filter", () => {
         }
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.deep.symlinks);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -111,7 +111,7 @@ describe("options.filter", () => {
         filter: true,
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -128,7 +128,7 @@ describe("options.filter", () => {
         filter: false,
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.lengthOf(0);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -145,7 +145,7 @@ describe("options.filter", () => {
         filter: /.*empt[^aeiou]/,
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.empties.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -164,7 +164,7 @@ describe("options.filter", () => {
         filter: /subdir\\[^\\]*\\.*\.txt/,
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -181,7 +181,7 @@ describe("options.filter", () => {
         filter: "empty*"
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.empties.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -200,7 +200,7 @@ describe("options.filter", () => {
         filter: "subdir/*/*.txt",
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromDir.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -220,7 +220,7 @@ describe("options.filter", () => {
         filter: "C:/Windows/**/subdir/*/*.txt",
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.subdir.subsubdir.txt.windowsStyle.fromRoot.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -238,7 +238,7 @@ describe("options.filter", () => {
         filter: "**/*.txt",
       }],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.txt.deep.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -263,7 +263,7 @@ describe("options.filter", () => {
         // The sync & async APIs abort after the first error and don't return any data
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal("Boooooom!");
-        expect(data).to.be.undefined;
+        expect(data).to.equal(undefined);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
         // The streaming API emits errors and data separately

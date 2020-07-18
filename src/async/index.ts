@@ -1,4 +1,3 @@
-// tslint:disable: promise-function-async
 import * as fs from "fs";
 import { DirectoryReader } from "../directory-reader";
 import { Callback, Options, Stats } from "../types-public";

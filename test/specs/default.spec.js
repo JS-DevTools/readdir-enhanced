@@ -13,7 +13,7 @@ describe("default behavior", () => {
       args: ["test/dir"],
       assert (error, data) {
         let fsResults = fs.readdirSync("test/dir");
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(fsResults);
       },
     },
@@ -21,7 +21,7 @@ describe("default behavior", () => {
       it: "should return an empty array for an empty dir",
       args: ["test/dir/empty"],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.be.an("array").with.lengthOf(0);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -36,7 +36,7 @@ describe("default behavior", () => {
       it: "should return all top-level contents",
       args: ["test/dir"],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -51,7 +51,7 @@ describe("default behavior", () => {
       it: "should return the same results if the path is absolute",
       args: [path.resolve("test/dir")],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -66,7 +66,7 @@ describe("default behavior", () => {
       it: "should return all top-level contents of a directory symlink",
       args: ["test/dir/subdir-symlink"],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         expect(data).to.have.same.members(dir.subdir.shallow.data);
       },
       streamAssert (errors, data, files, dirs, symlinks) {
@@ -81,7 +81,7 @@ describe("default behavior", () => {
       it: "should return relative paths",
       args: ["test/dir"],
       assert (error, data) {
-        expect(error).to.be.null;
+        expect(error).to.equal(null);
         for (let item of data) {
           expect(item).not.to.contain("/");
           expect(item).not.to.contain("\\");

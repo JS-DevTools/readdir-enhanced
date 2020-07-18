@@ -1,11 +1,11 @@
-// tslint:disable: match-default-export-name completed-docs no-async-without-await
+/* eslint-disable func-style, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unused-vars-experimental */
 import readdir, { readdirAsync, readdirIterator, readdirStream, readdirSync, Stats } from "../../";
 
 const root = "path/to/some/directory";
 const options = {};
 const pathsCallback = (err: Error | null, paths: string[]) => undefined;
 const statsCallback = (err: Error | null, stats: Stats[]) => undefined;
-const writableStream = {} as NodeJS.WritableStream;  // tslint:disable-line: no-object-literal-type-assertion
+const writableStream = {} as NodeJS.WritableStream;
 const pathHandler = (path: string) => undefined;
 const pathsHandler = (paths: string[]) => undefined;
 const statsHandler = (stats: Stats[]) => undefined;
@@ -70,15 +70,15 @@ export async function testDeepOption() {
   readdirStream(root, { deep: 5 }).on("data", pathHandler);
   for await (let path of readdirIterator(root, { deep: 5 })) { path = ""; }
 
-  readdirSync(root, { deep: "subdir/**"});
-  readdirAsync(root, { deep: "subdir/**"}, pathsCallback);
-  readdirStream(root, { deep: "subdir/**"}).on("data", pathHandler);
-  for await (let path of readdirIterator(root, { deep: "subdir/**"})) { path = ""; }
+  readdirSync(root, { deep: "subdir/**" });
+  readdirAsync(root, { deep: "subdir/**" }, pathsCallback);
+  readdirStream(root, { deep: "subdir/**" }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: "subdir/**" })) { path = ""; }
 
-  readdirSync(root, { deep: /subdir|subdir2/});
-  readdirAsync(root, { deep: /subdir|subdir2/}, pathsCallback);
-  readdirStream(root, { deep: /subdir|subdir2/}).on("data", pathHandler);
-  for await (let path of readdirIterator(root, { deep: /subdir|subdir2/})) { path = ""; }
+  readdirSync(root, { deep: /subdir|subdir2/ });
+  readdirAsync(root, { deep: /subdir|subdir2/ }, pathsCallback);
+  readdirStream(root, { deep: /subdir|subdir2/ }).on("data", pathHandler);
+  for await (let path of readdirIterator(root, { deep: /subdir|subdir2/ })) { path = ""; }
 
   readdirSync(root, { deep: statsFilter });
   readdirAsync(root, { deep: statsFilter }, pathsCallback);

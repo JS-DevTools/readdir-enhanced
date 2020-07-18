@@ -52,12 +52,11 @@ export function readdirIterator<T>(dir: string, options?: Options): AsyncIterabl
       return this;
     },
 
-    // tslint:disable-next-line: promise-function-async
     next() {
       let pendingRead = pending<IteratorResult<T>>();
       pendingReads.push(pendingRead);
 
-      // tslint:disable-next-line: no-floating-promises
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       Promise.resolve().then(fulfillPendingReads);
 
       return pendingRead.promise;
