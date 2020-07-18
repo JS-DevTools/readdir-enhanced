@@ -1,8 +1,8 @@
 Enhanced `fs.readdir()`
 =======================
 
-[![Cross-Platform Compatibility](https://jstools.dev/img/badges/os-badges.svg)](https://github.com/JS-DevTools/readdir-enhanced/blob/master/.github/workflows/CI-CD.yaml)
-[![Build Status](https://github.com/JS-DevTools/readdir-enhanced/workflows/CI-CD/badge.svg)](https://github.com/JS-DevTools/readdir-enhanced/blob/master/.github/workflows/CI-CD.yaml)
+[![Cross-Platform Compatibility](https://jstools.dev/img/badges/os-badges.svg)](https://github.com/JS-DevTools/readdir-enhanced/actions)
+[![Build Status](https://github.com/JS-DevTools/readdir-enhanced/workflows/CI-CD/badge.svg)](https://github.com/JS-DevTools/readdir-enhanced/actions)
 
 [![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/readdir-enhanced/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/readdir-enhanced?branch=master)
 [![Dependencies](https://david-dm.org/JS-DevTools/readdir-enhanced.svg)](https://david-dm.org/JS-DevTools/readdir-enhanced)
@@ -402,7 +402,7 @@ Unless you trigger flowing mode, your stream will stay paused and you won't rece
 
 Contributing
 --------------------------
-Contributions, enhancements, and bug-fixes are welcome!  [File an issue](https://github.com/JS-DevTools/readdir-enhanced/issues) on GitHub and [submit a pull request](https://github.com/JS-DevTools/readdir-enhanced/pulls).
+Contributions, enhancements, and bug-fixes are welcome!  [Open an issue](https://github.com/JS-DevTools/readdir-enhanced/issues) on GitHub and [submit a pull request](https://github.com/JS-DevTools/readdir-enhanced/pulls).
 
 #### Building
 To build the project locally on your computer:
