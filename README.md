@@ -29,6 +29,15 @@ Features
 
 
 
+Install
+----------------------------------
+
+```
+npm install @jsdevtools/readdir-enhanced
+```
+
+
+
 Example
 ----------------------------------
 
