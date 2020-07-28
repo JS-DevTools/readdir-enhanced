@@ -29,15 +29,6 @@ Features
 
 
 
-Install
-----------------------------------
-
-```
-npm install @jsdevtools/readdir-enhanced
-```
-
-
-
 Example
 ----------------------------------
 
@@ -79,6 +70,16 @@ let stream = readdir.stream("my/directory")
     this.push(data);
     next();
   });
+```
+
+
+
+Installation
+--------------------------
+Install using [npm](https://docs.npmjs.com/about-npm/):
+
+```bash
+npm install @jsdevtools/readdir-enhanced
 ```
 
 
